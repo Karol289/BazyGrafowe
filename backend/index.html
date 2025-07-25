@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>AI Assistant</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- React, ReactDOM, Material UI -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.13.7/umd/material-ui.development.js" crossorigin></script>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script>
+        const {
+            CssBaseline,
+            ThemeProvider,
+            Typography,
+            TextField,
+            Container,
+            createTheme,
+            Box,
+            Skeleton,
+        } = MaterialUI;
+
+        const theme = createTheme({
+            palette: {
+                mode: 'dark'
+            },
+        });
+
+        const WS = new WebSocket("ws://localhost:8000/ws");
+
+        function App() {
+            const [response, setResponse] = React.useState("");
+            const [question, setQuestion] = React.useState("");
+            const [loading, setLoading] = React.useState(false);
+
+            React.useEffect(() => {
+                WS.onmessage = (event) => {
+                    setLoading(false);
+                    setResponse(marked.parse(event.data));
+                };
+                WS.onopen = () => console.log("WebSocket connected");
+                WS.onerror = e => console.error("WebSocket error", e);
+                WS.onclose = () => console.log("WebSocket closed");
+            }, []);
+
+            function handleKeyUp(e) {
+                if (e.key === "Enter" && !loading && question.trim() !== "") {
+                    setResponse('');
+                    setLoading(true);
+                    WS.send(question);
+                }
+            }
+
+            return React.createElement(ThemeProvider, { theme: theme },
+                React.createElement(CssBaseline, null),
+                React.createElement(Container, { maxWidth: "lg" },
+                    React.createElement(Box, { sx: { my: 4 } },
+                        React.createElement(Typography, { variant: "h4", component: "h1", gutterBottom: true }, "AI Assistant"),
+                        React.createElement(TextField, {
+                            id: "outlined-basic",
+                            label: "Ask me Anything",
+                            variant: "outlined",
+                            style: { width: '100%' },
+                            value: question,
+                            disabled: loading,
+                            onChange: e => setQuestion(e.target.value),
+                            onKeyUp: handleKeyUp
+                        })
+                    ),
+                    !response && loading && React.createElement(React.Fragment, null,
+                        React.createElement(Skeleton, null),
+                        React.createElement(Skeleton, { animation: "wave" }),
+                        React.createElement(Skeleton, { animation: false })
+                    ),
+                    response && React.createElement(Typography, {
+                        dangerouslySetInnerHTML: { __html: response }
+                    })
+                )
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+    </script>
+</body>
+
+</html>
