@@ -78,6 +78,8 @@ def run_llm_on_description(opis, llm):
     response_text = "{" + output["choices"][0]["text"]
 
     # Cut off after the first complete JSON object (matching braces)
+    #Wycina Json z tekstu 
+    #Patrzy na pierwszy { i aż się zamknie }
     def cut_after_json(text):
         brace_count = 0
         start = None

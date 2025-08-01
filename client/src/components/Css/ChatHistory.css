@@ -1,0 +1,75 @@
+
+
+.sideMenu-chatContainer
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+
+    margin-top: 5px;
+
+    transition: all 0.25s;
+
+    display: flex;
+    align-items: center;      /* wycentrowanie w pionie */
+    justify-content: flex-start; /* wyrównanie do lewej */
+}
+
+.sideMenu-chatContainer-svg
+{
+    padding-right: 15px;
+}
+
+.sideMenu-chatContainer:hover
+{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Input w popupie */
+.newChat-input {
+  background-color: #40414f;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  color: white;
+  font-size: 1em;
+  width: 100%;
+  margin-bottom: 16px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+/* Przycisk "Dodaj chat" */
+.newChat-submit {
+  background-color: #0da37f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.newChat-submit:hover {
+  background-color: #0bb177;
+}
+
+/* Przycisk "Anuluj" */
+.newChat-cancel {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #888;
+  border-radius: 5px;
+  padding: 10px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.newChat-cancel:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #eee;
+}

@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import ChatMessage from './components/ChatMessage';
 
 import useWebSocket, { ReadyState } from "react-use-websocket"
+import ChatHistory from './components/ChatHistory';
 
 function App() {
   const [input, setInput] = useState("");
+
   const [chatLog, setChatLog] = useState([
     { user: "me", message: "Hello" },
     { user: "llm", message: "Hello I'm llm" },
@@ -62,19 +64,28 @@ function App() {
     setChatLog((prev) => [...prev, { user: "me", message: input }]);
 
     // Wyślij do backendu
-    sendMessage(input);
+    sendMessage(JSON.stringify({type: "message", message: input}));
 
     // Wyczyść input
     setInput("");
   }
 
+  async function handleOnNewChat()
+  {
+    setChatLog([{ user: "me", message: "Aaaaa" }])
+  }
+
+
   return (
     <div className="App">
+
       <aside className='sideMenu'>
-        <div className='sideMenu-button'>
-          <span>+</span>
-          New chat
-        </div>
+
+        <ChatHistory 
+          onNewChat={handleOnNewChat}>
+          
+        </ChatHistory>
+
       </aside>
 
       <section className='mainMenu'>
