@@ -1,5 +1,17 @@
 
 
+.sideMenu-chats
+{
+  overflow-y: auto;
+  height: 75%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE i Edge */
+}
+
+.sideMenu-chats::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 .sideMenu-chatContainer
 {
     padding-top: 10px;
@@ -15,9 +27,14 @@
     justify-content: flex-start; /* wyrównanie do lewej */
 }
 
-.sideMenu-chatContainer-svg
+.sideMenu-chatContainer.selected {
+    background-color: rgba(255, 255, 255, 0.1); /* delikatne rozjaśnienie */
+    transition: all 0.25s; /* już masz, ale powtarzam dla płynności */
+}
+
+.sideMenu-chatContainer svg
 {
-    padding-right: 15px;
+  margin-right: 10px;
 }
 
 .sideMenu-chatContainer:hover

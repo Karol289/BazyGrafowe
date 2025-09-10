@@ -95,6 +95,9 @@ html, body{
   padding-left: 40px;
   padding-right: 40px;
   margin-left: 40px;
+
+  white-space: pre-wrap;   /* zachowuje białe znaki i nowe linie */
+  word-break: break-word;  /* łamie długie słowa zamiast wychodzić poza ekran */
 }
 
 
