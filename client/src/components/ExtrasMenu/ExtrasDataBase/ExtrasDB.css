@@ -1,0 +1,142 @@
+.extrasDBWrapper {
+  background-color: #202123;
+  padding: 16px;
+  border-radius: 8px;
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+h2 {
+  color: #0da37f;
+  margin-bottom: 12px;
+}
+
+.formCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formCell label {
+  font-weight: bold;
+  color: #a0a0a0;
+  font-size: 13px;
+}
+
+.formCell input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #444654;
+  background-color: #282c34;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.formCell input:focus {
+  border-color: #0da37f;
+  box-shadow: 0 0 4px #0da37f;
+}
+
+.submitButton {
+  padding: 10px 16px;
+  background-color: #0da37f;
+  color: #202123;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #0ffc92;
+}
+
+.applyButton {
+  padding: 10px 16px;
+  background-color: #343541;
+  color: #0da37f;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.applyButton:hover {
+  background-color: #2c2e33;
+  color: #0ffc92;
+}
+
+.messages span {
+  display: block;
+  font-size: 12px;
+  color: #e0e0e0;
+}
+
+
+.loginStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: transparent; /* domyślnie brak koloru */
+  transition: background-color 0.2s;
+}
+
+.statusDot.green {
+  background-color: #0da37f;
+}
+
+.statusDot.red {
+  background-color: #ff4d4f;
+}
+
+.statusMessage {
+  color: #e0e0e0;
+  font-size: 13px;
+}
+
+
+.confirmButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.commitButton, .rollbackButton {
+  padding: 10px 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.commitButton {
+  background-color: #0da37f;
+  color: #202123;
+}
+
+.commitButton:hover {
+  background-color: #0ffc92;
+}
+
+.rollbackButton {
+  background-color: #ff4d4f;
+  color: #202123;
+}
+
+.rollbackButton:hover {
+  background-color: #ff7875;
+}

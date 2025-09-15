@@ -1,0 +1,60 @@
+/*TEXT INPUT */
+.textarea-wrapper {
+  display: flex;
+  justify-content: center; /* wycentrowanie całej grupy w poziomie */
+  align-items: flex-start;
+  gap: 8px; /* odstęp między textarea a przyciskiem */
+  margin-top: 10px;
+}
+
+.chat-input-textarea {
+  background-color: #40414f;
+  width: 80%;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  padding: 12px;
+  color: white;
+  font-size: 1.25em;
+  resize: none; /* wyłącz domyślne resize przeglądarki */
+  transition: height 0.3s ease;
+  height: 150px; /* domyślna wysokość */
+}
+
+.chat-input-textarea.expanded {
+  height: 600px; /* powiększona wysokość */
+}
+
+.expand-toggle {
+  background-color: #202123;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  height: fit-content;
+  font-size: 0.9em;
+}
+
+.expand-toggle:hover {
+  background-color: #2d2f36;
+  transform: scale(1.05);
+}
+
+
+.input-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.input-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9em;
+}

@@ -1,86 +1,95 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { ReadyState } from "react-use-websocket"
 
+import './ChatInput.css'
 
-const ChatInput = ({sendMessage, setChatLog, readyState}) => 
-{
-  const [input, setInput] = useState("");
+const ChatInput = ({sendMessage, setChatLog, readyState, input ,setInput}) => {
 
-  let [selectedOption, setSelectedOption] = useState();
+  const [expanded, setExpanded] = useState(false);
+  const [updateNodes, setUpdateNodes] = useState(false);
+  const [updateEdges, setUpdateEdges] = useState(false);
 
 
   const OPTIONS = Object.freeze({
     Prompt: "Prompt",
     Cypher: "Cypher",
     Describe: "Describe",
+    SaveToDB: "SaveToDB"
   });
 
-
-
-  // Wysyłanie wiadomości
   async function handleSubmit(e) {
     e.preventDefault();
     sendChatMessage();
   }
-  async function sendChatMessage()
-  {
+
+  async function sendChatMessage() {
     let textFromInput = input;
     
-    if (selectedOption === OPTIONS.Cypher)
-      textFromInput = "Cypher";
-    if(selectedOption === OPTIONS.Describe)
-      textFromInput = "Describe";
-
     if (textFromInput.trim() === "" || readyState !== ReadyState.OPEN) return;
-    // Dodaj do logu wiadomość użytkownika
-    if(selectedOption === OPTIONS.Prompt)
-      setChatLog((prev) => [...prev, { user: "me", message: textFromInput }]);
-    // Wyślij do backendu
-    sendMessage(JSON.stringify({type: String(selectedOption), message: textFromInput}));
-    // Wyczyść input
+
+
+    setChatLog((prev) => [...prev, { user: "me", message: textFromInput }]);
+
+    sendMessage(JSON.stringify({
+      type: "Prompt",
+      message: textFromInput,
+      updateNodes: updateNodes,
+      updateEdges: updateEdges
+    }));
+
     setInput("");
   }
 
-
-  return(
+  return (
     <div className='chat-input-holder'>
 
-      <select
-        value={selectedOption}
-        onChange={(e) => setSelectedOption(e.target.value)}
-        placeholder="Select prompt type">
-          <option selected disabled hidden>Select prompt type</option>
-        {
-          Object.values(OPTIONS).map(key => 
-            <option value={key}>{key}</option>
-          )
-        }
-      </select>
-
       <form onSubmit={handleSubmit}>
-
-        {selectedOption === OPTIONS.Prompt && (
-          <textarea 
-            className='chat-input-textarea' 
-            placeholder='Input your message here'
+        <div className="textarea-wrapper">
+          <textarea
+            className={`chat-input-textarea ${expanded ? "expanded" : ""}`}
+            placeholder="Input your message here"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={4}
             onKeyDown={(e) => {
-              if(e.key === "Enter" && !e.shiftKey)
-              {
+              if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 sendChatMessage();
               }
             }}
-          />)
-        }
-        <button type='submit'>{">"}</button>
+          />
+        </div>
+
+        {/* Wspólny pasek z checkboxami i przyciskami */}
+        <div className="input-controls">
+          <label>
+            <input
+              type="checkbox"
+              checked={updateNodes}
+              onChange={() => setUpdateNodes(prev => !prev)}
+            /> Update Nodes
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={updateEdges}
+              onChange={() => setUpdateEdges(prev => !prev)}
+            /> Update Edges
+          </label>
+
+          <button
+            type="button"
+            className="expand-toggle"
+            onClick={() => setExpanded((prev) => !prev)}
+          >
+            {expanded ? "🔽" : "🔼"}
+          </button>
+
+          <button type="submit">{">"}</button>
+        </div>
       </form>
     </div>
   );
-
 }
 
-export default ChatInput
+export default ChatInput;

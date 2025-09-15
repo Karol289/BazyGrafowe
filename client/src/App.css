@@ -11,11 +11,23 @@ html, body{
   color: white;
   height: 100vh;
 }
+
+.extrasMenu{
+  width: 400px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE i Edge */
+}
+
+.sideMenu-chats::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+
 /*SIDE MENU */
 .sideMenu{
   width: 330px;
   background-color: #202123;
-  padding: 10px;;
+  padding: 10px;
 }
 
 .sideMenu-button{
@@ -48,8 +60,12 @@ html, body{
   text-align: left;
   overflow: auto;
   height: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE i Edge */
+}
 
-
+.sideMenu-chats::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 .chat-message.llm{
@@ -100,22 +116,4 @@ html, body{
   word-break: break-word;  /* łamie długie słowa zamiast wychodzić poza ekran */
 }
 
-
-/*TEXT INPUT */
-.chat-input-holder{
-  padding: 22px;
-  margin-top: auto; 
-}
-
-.chat-input-textarea{
-  background-color: #40414f;
-  width: 80%;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
-  padding: 12px;
-  color: white;
-  font-size: 1.25em;
-}
 

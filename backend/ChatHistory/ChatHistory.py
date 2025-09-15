@@ -8,7 +8,7 @@ chatsPath = "backend/Data/Chats"
 
 class ChatSession:
     
-    def __init__(self, id, title, creationDateTime = "placeholder", history = []):
+    def __init__(self, id, title, creationDateTime = "placeholder", history = [], nodes = [], edges = []):
         self.id = id
         if creationDateTime == "placeholder":
             self.creationDateTime = datetime.datetime.now().strftime("%d.%m.%Y,%H:%M:%S")
@@ -17,6 +17,9 @@ class ChatSession:
         
         self.title = title
         self.history =  history
+        
+        self.nodes = nodes
+        self.edges = edges
     
     @classmethod
     def CreateNewChat(cls, title) -> "ChatSession":
@@ -61,8 +64,10 @@ class ChatSession:
                     title = data['title']
                     date = data['creationDate']
                     messages = data["messages"]
+                    nodes = data['nodes']
+                    edges = data['edges']
                     
-                    return ChatSession(id, title, date, messages)
+                    return ChatSession(id, title, date, messages, nodes, edges)
         
         raise FileNotFoundError 
          
@@ -86,7 +91,9 @@ class ChatSession:
             "id":  self.id,
             "title": self.title,
             "creationDate": self.creationDateTime,
-            "messages": self.history
+            "messages": self.history,
+            "nodes": self.nodes,
+            "edges": self.edges
         }
         
         with open(f"{chatsPath}/{self.id}_{self.title}.json", "w", encoding="utf-8") as f:
@@ -99,7 +106,30 @@ class ChatSession:
 
         self.history.append({"role": user, "content": message})
         
+    def SetNodes(self, nodes: str):
+        
+        j = json.loads(nodes)
+        self.nodes = j['nodes']
+        
+        self.SaveAsJson()
+        
+    def SetEdges(self, edges: str):
+        
+        j = json.loads(edges)
+        self.edges = j['edges']
+        
+        self.SaveAsJson()
+        
+    def GetNodesAndEdges(self) -> dict: 
+        
+        return{
+            "nodes": self.nodes,
+            "edges": self.edges
+        }
+        
+        
 
+        
         
    
    

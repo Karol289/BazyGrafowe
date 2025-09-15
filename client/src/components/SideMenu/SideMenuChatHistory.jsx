@@ -1,12 +1,12 @@
 
 import { useEffect, useState } from "react";
 
-import './Css/ChatHistory.css'
+import '../SideMenu/SideMenu.css'
 
-import Popup from "./Popup";
-import Settings from "./Settings/Settings.jsx";
+import Popup from "../Popup.jsx";
+import Settings from "../Settings/Settings.jsx";
 
-const SideMenuChatHistory = ({onNewChat, onSelectChat}) =>
+const SideMenuChatHistory = ({onNewChat, onSelectChat, setInputt}) =>
 {
 
     const [chats, setChats] = useState([]);
@@ -130,7 +130,8 @@ const SideMenuChatHistory = ({onNewChat, onSelectChat}) =>
             ))}
         </div>
 
-        <Settings>
+        <Settings
+        setInputtt={setInputt}>
 
         </Settings>
 

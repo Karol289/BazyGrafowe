@@ -1,18 +1,24 @@
 
 
-import '../Css/ChatHistory.css'
+import { useState } from 'react'
+import '../SideMenu/SideMenu.css'
 import './Settings.css'
+import SettingsPopup from './SettingsPopup'
+import PromptPopup from '../PromptPopup/PromptPopup'
 
 
-const Settings = () => 
+const Settings = ({setInputtt}) => 
 {
-
+    const [isActive, setIsActive] = useState();
 
     return (
 
+        <>
+
         <div className="sideMenu-chats settingsMenu">
 
-            <div className='sideMenu-chatContainer'>
+            <div className='sideMenu-chatContainer'
+            onClick={() => setIsActive(true)}>
 
                 <svg xmlns="http://www.w3.org/2000/svg" 
                      width="20" height="20" 
@@ -85,8 +91,18 @@ const Settings = () =>
                 <label>{"Settings"}</label>
             </div>
 
+
+
         </div>
         
+        <PromptPopup
+            isActive={isActive}
+            setIsActive={setIsActive}
+            setInput={setInputtt}>
+        </PromptPopup>
+        
+    </>
+
     )
 }
 

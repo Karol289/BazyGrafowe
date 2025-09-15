@@ -1,0 +1,86 @@
+.extrasCypherWrapper {
+  padding: 10px;
+  max-height: 80vh; /* lub dowolna wysokość, którą chcesz ograniczyć */
+  overflow-y: auto;  /* scroll przy nadmiarze */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ukrycie scrolla w Chrome/Safari/Edge */
+.extrasCypherWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+
+.cypherText {
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid #444654;
+  background-color: #343541;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  color: #e0e0e0;
+}
+
+.sectionHeader {
+  font-weight: bold;
+  margin: 12px 0 6px 0;
+  font-size: 14px;
+  color: #0da37f;
+}
+
+/* Kontener kart – 2 karty w wierszu */
+.nodeContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.nodeCard {
+  border: 1px solid #444654;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background-color: #202123;
+  color: #ffffff;
+  font-size: 13px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.nodeCard:hover {
+  background-color: #2c2e33;
+  transform: translateY(-1px);
+}
+
+.nodeHeader {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #0da37f;
+  text-align: center;
+}
+
+.nodeProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nodeRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nodeKey {
+  font-weight: bold;
+  color: #a0a0a0;
+  margin-right: 4px;
+}
+
+.nodeValue {
+  color: #e0e0e0;
+  text-align: right;
+}

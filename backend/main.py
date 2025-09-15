@@ -10,7 +10,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+
 from ChatsRoutes import chatsRouter
+from DBRoutes import databaseRouter
+from Prompts.PromptRoutes import propmtRouter
+
 from models.CurrentModel import GetModel, SetModel
 from models.OpenAiModel import OpenAiLLM
 
@@ -22,6 +26,8 @@ load_dotenv()
 
 app = FastAPI()
 app.include_router(chatsRouter)
+app.include_router(databaseRouter)
+app.include_router(propmtRouter)
 
 app.add_middleware(
     CORSMiddleware,
@@ -57,21 +63,26 @@ async def websocket_endpoint(websocket: WebSocket) -> NoReturn:
         
         
         if(message['type'] == "Prompt"):
-            await handleChatMessage(message=message['message'], websocket=websocket)
+            await handleChatMessage(message=message , websocket=websocket)
         
         if(message['type'] == "Cypher"):
             await handleChatCypher(websocket)    
             
         if(message['type'] == "Describe"):
             await handleChatDecribe(websocket)    
+            
+        if(message['type'] == "Extra"):
+            await handleExtras(message = message, websocket= websocket)   
         
         if(message['type'] == "loadChatLog"):
             await handleLoadChatLog(websocket)
-        
-        if(message['type'] == "save"):
-            history.SaveAsJson()
  
- 
+#  extra -> typ extra
+
+async def handleExtras(message, websocket: WebSocket):
+    if message['extra'] == "SaveToDB":
+        pass
+            
     
    
 async def handleChatDecribe(websocket: WebSocket):
@@ -98,6 +109,45 @@ async def handleChatDecribe(websocket: WebSocket):
     
     await handleChatMessage(message, websocket)
      
+     
+#---------------
+
+# Cut off after the first complete JSON object (matching braces)
+#Wycina Json z tekstu 
+#Patrzy na pierwszy { i aż się zamknie }
+def cut_after_json(text):
+    brace_count = 0
+    start = None
+    for i, c in enumerate(text):
+        if c == '{':
+            if start is None:
+                start = i
+            brace_count += 1
+        elif c == '}':
+            brace_count -= 1
+            if brace_count == 0 and start is not None:
+                return text[:i+1]
+    return text  # fallback if not matched
+
+def strip_markdown(text):
+    text = text.strip()
+    text_lines = text.splitlines()
+    if text_lines and text_lines[0].strip().startswith('```'):
+        return '\n'.join(text_lines[1:-1])
+    return text
+
+def validate_output(text):
+    lines = text.splitlines()
+    original = text
+    while lines:
+        try:
+            json.loads('\n'.join(lines))
+            return '\n'.join(lines)
+        except Exception:
+            lines = lines[:-1]
+    return original
+   
+  
 async def handleChatCypher(websocket: WebSocket):
     
     message = """
@@ -136,42 +186,63 @@ async def handleChatCypher(websocket: WebSocket):
     Bez żadnych komentarzy, bez markdowna.
     """
     
-    await websocket.send_json({"role": "user", "message": message})
+    await websocket.send_json({"role": "user", "content": message})
     
-    await handleChatMessage(message, websocket)
+    fulltext = await handleChatMessage(message, websocket)
+    
+    fulltext = cut_after_json(fulltext)
+    fulltext = strip_markdown(fulltext)
+    fulltext = validate_output(fulltext)
+    
+    GetModel().history.SetNodes(fulltext)
+    GetModel().history.SetEdges(fulltext)
+    
+    await websocket.send_json({"IsExtra": True, "Cypher": fulltext})
+    
                     
 
 
 async def handleChatMessage(message, websocket: WebSocket):
     
-    #history = GetModel().history
-     
-    #history.AddMessage(user="user", message=message['message'])
     sentAny: bool = False
     prev = ""
     full_text = ""
-    async for full_text in GetModel().GetAiResponse(message):
+    
+    async for full_text in GetModel().GetAiResponse(message['message']):
         delta = full_text[len(prev):]
         prev = full_text
         await websocket.send_text(delta)
         sentAny = True
     if sentAny:
-        #history.AddMessage(user="assistant", message=full_text)
-        #history.SaveAsJson()
         await websocket.send_text("[END]")
+        
+    newText = cut_after_json(full_text)
+    newText = strip_markdown(newText)
+    newText = validate_output(newText)
+        
+    if(message['updateNodes']):
+        GetModel().history.SetNodes(newText)
+    if(message['updateEdges']):
+        GetModel().history.SetEdges(newText)
+    
+    if(message['updateNodes'] or message['updateEdges']):
+        await SendNodesAndEdges(websocket)
+    
        
-
 async def handleLoadChatLog(websocket: WebSocket):
     
     chatLog = GetModel().history.GetMessages()
     
     for message in chatLog:
         await websocket.send_json(message)
-        
+    
+    await SendNodesAndEdges(websocket)
+
     await websocket.send_text("[END]")
     
-    
-    
+async def SendNodesAndEdges(websocket: WebSocket):
+    connected =  GetModel().history.GetNodesAndEdges()
+    await websocket.send_json({"IsExtra": True, "Cypher": connected})
 
 
 if __name__ == "__main__":

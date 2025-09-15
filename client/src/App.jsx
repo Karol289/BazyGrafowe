@@ -5,17 +5,20 @@ import './App.css';
 import ChatInput from "./components/ChatInput";
 import ChatLog from "./components/ChatLog";
 
-import SideMenuChatHistory from './components/SideMenuChatHistory';
+import SideMenuChatHistory from './components/SideMenu/SideMenuChatHistory';
 import { useEffect, useRef, useState} from 'react';
 
 import useWebSocket from "react-use-websocket"
+import ExtrasMenu from './components/ExtrasMenu/ExtrasMenu';
 
 function App() {
 
   const [chatLog, setChatLog] = useState([]);
   const [isReceiving, setIsReceiving] = useState(false);
   const [responseBuffor, setResponseBuffor] = useState("");
+  const [input, setInput] = useState("");
 
+  const [extrasJson, setExtrasJson] = useState()
 
   //#region WebSocket
 
@@ -50,10 +53,17 @@ function App() {
     const END_SIGNAL = "[END]";
 
     const validatedJson = validateJson(lastMessage.data)
-    console.log(validatedJson)
+    //console.log(validatedJson)
     if(validatedJson.valid) //json
     {
       const json = validatedJson.result;
+
+      if(json.IsExtra === true)
+      {
+        setExtrasJson(json);
+        return;
+      }
+
       if (json.role !== "system") {
         let role = "";
         if (json.role === "user") role = "me";
@@ -83,7 +93,6 @@ function App() {
     }
 
   }}, [lastMessage]);
-
 
   //#endregion
 
@@ -122,7 +131,8 @@ function App() {
 
         <SideMenuChatHistory 
           onNewChat={handleOnNewChat}
-          onSelectChat={handleOnSelectChat}>
+          onSelectChat={handleOnSelectChat}
+          setInputt={setInput}>
           
         </SideMenuChatHistory>
 
@@ -138,13 +148,25 @@ function App() {
             </ChatLog>
 
             <ChatInput
-                setChatLog={setChatLog}
-                sendMessage={sendMessage}
-                readyState={readyState}
-                >
+              setChatLog={setChatLog}
+              sendMessage={sendMessage}
+              readyState={readyState}
+              input={input}
+              setInput={setInput}>
             </ChatInput>
 
       </section>
+
+      <section className='extrasMenu'>
+
+        <ExtrasMenu
+          jsonData={extrasJson}>
+          
+        </ExtrasMenu>
+
+      </section>
+
+
     </div>
   );
 }
