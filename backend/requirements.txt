@@ -1,51 +1,51 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: win-64
-# created-by: conda 25.5.1
-annotated-types=0.6.0=py313haa95532_0
-anyio=4.7.0=py313haa95532_0
-bzip2=1.0.8=h2bbff1b_6
-ca-certificates=2025.7.15=haa95532_0
-certifi=2025.8.3=py313haa95532_0
-click=8.1.8=py313haa95532_0
-colorama=0.4.6=py313haa95532_0
-distro=1.9.0=py313haa95532_0
-expat=2.7.1=h8ddb27b_0
-fastapi=0.112.2=py313haa95532_0
-h11=0.16.0=py313haa95532_0
-httpcore=1.0.9=py313haa95532_0
-httpx=0.28.1=py313haa95532_0
-idna=3.7=py313haa95532_0
-jiter=0.6.1=py313hefb1915_0
-libffi=3.4.4=hd77b12b_1
-libmpdec=4.0.0=h827c3e9_0
-neo4j=5.28.1=hd3eb1b0_0
-neo4j-python-driver=5.28.1=py313haa95532_0
-openai=1.77.0=py313haa95532_0
-openssl=3.0.17=h35632f6_0
-pip=25.1=pyhc872135_2
-pydantic=2.11.7=py313haa95532_0
-pydantic-core=2.33.2=py313h215eeae_0
-python=3.13.5=h286a616_100_cp313
-python-dotenv=1.1.0=py313haa95532_0
-python_abi=3.13=0_cp313
-pytz=2025.2=py313haa95532_0
-setuptools=78.1.1=py313haa95532_0
-sniffio=1.3.0=py313haa95532_0
-sqlite=3.50.2=hda9a48d_1
-starlette=0.38.2=py313haa95532_0
-tk=8.6.14=h5e9d12e_1
-tqdm=4.67.1=py313h4442805_0
-typing-extensions=4.12.2=py313haa95532_0
-typing-inspection=0.4.0=py313haa95532_0
-typing_extensions=4.12.2=py313haa95532_0
-tzdata=2025b=h04d1e81_0
-ucrt=10.0.22621.0=haa95532_0
-uvicorn=0.35.0=py313haa95532_0
-vc=14.3=h2df5915_10
-vc14_runtime=14.44.35208=h4927774_10
-vs2015_runtime=14.44.35208=ha6b5a95_10
-websockets=15.0.1=py313h827c3e9_0
-wheel=0.45.1=py313haa95532_0
-xz=5.6.4=h4754444_1
-zlib=1.2.13=h8cc25b3_1
+annotated-types @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/annotated-types_1729043709318/work
+anyio @ file:///C:/b/abs_5c8w79vk0u/croot/anyio_1745334672105/work
+asttokens==3.0.0
+certifi @ file:///C:/b/abs_2bz30lzohz/croot/certifi_1754570654565/work/certifi
+click @ file:///C:/b/abs_42rbjngfys/croot/click_1744271606983/work
+colorama==0.4.6
+debugpy==1.8.11
+decorator==5.1.1
+distro @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/distro_1729059153117/work
+executing==2.1.0
+fastapi @ file:///C:/Users/dev-admin/buildout/croot/fastapi_1735852737589/work
+h11 @ file:///C:/b/abs_224rqu7kel/croot/h11_1748442031959/work
+httpcore @ file:///C:/b/abs_25m7_xthp6/croot/httpcore_1748526065845/work
+httpx @ file:///C:/b/abs_9fclaf1b46/croot/httpx_1746747856672/work
+idna @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/idna_1729038997316/work
+jedi==0.19.2
+jiter @ file:///C:/Users/dev-admin/buildout/perseverance-python-buildout/croot/jiter_1731729464893/work
+jupyter_core==5.7.2
+matplotlib-inline==0.1.7
+neo4j @ file:///C:/b/abs_2f42dmqhcr/croot/neo4j-suite_1746614538384/work
+nest-asyncio==1.6.0
+ollama==0.6.0
+openai @ file:///C:/b/abs_f3ev2tn7ms/croot/openai_1746690315854/work
+packaging==24.2
+parso==0.8.4
+platformdirs==4.3.6
+prompt_toolkit==3.0.48
+psutil==6.1.1
+pure_eval==0.2.3
+pydantic @ file:///C:/b/abs_d1rp6fqxgk/croot/pydantic_1750768285689/work
+pydantic_core @ file:///C:/b/abs_d0xs0z3erk/croot/pydantic-core_1750754747982/work
+Pygments==2.19.1
+python-dateutil==2.9.0.post0
+python-dotenv @ file:///C:/b/abs_71cpoh9hpg/croot/python-dotenv_1745613639902/work
+pytz @ file:///C:/b/abs_f8wdzeix0n/croot/pytz_1752135878094/work
+pywin32==308
+pyzmq==26.2.0
+setuptools==78.1.1
+six==1.17.0
+sniffio @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/sniffio_1729040228331/work
+stack-data==0.6.3
+starlette @ file:///C:/Users/dev-admin/buildout/perseverance-python-buildout/croot/starlette-recipe_1731715343652/work
+tornado==6.4.2
+tqdm @ file:///C:/b/abs_0eh9b6xugj/croot/tqdm_1738945553987/work
+traitlets==5.14.3
+typing-inspection @ file:///C:/b/abs_261c5jt6kx/croot/typing-inspection_1746023491500/work
+typing_extensions @ file:///C:/b/abs_0ffjxtihug/croot/typing_extensions_1734714875646/work
+uvicorn @ file:///C:/b/abs_e17rwqwbyy/croot/uvicorn-split_1751615749218/work
+wcwidth==0.2.13
+websockets @ file:///C:/b/abs_5a70jm9s4j/croot/websockets_1751974439266/work
+wheel==0.45.1
