@@ -2,6 +2,5 @@
 
 .vscode/
 .env
-Data/
 __pycache__/
 models/

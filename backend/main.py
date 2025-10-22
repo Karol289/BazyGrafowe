@@ -4,7 +4,6 @@ import json
 import os
 import uvicorn
 
-from openai import AsyncOpenAI
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket
@@ -17,6 +16,8 @@ from Prompts.PromptRoutes import propmtRouter
 
 from models.CurrentModel import GetModel, SetModel
 from models.OpenAiModel import OpenAiLLM
+from models.OllamaModel import OllamaModel
+from models.ModelBase import ModelBase
 
 from ChatHistory.ChatHistory import ChatSession
 
@@ -39,7 +40,7 @@ app.add_middleware(
 
 
 history = ChatSession.GetNewestChat()
-model = OpenAiLLM(history)
+model : ModelBase = OllamaModel(history)
 client = SetModel(newModel=model)
 
 

@@ -53,7 +53,7 @@ const Settings = ({setInputtt}) =>
 
                 <label>Models</label>
             </div>
-
+{/* 
             <div className='sideMenu-chatContainer'>
 
                 <svg xmlns="http://www.w3.org/2000/svg" 
@@ -89,7 +89,7 @@ const Settings = ({setInputtt}) =>
 
 
                 <label>{"Settings"}</label>
-            </div>
+            </div> */}
 
 
 
