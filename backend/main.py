@@ -133,9 +133,28 @@ def cut_after_json(text):
 def strip_markdown(text):
     text = text.strip()
     text_lines = text.splitlines()
-    if text_lines and text_lines[0].strip().startswith('```'):
-        return '\n'.join(text_lines[1:-1])
-    return text
+
+    if not text_lines:
+        return text # Zwróć pusty tekst, jeśli nic nie ma
+
+    start_index = 0
+    end_index = len(text_lines) # Domyślnie bierzemy wszystko
+
+    # Sprawdź, czy pierwsza linia to znacznik
+    if text_lines[0].strip().startswith('```'):
+        start_index = 1 # Jeśli tak, zacznij od następnej
+
+    # Sprawdź, czy ostatnia linia to znacznik
+    if text_lines[-1].strip().startswith('```'):
+        end_index = -1 # Jeśli tak, bierzemy wszystko PRZED nią
+
+    # Zwróć pocięty tekst
+    # Musimy obsłużyć przypadek, gdy end_index to -1
+    if end_index == -1:
+        return '\n'.join(text_lines[start_index:-1])
+    else:
+        # Jeśli ostatnia linia NIE była znacznikiem, bierzemy ją włącznie
+        return '\n'.join(text_lines[start_index:end_index])
 
 def validate_output(text):
     lines = text.splitlines()
