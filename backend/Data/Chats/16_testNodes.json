@@ -1,0 +1,114 @@
+{
+    "id": 16,
+    "title": "testNodes",
+    "creationDate": "14.09.2025,17:31:16",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Podany tekst uzyj do nastepnym promptów. Narazie nic nie generuj tylko przyjmij do wiadomości go:\n\nZbiornik łączy się z prysznicem za pomocą rury o średnicy 20cm"
+        },
+        {
+            "role": "assistant",
+            "content": "Dziękuję za przesłany tekst. Proszę podać, w jaki sposób chciałbyś wykorzystać tę informację do analizy lub generacji grafu danych."
+        },
+        {
+            "role": "user",
+            "content": "    Na podstawie podanego tekstu zaproponuj wezły, relacje i ich właściwości, które znajdą się w docelowej strukturze grafu.\n    Ma to być ogólny opis typów wezłów i relacji jakie się znajdą w grafie, a nie opis poszczególnych elementów.\n    Pogrupuj weżły na podstawie:\n    - \\\"type\\\": typ obiektu (np. \\\"Zawór\\\", \\\"Zbiornik\\\", \\\"Hydrant\\\", \\\"Stacja pomp\\\"),\n    Relacje (połączenia między elementami np. \\\"Rura\\\") pogrupuj po:\n    - \\\"name\\\": nazwa relacji,\n\n    Do tych pogrupowanych wezłów i relacji dodaj właściwości które wynikają z tekstu. \n    np. \n    Typ: Rura\n    Dodatkowe włąściwości:\n        -długość, średnica...\n    \n    Przedstaw te informacje w następujący sposób (węzły a potem relacje).\n    Nagłówek (weżły albo relacje)\n    Lista elementów wraz z ich opisanymi właściwościami.\n    Bez żadnych komentarzy."
+        },
+        {
+            "role": "assistant",
+            "content": "Wezły:\nTyp: Zbiornik\nDodatkowe właściwości:\n    - połączenie z prysznicem\n\nTyp: Prysznic\nDodatkowe właściwości:\n    - połączenie z zbiornikiem\n\nTyp: Rura\nDodatkowe właściwości:\n    - średnica 20cm\n\nRelacje:\nNazwa: Połączenie\nWłaściwości: brak"
+        },
+        {
+            "role": "user",
+            "content": "    Na podstawie podanego tekstu, wygeneruj strukturę grafu w formacie czystego JSON, **bez żadnego formatowania markdown ani dodatkowych opisów**.\n    Wykorzystaj uzgodniony wcześniej opis wezłów i relacji.\n    Dla każdego węzła dodaj również:\n    - \\\"id\\\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \\\"name\\\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu\n\n    Dla każdej relacji dodaj również::\n    - \\\"from\\\": id źródłowego elementu,\n    - \\\"to\\\": id docelowego elementu,\n    \n    Pamiętaj o uwględnienu właściwości wcześniej uzgodnionych (np. typ)\n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna."
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"id\": 1,\n            \"name\": \"Zbiornik\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"prysznic\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Prysznic\",\n            \"type\": \"Prysznic\",\n            \"connection\": \"zbiornik\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Rura\",\n            \"type\": \"Rura\",\n            \"diameter\": \"20cm\"\n        }\n    ],\n    \"edges\": [\n        {\n            \"from\": 1,\n            \"to\": 2,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 1,\n            \"name\": \"Połączenie\"\n        }\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "To wygenerowanego json dodaj kolejny node:\nname: Zbiornik2\ntype: Zbiornik,\nconnection: test"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"id\": 1,\n            \"name\": \"Zbiornik\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"prysznic\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Prysznic\",\n            \"type\": \"Prysznic\",\n            \"connection\": \"zbiornik\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Rura\",\n            \"type\": \"Rura\",\n            \"diameter\": \"20cm\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Zbiornik2\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"test\"\n        }\n    ],\n    \"edges\": [\n        {\n            \"from\": 1,\n            \"to\": 2,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 1,\n            \"name\": \"Połączenie\"\n        }\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Dodaj jeszcze jedną testową relacje"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"id\": 1,\n            \"name\": \"Zbiornik\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"prysznic\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Prysznic\",\n            \"type\": \"Prysznic\",\n            \"connection\": \"zbiornik\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Rura\",\n            \"type\": \"Rura\",\n            \"diameter\": \"20cm\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Zbiornik2\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"test\"\n        }\n    ],\n    \"edges\": [\n        {\n            \"from\": 1,\n            \"to\": 2,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 1,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 4,\n            \"name\": \"Testowa relacja\"\n        }\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Dodaj dwie testowe relacje i nody"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"id\": 1,\n            \"name\": \"Zbiornik\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"prysznic\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Prysznic\",\n            \"type\": \"Prysznic\",\n            \"connection\": \"zbiornik\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Rura\",\n            \"type\": \"Rura\",\n            \"diameter\": \"20cm\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Zbiornik2\",\n            \"type\": \"Zbiornik\",\n            \"connection\": \"test\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Hydrant\",\n            \"type\": \"Hydrant\",\n            \"connection\": \"ulica\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Stacja pomp\",\n            \"type\": \"Stacja pomp\",\n            \"connection\": \"rura\"\n        }\n    ],\n    \"edges\": [\n        {\n            \"from\": 1,\n            \"to\": 2,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 1,\n            \"name\": \"Połączenie\"\n        },\n        {\n            \"from\": 2,\n            \"to\": 4,\n            \"name\": \"Testowa relacja\"\n        },\n        {\n            \"from\": 4,\n            \"to\": 5,\n            \"name\": \"Testowa relacja 2\"\n        },\n        {\n            \"from\": 6,\n            \"to\": 3,\n            \"name\": \"Inna relacja\"\n        }\n    ]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "name": "Zbiornik",
+            "type": "Zbiornik",
+            "connection": "prysznic"
+        },
+        {
+            "id": 2,
+            "name": "Prysznic",
+            "type": "Prysznic",
+            "connection": "zbiornik"
+        },
+        {
+            "id": 3,
+            "name": "Rura",
+            "type": "Rura",
+            "diameter": "20cm"
+        },
+        {
+            "id": 4,
+            "name": "Zbiornik2",
+            "type": "Zbiornik",
+            "connection": "test"
+        },
+        {
+            "id": 5,
+            "name": "Hydrant",
+            "type": "Hydrant",
+            "connection": "ulica"
+        },
+        {
+            "id": 6,
+            "name": "Stacja pomp",
+            "type": "Stacja pomp",
+            "connection": "rura"
+        }
+    ],
+    "edges": [
+        {
+            "from": 1,
+            "to": 2,
+            "name": "Połączenie"
+        },
+        {
+            "from": 2,
+            "to": 1,
+            "name": "Połączenie"
+        },
+        {
+            "from": 2,
+            "to": 4,
+            "name": "Testowa relacja"
+        }
+    ]
+}

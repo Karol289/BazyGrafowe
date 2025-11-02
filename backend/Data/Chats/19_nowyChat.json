@@ -1,0 +1,21 @@
+{
+    "id": 19,
+    "title": "nowyChat",
+    "creationDate": "15.09.2025,20:45:57",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Hello"
+        },
+        {
+            "role": "assistant",
+            "content": "Hello! How can I assist you today with graph databases derived from textual data?"
+        }
+    ],
+    "nodes": [],
+    "edges": []
+}

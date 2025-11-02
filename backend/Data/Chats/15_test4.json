@@ -1,0 +1,52 @@
+{
+    "id": 15,
+    "title": "test4",
+    "creationDate": "11.09.2025,20:31:58",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Rura połączona z zbiornikiem.\n\nNa razie nic nie generuj. Tekst u góry jest do przyszłych zapytań."
+        },
+        {
+            "role": "assistant",
+            "content": "Dziękuję za przekazanie tekstu. Gdy będziesz gotowy, abym wygenerował graf na podstawie tej informacji, po prostu daj mi znać, a zajmę się analizą i stworzeniem odpowiedniego grafu. W międzyczasie, daj mi znać, jeśli potrzebujesz pomocy z czymkolwiek innym."
+        },
+        {
+            "role": "user",
+            "content": "\n    Na podstawie podanego tekstu, wygeneruj strukturę grafu w formacie czystego JSON, **bez żadnego formatowania markdown ani dodatkowych opisów**.\n    Wykorzystaj uzgodniony wcześniej opis wezłów i relacji.\n    Dla każdego węzła dodaj również:\n    - \"id\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \"name\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu\n\n    Dla każdej relacji dodaj również::\n    - \"from\": id źródłowego elementu,\n    - \"to\": id docelowego elementu,\n    \n    Pamiętaj o uwględnienu właściwości wcześniej uzgodnionych (np. typ)\n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna.\n    "
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"id\": 1, \"name\": \"Rura\", \"type\": \"element\"},\n    {\"id\": 2, \"name\": \"Zbiornik\", \"type\": \"element\"}\n  ],\n  \"edges\": [\n    {\"from\": 1, \"to\": 2, \"type\": \"polaczenie\"}\n  ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "\n    Na podstawie podanego tekstu, wygeneruj strukturę grafu w formacie czystego JSON, **bez żadnego formatowania markdown ani dodatkowych opisów**.\n    Wykorzystaj uzgodniony wcześniej opis wezłów i relacji.\n    Dla każdego węzła dodaj również:\n    - \"id\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \"name\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu\n\n    Dla każdej relacji dodaj również::\n    - \"from\": id źródłowego elementu,\n    - \"to\": id docelowego elementu,\n    \n    Pamiętaj o uwględnienu właściwości wcześniej uzgodnionych (np. typ)\n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna.\n    "
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"id\": 1, \"name\": \"Rura\", \"type\": \"element\"},\n    {\"id\": 2, \"name\": \"Zbiornik\", \"type\": \"element\"}\n  ],\n  \"edges\": [\n    {\"from\": 1, \"to\": 2, \"type\": \"polaczenie\"}\n  ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "\n    Na podstawie podanego tekstu, wygeneruj strukturę grafu w formacie czystego JSON, **bez żadnego formatowania markdown ani dodatkowych opisów**.\n    Wykorzystaj uzgodniony wcześniej opis wezłów i relacji.\n    Dla każdego węzła dodaj również:\n    - \"id\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \"name\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu\n\n    Dla każdej relacji dodaj również::\n    - \"from\": id źródłowego elementu,\n    - \"to\": id docelowego elementu,\n    \n    Pamiętaj o uwględnienu właściwości wcześniej uzgodnionych (np. typ)\n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna.\n    "
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"id\": 1, \"name\": \"Rura\", \"type\": \"element\"},\n    {\"id\": 2, \"name\": \"Zbiornik\", \"type\": \"element\"}\n  ],\n  \"edges\": [\n    {\"from\": 1, \"to\": 2, \"type\": \"polaczenie\"}\n  ]\n}"
+        }
+    ],
+    
+  "nodes": [
+    {"id": 1, "name": "Rura", "type": "element"},
+    {"id": 2, "name": "Zbiornik", "type": "element"}
+  ],
+  "edges": [
+    {"from": 1, "to": 2, "type": "polaczenie"}
+  ]
+
+}

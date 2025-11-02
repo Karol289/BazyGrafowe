@@ -1,0 +1,57 @@
+{
+    "id": 21,
+    "title": "TestGemini",
+    "creationDate": "20.10.2025,19:16:38",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTekst:\nWoda do domu trafia główną rurą z sieci wodociągowej. Rura główna prowadzi do zaworu głównego i do zbiornika wody, jeśli jest zamontowany. Zbiornik magazynuje wodę i podaje ją do rur rozprowadzających w domu. Rury rozprowadzają wodę do kranów, prysznica i zlewozmywaka. Pod prysznicem i przy kranie są zawory, które pozwalają otwierać i zamykać przepływ wody. Wszystkie rury są schowane w ścianach i podłodze, aby woda docierała tam, gdzie trzeba."
+        },
+        {
+            "role": "assistant",
+            "content": "Rozumiem. Przyjąłem tekst do wiadomości. Jestem gotowy na Twoje pytania.\n"
+        },
+        {
+            "role": "user",
+            "content": "Przeanalizuj podany wcześniej tekst i zaproponuj strukturę bazy grafowej. \nSkup się tylko na:\n\nLabelach nodów – typach encji, np. Person, Company, Book.\n\nRodzajach relacji – np. KNOWS, WORKS_AT, WROTE.\nNie generuj pełnych węzłów ani danych – tylko nazwy nodów i relacji, najlepiej w formie listy lub tabeli.\n\nDla przykładu w zapytaniu:\n\"\"\"\nMATCH (n:Person {name:'Anna'})\nRETURN n.born AS birthYear\n\"\"\"\nNode label to Person.\n\nA w:\n\"\"\"\nMATCH (:Person {name: 'Anna'})-[r:KNOWS WHERE r.since < 2020]->(friend:Person)\nRETURN count(r) As numberOfFriends\n\"\"\"\nRelacja to KNOWS."
+        },
+        {
+            "role": "assistant",
+            "content": "**Nody (Labels):**\n\n*   Rura (Pipe)\n*   Zawór (Valve)\n*   Kran (Faucet)\n*   Prysznic (Shower)\n*   Zbiornik (Tank)\n*   SiećWodociągowa (WaterSupplyNetwork)\n*   Zlewozmywak (Sink)\n\n**Relacje (Relationships):**\n\n*   POWODZI_DO (LEADS_TO)\n*   PODLACZONE_DO (CONNECTED_TO)\n*   MAGAZYNUJE (STORES)\n*   PODJE_I_PODJE (SUPPLIES)\n*   PODLACZONE_DO_PRZEZ (CONNECTED_TO_VIA)\n*   MA_NA (HAS)\n"
+        },
+        {
+            "role": "user",
+            "content": "Teraz, korzystając z wcześniejszych labeli nodów, typów relacji oraz tekstu, wyciągnij dla każdego węzła i relacji listę możliwych właściwości (properties) wraz z sugerowanym typem danych, jeśli jest oczywisty.\n\nWymagania:\n\n1. Skup się tylko na właściwościach, nie generuj nowych nodów ani relacji.\n\n2. Podawaj wynik w formie JSON, np.:\n{\n  \"Person\": {\n    \"properties\": {\n      \"name\": \"string\",\n      \"born\": \"integer\"\n    }\n  },\n  \"KNOWS\": {\n    \"properties\": {\n      \"since\": \"integer\"\n    }\n  }\n}\n\n3. Jeśli typ danych nie jest jasny, użyj ogólnego typu string.\n\n4. Nie dodawaj komentarzy ani wyjaśnień – tylko JSON."
+        },
+        {
+            "role": "assistant",
+            "content": "```json\n{\n  \"Rura\": {\n    \"properties\": {\n      \"id\": \"string\",\n      \"material\": \"string\",\n      \"diameter\": \"string\"\n    }\n  },\n  \"Zawór\": {\n    \"properties\": {\n      \"id\": \"string\",\n      \"type\": \"string\"\n    }\n  },\n  \"Kran\": {\n    \"properties\": {\n      \"id\": \"string\"\n    }\n  },\n  \"Prysznic\": {\n    \"properties\": {\n      \"id\": \"string\"\n    }\n  },\n  \"Zbiornik\": {\n    \"properties\": {\n      \"id\": \"string\",\n      \"capacity\": \"string\"\n    }\n  },\n  \"SiećWodociągowa\": {\n    \"properties\": {\n      \"id\": \"string\"\n    }\n  },\n  \"Zlewozmywak\": {\n    \"properties\": {\n      \"id\": \"string\"\n    }\n  },\n  \"POWODZI_DO\": {\n    \"properties\": {}\n  },\n  \"PODLACZONE_DO\": {\n    \"properties\": {}\n  },\n  \"MAGAZYNUJE\": {\n    \"properties\": {}\n  },\n  \"PODJE_I_PODJE\": {\n    \"properties\": {}\n  },\n  \"PODLACZONE_DO_PRZEZ\": {\n    \"properties\": {}\n  },\n  \"MA_NA\": {\n    \"properties\": {}\n  }\n}\n```"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie wcześniejszego tekstu, labeli i ich właściwości, wygeneruj strukturę grafu w formacie czystego JSON, \n**bez żadnego formatowania markdown ani dodatkowych opisów**.\n\nWykorzystaj uzgodniony wcześniej opis wezłów, relacji i ich właściwości.\nDla każdego węzła dodaj również:\n    - \\\"id\\\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \\\"name\\\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu/labela\n\n    Dla każdej relacji dodaj również::\n    - \\\"from\\\": id źródłowego elementu,\n    - \\\"to\\\": id docelowego elementu,\n   \n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna."
+        },
+        {
+            "role": "assistant",
+            "content": "```json\n{\n  \"nodes\": [\n    {\n      \"id\": 1,\n      \"label\": \"Rura\",\n      \"name\": \"RuraGłówna\",\n      \"material\": \"stal\",\n      \"diameter\": \"0.2\"\n    },\n    {\n      \"id\": 2,\n      \"label\": \"Zawór\",\n      \"name\": \"ZawórGłówny\",\n      \"type\": \"kulowy\"\n    },\n    {\n      \"id\": 3,\n      \"label\": \"Zbiornik\",\n      \"name\": \"ZbiornikWody\",\n      \"capacity\": \"1000\",\n      \"height\": \"2.5\"\n    },\n    {\n      \"id\": 4,\n      \"label\": \"Rura\",\n      \"name\": \"RuraRozprowadzająca\",\n      \"material\": \"miedź\",\n      \"diameter\": \"0.05\"\n    },\n    {\n      \"id\": 5,\n      \"label\": \"Kran\",\n      \"name\": \"KranKuchnia\"\n    },\n    {\n      \"id\": 6,\n      \"label\": \"Prysznic\",\n      \"name\": \"PrysznicLazienka\"\n    },\n    {\n      \"id\": 7,\n      \"label\": \"Zlewozmywak\",\n      \"name\": \"ZlewozmywakKuchnia\"\n    },\n    {\n      \"id\": 8,\n      \"label\": \"SiećWodociągowa\",\n      \"name\": \"SiecMiejsaka\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"from\": 8,\n      \"to\": 1,\n      \"relation\": \"POWODZI_DO\"\n    },\n    {\n      \"from\": 1,\n      \"to\": 2,\n      \"relation\": \"POWODZI_DO\"\n    },\n    {\n      \"from\": 1,\n      \"to\": 3,\n      \"relation\": \"POWODZI_DO\"\n    },\n    {\n      \"from\": 3,\n      \"to\": 4,\n      \"relation\": \"PODJE_I_PODJE\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 5,\n      \"relation\": \"PODLACZONE_DO\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 6,\n      \"relation\": \"PODLACZONE_DO\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 7,\n      \"relation\": \"PODLACZONE_DO\"\n    }\n  ]\n}\n```"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie wcześniejszego tekstu, labeli i ich właściwości, wygeneruj strukturę grafu w formacie czystego JSON, \n**bez żadnego formatowania markdown ani dodatkowych opisów**.\n\nWykorzystaj uzgodniony wcześniej opis wezłów, relacji i ich właściwości.\nDla każdego węzła dodaj również:\n    - \\\"id\\\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \\\"name\\\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu/labela\n\n    Dla każdej relacji dodaj również::\n    - \\\"from\\\": id źródłowego elementu,\n    - \\\"to\\\": id docelowego elementu,\n   \n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna."
+        },
+        {
+            "role": "assistant",
+            "content": "```json\n{\n  \"nodes\": [\n    {\n      \"id\": 1,\n      \"label\": \"Pipe\",\n      \"name\": \"MainPipe\",\n      \"material\": \"steel\",\n      \"diameter\": \"0.2\"\n    },\n    {\n      \"id\": 2,\n      \"label\": \"Valve\",\n      \"name\": \"MainValve\",\n      \"type\": \"ball\"\n    },\n    {\n      \"id\": 3,\n      \"label\": \"Tank\",\n      \"name\": \"WaterTank\",\n      \"capacity\": \"1000\",\n      \"height\": \"2.5\"\n    },\n    {\n      \"id\": 4,\n      \"label\": \"Pipe\",\n      \"name\": \"DistributionPipe\",\n      \"material\": \"copper\",\n      \"diameter\": \"0.05\"\n    },\n    {\n      \"id\": 5,\n      \"label\": \"Faucet\",\n      \"name\": \"KitchenFaucet\"\n    },\n    {\n      \"id\": 6,\n      \"label\": \"Shower\",\n      \"name\": \"BathroomShower\"\n    },\n    {\n      \"id\": 7,\n      \"label\": \"Sink\",\n      \"name\": \"KitchenSink\"\n    },\n    {\n      \"id\": 8,\n      \"label\": \"WaterSupplyNetwork\",\n      \"name\": \"MunicipalWaterSupply\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"from\": 8,\n      \"to\": 1,\n      \"relation\": \"LEADS_TO\"\n    },\n    {\n      \"from\": 1,\n      \"to\": 2,\n      \"relation\": \"LEADS_TO\"\n    },\n    {\n      \"from\": 1,\n      \"to\": 3,\n      \"relation\": \"LEADS_TO\"\n    },\n    {\n      \"from\": 3,\n      \"to\": 4,\n      \"relation\": \"SUPPLIES\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 5,\n      \"relation\": \"CONNECTED_TO\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 6,\n      \"relation\": \"CONNECTED_TO\"\n    },\n    {\n      \"from\": 4,\n      \"to\": 7,\n      \"relation\": \"CONNECTED_TO\"\n    }\n  ]\n}\n```"
+        }
+    ],
+    "nodes": [],
+    "edges": []
+}

@@ -1,0 +1,29 @@
+{
+    "id": 25,
+    "title": "NowyTest4",
+    "creationDate": "01.11.2025,20:44:32",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTeSystem rozpoczyna się od zbiornika (Reservoir) zapewniającego stałe zwierciadło wody na poziomie 700. Woda jest pobierana przez pompę (Pump), która działa zgodnie z krzywą (Curve) dostarczającą wysokość podnoszenia 150 przy przepływie 600. Pompa tłoczy wodę do węzła (Junction) o wysokości 0 i zerowym zapotrzebowaniu. Z tego węzła biegnie przewód (Pipe) o długości 1000, średnicy 14 i chropowatości 100, prowadząc do węzła o zapotrzebowaniu 150. Ten węzeł stanowi rozgałęzienie; jeden przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zerowym zapotrzebowaniu, a drugi przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zapotrzebowaniu 150. Z tego drugiego węzła o zapotrzebowaniu 150 woda płynie dalej dwoma przewodami (oba o długości 1000, średnicy 12, chropowatości 100): jeden do węzła z zapotrzebowaniem 200, a drugi do kolejnego węzła z zapotrzebowaniem 150. Węzeł z zapotrzebowaniem 200 jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zapotrzebowaniu 150, tworząc pętlę. Ten węzeł o zapotrzebowaniu 150 jest również połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zerowym zapotrzebowaniu. Wreszcie, węzeł o zerowym zapotrzebowaniu jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) ze zbiornikiem (Tank). Zbiornik ten ma podstawę na wysokości 830, średnicę 60, początkowy poziom napełnienia 4, przy minimalnym poziomie 0 i maksymalnym 20. Wszystkie węzły znajdują się na wysokości 0 i korzystają z tego samego wzorca poboru. W sieci nie zdefiniowano żadnych zaworów (Valves)."
+        },
+        {
+            "role": "assistant",
+            "content": "The system starts with a reservoir providing a constant water level at 700. Water is drawn by a pump operating according to a curve delivering a 150 lift at a flow rate of 600. The pump pushes the water to a junction at a height of 0 and zero demand. From this junction, a pipe of length 1000, diameter 14, and roughness 100 leads to a node with a demand of 150. This node serves as a branching point; one pipe (length 1000, diameter 12, roughness 100) leads to a node with zero demand, and the other pipe (length 1000, diameter 12, roughness 100) leads to a node with a demand of 150. From this second node with a demand of 150, water flows further through two pipes (both of length 1000, diameter 12, roughness 100): one to a node with a demand of 200, and the other to another node with a demand of 150. The node with a demand of 200 is connected by a pipe (length 1000, diameter 12, roughness 100) to the node with a demand of 150, creating a loop. This node with a demand of 150 is also connected by a pipe (length 1000, diameter 12, roughness 100) to the node with zero demand. Finally, the node with zero demand is connected by a pipe (length 1000, diameter 12, roughness 100) to the tank. This tank has a base at a height of 830, diameter 60, initial fill level 4, with a minimum level of 0 and a maximum of 20. All nodes are at a height of 0 and follow the same demand pattern. No valves are defined in the network."
+        }
+    ],
+    "nodes": [],
+    "edges": []
+}

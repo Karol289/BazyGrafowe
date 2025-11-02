@@ -1,0 +1,3 @@
+{
+    "prompt": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTekst:\n{TU_WSTAW_TEKST}"
+}

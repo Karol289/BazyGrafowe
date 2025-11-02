@@ -1,0 +1,37 @@
+{
+    "id": 17,
+    "title": "testPromptów",
+    "creationDate": "14.09.2025,18:29:35",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTekst:\nWoda do domu trafia główną rurą z sieci wodociągowej. Rura główna prowadzi do zaworu głównego i do zbiornika wody, jeśli jest zamontowany. Zbiornik magazynuje wodę i podaje ją do rur rozprowadzających w domu. Rury rozprowadzają wodę do kranów, prysznica i zlewozmywaka. Pod prysznicem i przy kranie są zawory, które pozwalają otwierać i zamykać przepływ wody. Wszystkie rury są schowane w ścianach i podłodze, aby woda docierała tam, gdzie trzeba."
+        },
+        {
+            "role": "assistant",
+            "content": "Zrozumiałem tekst dotyczący systemu dostarczania wody do domu."
+        },
+        {
+            "role": "user",
+            "content": "Przeanalizuj podany wcześniej tekst i zaproponuj strukturę bazy grafowej. \nSkup się tylko na:\n\nLabelach nodów – typach encji, np. Person, Company, Book.\n\nRodzajach relacji – np. KNOWS, WORKS_AT, WROTE.\nNie generuj pełnych węzłów ani danych – tylko nazwy nodów i relacji, najlepiej w formie listy lub tabeli.\n\nDla przykładu w zapytaniu:\n\"\"\"\nMATCH (n:Person {name:'Anna'})\nRETURN n.born AS birthYear\n\"\"\"\nNode label to Person.\n\nA w:\n\"\"\"\nMATCH (:Person {name: 'Anna'})-[r:KNOWS WHERE r.since < 2020]->(friend:Person)\nRETURN count(r) As numberOfFriends\n\"\"\"\nRelacja to KNOWS.\n\n"
+        },
+        {
+            "role": "assistant",
+            "content": "Node Labels:\n1. WaterPipe\n2. Valve\n3. WaterTank\n4. WaterDistributionPipe\n5. Faucet\n6. Shower\n7. Sink\n8. ValveUnderShower\n9. ValveUnderFaucet\n\nRelationships:\n1. CONNECTED_TO\n2. LEADS_TO\n3. STORES_WATER\n4. DISTRIBUTES_WATER\n5. FLOWS_TO\n\n"
+        },
+        {
+            "role": "user",
+            "content": "Teraz, korzystając z wcześniejszych labeli nodów, typów relacji oraz tekstu, wyciągnij dla każdego węzła i relacji listę możliwych właściwości (properties) wraz z sugerowanym typem danych, jeśli jest oczywisty.\n\nWymagania:\n\n1. Skup się tylko na właściwościach, nie generuj nowych nodów ani relacji.\n\n2. Podawaj wynik w formie JSON, np.:\n{\n  \"Person\": {\n    \"properties\": {\n      \"name\": \"string\",\n      \"born\": \"integer\"\n    }\n  },\n  \"KNOWS\": {\n    \"properties\": {\n      \"since\": \"integer\"\n    }\n  }\n}\n\n3. Jeśli typ danych nie jest jasny, użyj ogólnego typu string.\n\n4. Nie dodawaj komentarzy ani wyjaśnień – tylko JSON."
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"WaterPipe\": {\n    \"properties\": {}\n  },\n  \"Valve\": {\n    \"properties\": {}\n  },\n  \"WaterTank\": {\n    \"properties\": {}\n  },\n  \"WaterDistributionPipe\": {\n    \"properties\": {}\n  },\n  \"Faucet\": {\n    \"properties\": {}\n  },\n  \"Shower\": {\n    \"properties\": {}\n  },\n  \"Sink\": {\n    \"properties\": {}\n  },\n  \"ValveUnderShower\": {\n    \"properties\": {}\n  },\n  \"ValveUnderFaucet\": {\n    \"properties\": {}\n  },\n  \"CONNECTED_TO\": {\n    \"properties\": {}\n  },\n  \"LEADS_TO\": {\n    \"properties\": {}\n  },\n  \"STORES_WATER\": {\n    \"properties\": {}\n  },\n  \"DISTRIBUTES_WATER\": {\n    \"properties\": {}\n  },\n  \"FLOWS_TO\": {\n    \"properties\": {}\n  }\n}"
+        }
+    ],
+    "nodes": [],
+    "edges": []
+}

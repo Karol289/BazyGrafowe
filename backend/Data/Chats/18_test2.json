@@ -1,0 +1,189 @@
+{
+    "id": 18,
+    "title": "test2",
+    "creationDate": "14.09.2025,18:44:50",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTekst:\nWoda trafia do domu główną rurą zewnętrzną DN25, która łączy się z zaworem głównym (zawór kulowy) i filtrem siatkowym do oczyszczania wody. Woda może być magazynowana w zbiorniku hydroforowym lub zbiorniku retencyjnym, który utrzymuje ciśnienie w sieci i zapewnia zapas wody w razie awarii. Zbiornik łączy się z rozdzielaczem – kolektorem, który rozprowadza wodę do wszystkich pomieszczeń poprzez rury PVC lub miedziane. Rury doprowadzają wodę do punktów poboru: kranów (zawory czerpalne z mieszalnikiem ciepłej i zimnej wody), prysznica (bateria natryskowa termostatyczna) i zlewozmywaka (bateria kuchenna). Przy każdym punkcie poboru montuje się zawory odcinające (kulowe lub grzybkowe), umożliwiające naprawę bez wyłączania całego systemu. Rury są prowadzone w ścianach, podłogach i stropach, zabezpieczone uchwytami i izolacją, aby woda docierała do każdego punktu z odpowiednim ciśnieniem i temperaturą."
+        },
+        {
+            "role": "assistant",
+            "content": "Rozumiem, przyjąłem do wiadomości podany tekst. Daj znać, jeśli potrzebujesz pomocy przy generowaniu lub analizie grafowej reprezentacji informacji z tego tekstu."
+        },
+        {
+            "role": "user",
+            "content": "Przeanalizuj podany wcześniej tekst i zaproponuj strukturę bazy grafowej. \nSkup się tylko na:\n\nLabelach nodów – typach encji, np. Person, Company, Book.\n\nRodzajach relacji – np. KNOWS, WORKS_AT, WROTE.\nNie generuj pełnych węzłów ani danych – tylko nazwy nodów i relacji, najlepiej w formie listy lub tabeli.\n\nDla przykładu w zapytaniu:\n\"\"\"\nMATCH (n:Person {name:'Anna'})\nRETURN n.born AS birthYear\n\"\"\"\nNode label to Person.\n\nA w:\n\"\"\"\nMATCH (:Person {name: 'Anna'})-[r:KNOWS WHERE r.since < 2020]->(friend:Person)\nRETURN count(r) As numberOfFriends\n\"\"\"\nRelacja to KNOWS.\n\n"
+        },
+        {
+            "role": "assistant",
+            "content": "Node labels:\n1. Water_Source\n2. Valve\n3. Filter\n4. Water_Tank\n5. Pressure_Tank\n6. Water_Distributor\n7. Pipe\n8. Tap\n9. Shower\n10. Sink\n11. Valve_Cutoff\n\nRelationships:\n1. CONNECTED_TO\n2. CONNECTED_WITH\n3. STORES_WATER\n4. MAINTAINS_PRESSURE\n5. DISTRIBUTES_WATER\n6. SUPPLIES_WATER\n7. HAS_POINT_OF_USE\n8. HAS_CUTOFF_VALVE"
+        },
+        {
+            "role": "user",
+            "content": "Teraz, korzystając z wcześniejszych labeli nodów, typów relacji oraz tekstu, wyciągnij dla każdego węzła i relacji listę możliwych właściwości (properties) wraz z sugerowanym typem danych, jeśli jest oczywisty.\n\nWymagania:\n\n1. Skup się tylko na właściwościach, nie generuj nowych nodów ani relacji.\n\n2. Podawaj wynik w formie JSON, np.:\n{\n  \"Person\": {\n    \"properties\": {\n      \"name\": \"string\",\n      \"born\": \"integer\"\n    }\n  },\n  \"KNOWS\": {\n    \"properties\": {\n      \"since\": \"integer\"\n    }\n  }\n}\n\n3. Jeśli typ danych nie jest jasny, użyj ogólnego typu string.\n\n4. Nie dodawaj komentarzy ani wyjaśnień – tylko JSON."
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"Water_Source\": {\n    \"properties\": {\n      \"main_pipe_diameter\": \"string\",\n      \"external_connection\": \"string\"\n    }\n  },\n  \"Valve\": {\n    \"properties\": {\n      \"type\": \"string\"\n    }\n  },\n  \"Filter\": {\n    \"properties\": {\n      \"mesh_type\": \"string\"\n    }\n  },\n  \"Water_Tank\": {\n    \"properties\": {\n      \"type\": \"string\",\n      \"capacity\": \"string\"\n    }\n  },\n  \"Pressure_Tank\": {\n    \"properties\": {\n      \"purpose\": \"string\",\n      \"pressure_level\": \"string\"\n    }\n  },\n  \"Water_Distributor\": {\n    \"properties\": {\n      \"material\": \"string\"\n    }\n  },\n  \"Pipe\": {\n    \"properties\": {\n      \"material\": \"string\",\n      \"diameter\": \"string\"\n    }\n  },\n  \"Tap\": {\n    \"properties\": {\n      \"type\": \"string\"\n    }\n  },\n  \"Shower\": {\n    \"properties\": {\n      \"type\": \"string\"\n    }\n  },\n  \"Sink\": {\n    \"properties\": {\n      \"type\": \"string\"\n    }\n  },\n  \"Valve_Cutoff\": {\n    \"properties\": {\n      \"valve_type\": \"string\"\n    }\n  },\n  \"CONNECTED_TO\": {\n    \"properties\": {}\n  },\n  \"CONNECTED_WITH\": {\n    \"properties\": {}\n  },\n  \"STORES_WATER\": {\n    \"properties\": {}\n  },\n  \"MAINTAINS_PRESSURE\": {\n    \"properties\": {}\n  },\n  \"DISTRIBUTES_WATER\": {\n    \"properties\": {}\n  },\n  \"SUPPLIES_WATER\": {\n    \"properties\": {}\n  },\n  \"HAS_POINT_OF_USE\": {\n    \"properties\": {}\n  },\n  \"HAS_CUTOFF_VALVE\": {\n    \"properties\": {}\n  }\n}"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie wcześniejszego tekstu, labeli i ich właściwości, wygeneruj strukturę grafu w formacie czystego JSON, \n**bez żadnego formatowania markdown ani dodatkowych opisów**.\n\nWykorzystaj uzgodniony wcześniej opis wezłów, relacji i ich właściwości.\nDla każdego węzła dodaj również:\n    - \\\"id\\\": unikalny numeryczny identyfikator obiektu, nadaj je samodzielnie (1,2,3,4...)\n    - \\\"name\\\": nazwa obieku ukazująca zastosowanie obiektu i pozwalająca odróżnić go od innych wezłów tego samego typu/labela\n\n    Dla każdej relacji dodaj również::\n    - \\\"from\\\": id źródłowego elementu,\n    - \\\"to\\\": id docelowego elementu,\n   \n\n    Odległości i rozmiary wyrażaj w metrach. Używaj tylko jednostek SI.\n    Wygeneruj tylko i wyłącznie **JEDEN OBIEKT JSON** zawierający dwa klucze: `nodes` i `edges`.\n    Bez żadnych komentarzy, bez markdowna."
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\"id\": 1, \"name\": \"Main Water Source\", \"label\": \"Water_Source\", \"main_pipe_diameter\": \"DN25\", \"external_connection\": \"external\"},\n        {\"id\": 2, \"name\": \"Main Valve\", \"label\": \"Valve\", \"type\": \"Ball Valve\"},\n        {\"id\": 3, \"name\": \"Water Filter\", \"label\": \"Filter\", \"mesh_type\": \"Mesh\"},\n        {\"id\": 4, \"name\": \"Water Tank\", \"label\": \"Water_Tank\", \"type\": \"Hydro-accumulator\", \"capacity\": \"volume\"},\n        {\"id\": 5, \"name\": \"Pressure Tank\", \"label\": \"Pressure_Tank\", \"purpose\": \"pressure maintenance\", \"pressure_level\": \"bar\"},\n        {\"id\": 6, \"name\": \"Water Distributor\", \"label\": \"Water_Distributor\", \"material\": \"PVC\"},\n        {\"id\": 7, \"name\": \"Pipe Network\", \"label\": \"Pipe\", \"material\": \"PVC\", \"diameter\": \"standard\"},\n        {\"id\": 8, \"name\": \"Tap\", \"label\": \"Tap\", \"type\": \"Faucet\"},\n        {\"id\": 9, \"name\": \"Shower\", \"label\": \"Shower\", \"type\": \"Thermostatic Shower Mixer\"},\n        {\"id\": 10, \"name\": \"Sink\", \"label\": \"Sink\", \"type\": \"Kitchen Faucet\"},\n        {\"id\": 11, \"name\": \"Cutoff Valve\", \"label\": \"Valve_Cutoff\", \"valve_type\": \"Ball Valve\"}\n    ],\n    \"edges\": [\n        {\"from\": 1, \"to\": 2, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 1, \"to\": 3, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 1, \"to\": 4, \"label\": \"STORES_WATER\"},\n        {\"from\": 4, \"to\": 5, \"label\": \"MAINTAINS_PRESSURE\"},\n        {\"from\": 4, \"to\": 6, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 6, \"to\": 7, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 7, \"to\": 8, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 7, \"to\": 9, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 7, \"to\": 10, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 8, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"},\n        {\"from\": 9, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"},\n        {\"from\": 10, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"}\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Wypisz jeszcze raz ten sam json"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\"id\": 1, \"name\": \"Main Water Source\", \"label\": \"Water_Source\", \"main_pipe_diameter\": \"DN25\", \"external_connection\": \"external\"},\n        {\"id\": 2, \"name\": \"Main Valve\", \"label\": \"Valve\", \"type\": \"Ball Valve\"},\n        {\"id\": 3, \"name\": \"Water Filter\", \"label\": \"Filter\", \"mesh_type\": \"Mesh\"},\n        {\"id\": 4, \"name\": \"Water Tank\", \"label\": \"Water_Tank\", \"type\": \"Hydro-accumulator\", \"capacity\": \"volume\"},\n        {\"id\": 5, \"name\": \"Pressure Tank\", \"label\": \"Pressure_Tank\", \"purpose\": \"pressure maintenance\", \"pressure_level\": \"bar\"},\n        {\"id\": 6, \"name\": \"Water Distributor\", \"label\": \"Water_Distributor\", \"material\": \"PVC\"},\n        {\"id\": 7, \"name\": \"Pipe Network\", \"label\": \"Pipe\", \"material\": \"PVC\", \"diameter\": \"standard\"},\n        {\"id\": 8, \"name\": \"Tap\", \"label\": \"Tap\", \"type\": \"Faucet\"},\n        {\"id\": 9, \"name\": \"Shower\", \"label\": \"Shower\", \"type\": \"Thermostatic Shower Mixer\"},\n        {\"id\": 10, \"name\": \"Sink\", \"label\": \"Sink\", \"type\": \"Kitchen Faucet\"},\n        {\"id\": 11, \"name\": \"Cutoff Valve\", \"label\": \"Valve_Cutoff\", \"valve_type\": \"Ball Valve\"}\n    ],\n    \"edges\": [\n        {\"from\": 1, \"to\": 2, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 1, \"to\": 3, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 1, \"to\": 4, \"label\": \"STORES_WATER\"},\n        {\"from\": 4, \"to\": 5, \"label\": \"MAINTAINS_PRESSURE\"},\n        {\"from\": 4, \"to\": 6, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 6, \"to\": 7, \"label\": \"CONNECTED_TO\"},\n        {\"from\": 7, \"to\": 8, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 7, \"to\": 9, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 7, \"to\": 10, \"label\": \"SUPPLIES_WATER\"},\n        {\"from\": 8, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"},\n        {\"from\": 9, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"},\n        {\"from\": 10, \"to\": 11, \"label\": \"HAS_CUTOFF_VALVE\"}\n    ]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "name": "Main Water Source",
+            "label": "Water_Source",
+            "main_pipe_diameter": "DN25",
+            "external_connection": "external"
+        },
+        {
+            "id": 2,
+            "name": "Main Valve",
+            "label": "Valve",
+            "type": "Ball Valve"
+        },
+        {
+            "id": 3,
+            "name": "Water Filter",
+            "label": "Filter",
+            "mesh_type": "Mesh"
+        },
+        {
+            "id": 4,
+            "name": "Water Tank",
+            "label": "Water_Tank",
+            "type": "Hydro-accumulator",
+            "capacity": "volume"
+        },
+        {
+            "id": 5,
+            "name": "Pressure Tank",
+            "label": "Pressure_Tank",
+            "purpose": "pressure maintenance",
+            "pressure_level": "bar"
+        },
+        {
+            "id": 6,
+            "name": "Water Distributor",
+            "label": "Water_Distributor",
+            "material": "PVC"
+        },
+        {
+            "id": 7,
+            "name": "Pipe Network",
+            "label": "Pipe",
+            "material": "PVC",
+            "diameter": "standard"
+        },
+        {
+            "id": 8,
+            "name": "Tap",
+            "label": "Tap",
+            "type": "Faucet"
+        },
+        {
+            "id": 9,
+            "name": "Shower",
+            "label": "Shower",
+            "type": "Thermostatic Shower Mixer"
+        },
+        {
+            "id": 10,
+            "name": "Sink",
+            "label": "Sink",
+            "type": "Kitchen Faucet"
+        },
+        {
+            "id": 11,
+            "name": "Cutoff Valve",
+            "label": "Valve_Cutoff",
+            "valve_type": "Ball Valve"
+        }
+    ],
+    "edges": [
+        {
+            "from": 1,
+            "to": 2,
+            "label": "CONNECTED_TO"
+        },
+        {
+            "from": 1,
+            "to": 3,
+            "label": "CONNECTED_TO"
+        },
+        {
+            "from": 1,
+            "to": 4,
+            "label": "STORES_WATER"
+        },
+        {
+            "from": 4,
+            "to": 5,
+            "label": "MAINTAINS_PRESSURE"
+        },
+        {
+            "from": 4,
+            "to": 6,
+            "label": "CONNECTED_TO"
+        },
+        {
+            "from": 6,
+            "to": 7,
+            "label": "CONNECTED_TO"
+        },
+        {
+            "from": 7,
+            "to": 8,
+            "label": "SUPPLIES_WATER"
+        },
+        {
+            "from": 7,
+            "to": 9,
+            "label": "SUPPLIES_WATER"
+        },
+        {
+            "from": 7,
+            "to": 10,
+            "label": "SUPPLIES_WATER"
+        },
+        {
+            "from": 8,
+            "to": 11,
+            "label": "HAS_CUTOFF_VALVE"
+        },
+        {
+            "from": 9,
+            "to": 11,
+            "label": "HAS_CUTOFF_VALVE"
+        },
+        {
+            "from": 10,
+            "to": 11,
+            "label": "HAS_CUTOFF_VALVE"
+        }
+    ]
+}

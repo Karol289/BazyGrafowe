@@ -1,0 +1,3 @@
+{
+    "prompt": "Teraz, korzystając z wcześniejszych labeli nodów, typów relacji oraz tekstu, wyciągnij dla każdego węzła i relacji listę możliwych właściwości (properties) wraz z sugerowanym typem danych, jeśli jest oczywisty.\n\nWymagania:\n\n1. Skup się tylko na właściwościach, nie generuj nowych nodów ani relacji.\n\n2. Podawaj wynik w formie JSON, np.:\n{\n  \"Person\": {\n    \"properties\": {\n      \"name\": \"string\",\n      \"born\": \"integer\"\n    }\n  },\n  \"KNOWS\": {\n    \"properties\": {\n      \"since\": \"integer\"\n    }\n  }\n}\n\n3. Jeśli typ danych nie jest jasny, użyj ogólnego typu string.\n\n4. Nie dodawaj komentarzy ani wyjaśnień – tylko JSON."
+}

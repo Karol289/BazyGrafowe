@@ -1,0 +1,3 @@
+{
+    "prompt": "Przeanalizuj podany wcześniej tekst i zaproponuj strukturę bazy grafowej. \nSkup się tylko na:\n\nLabelach nodów – typach encji, np. Person, Company, Book.\n\nRodzajach relacji – np. KNOWS, WORKS_AT, WROTE.\nNie generuj pełnych węzłów ani danych – tylko nazwy nodów i relacji, najlepiej w formie listy lub tabeli.\n\nDla przykładu w zapytaniu:\n\"\"\"\nMATCH (n:Person {name:'Anna'})\nRETURN n.born AS birthYear\n\"\"\"\nNode label to Person.\n\nA w:\n\"\"\"\nMATCH (:Person {name: 'Anna'})-[r:KNOWS WHERE r.since < 2020]->(friend:Person)\nRETURN count(r) As numberOfFriends\n\"\"\"\nRelacja to KNOWS.\n\n"
+}

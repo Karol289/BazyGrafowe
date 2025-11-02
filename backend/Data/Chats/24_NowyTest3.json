@@ -1,0 +1,203 @@
+{
+    "id": 24,
+    "title": "NowyTest3",
+    "creationDate": "01.11.2025,19:56:14",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating and analyzing graph databasesderived from textual data. Your task is to help users create, and interpretgraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższy tekst do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\nTeSystem rozpoczyna się od zbiornika (Reservoir) zapewniającego stałe zwierciadło wody na poziomie 700. Woda jest pobierana przez pompę (Pump), która działa zgodnie z krzywą (Curve) dostarczającą wysokość podnoszenia 150 przy przepływie 600. Pompa tłoczy wodę do węzła (Junction) o wysokości 0 i zerowym zapotrzebowaniu. Z tego węzła biegnie przewód (Pipe) o długości 1000, średnicy 14 i chropowatości 100, prowadząc do węzła o zapotrzebowaniu 150. Ten węzeł stanowi rozgałęzienie; jeden przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zerowym zapotrzebowaniu, a drugi przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zapotrzebowaniu 150. Z tego drugiego węzła o zapotrzebowaniu 150 woda płynie dalej dwoma przewodami (oba o długości 1000, średnicy 12, chropowatości 100): jeden do węzła z zapotrzebowaniem 200, a drugi do kolejnego węzła z zapotrzebowaniem 150. Węzeł z zapotrzebowaniem 200 jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zapotrzebowaniu 150, tworząc pętlę. Ten węzeł o zapotrzebowaniu 150 jest również połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zerowym zapotrzebowaniu. Wreszcie, węzeł o zerowym zapotrzebowaniu jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) ze zbiornikiem (Tank). Zbiornik ten ma podstawę na wysokości 830, średnicę 60, początkowy poziom napełnienia 4, przy minimalnym poziomie 0 i maksymalnym 20. Wszystkie węzły znajdują się na wysokości 0 i korzystają z tego samego wzorca poboru. W sieci nie zdefiniowano żadnych zaworów (Valves)."
+        },
+        {
+            "role": "assistant",
+            "content": "Got it! I have processed the information provided. Please feel free to ask any questions or tasks related to this text."
+        },
+        {
+            "role": "user",
+            "content": "Przyjmij poniższą strukturę grafu do wiadomości i używaj go jako kontekst dla kolejnych zapytań. Nie generuj żadnej odpowiedzi, nie komentuj, nie podsumowuj – po prostu przyjmij go do wiadomości.\n\n\n1. Nodes:\n\n\tObjects: JUNCTION, RESERVOIR, TANK\n\n\tTransport: PIPE, PUMP, VALVE\n\n\tLogic: CURVE\n\t\t\n2. Edges:\n\n\tCONNECTS_TO -> edge tahts used to connect object (JUNCTION, RESERVOIR, TANK) with transport nodes (PIPE, PUMP, VALVE)\n\t\n\n\tUSES_CURVE - edge used to connect nodes (like PUMP or VALVE) to a CURVE node\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t\t\n\t-TANKS:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\tMinVol - Minimum volume, cubic ft (cubic meters)\n\t\tOverflow Overflow indicator (YES / NO) (optional)\n\t\tVolCurve - (-> USES_CURVE)\n\t\t\n\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\t-PUMP: \n\t\thead, (-> USES_CURVE) - head is represented as CURVE node. \n\t\tspeed - relative speed setting (normal speed is 1.0, 0 means pump is off)\n\n\t\t\t\t\t\n\t-VALVE:\n\t\tDiameter - Diameter, inches (mm),\n\t\tMinorLoss - Minor loss coefficient when fully open,\n\t\tType - Valve type,\n\t\tSetting - Valve setting (for GPV, this implies a -> USES_CURVE relationship),\n\t\t\n\t\t\n\t\t**Valve types and settings include:\n\t\t\tValve Type\tSetting\n\t\t\tPRV (pressure reducing valve)\tPressure (pressure units)\n\t\t\tPSV (pressure sustaining valve)\tPressure (pressure units)\n\t\t\tPBV (pressure breaker valve)\tPressure (pressure units)\n\t\t\tFCV (flow control valve)\tFlow (flow units)\n\t\t\tTCV (throttle control valve)\tPartially open loss coefficient\n\t\t\tPCV (positional control valve)\tPercent open\n\t\t\tGPV (general purpose valve)\tID of head loss curve\n\t\t**\n\t\t\n\t-CURVE:\n\t\tPoints - text field representing array of curve pairs of points that can be:\n\t\t\t(Head v. Flow for pumps) e,g: [(0,200),(1000,0),(3000,0)]"
+        },
+        {
+            "role": "assistant",
+            "content": "Thank you for providing the graph structure information. I have taken note of the nodes, edges, and properties related to each type of node in the graph database. Feel free to ask any questions or provide further instructions based on this context."
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie wcześniej podanego tekstu zaproponuj graf. Użyj to tego również wcześniej podanej struktury grafu. W strukturze tej są podane węzły, relacje oraz właściwości dla poszczególnych węzłów. Możesz jedynie generować takie obiekty grafu które są ukazane w strukturze, nie możesz wymyślać nowych węzłów, relacji albo właściwości. \n\nPamiętaj że węzły object (JUNCTION, RESERVOIR, TANK) nie mogą być ze sobą połączone relacją. Musi je łączyć węzeł transport (PIPE, PUMP, VALVE).\nNp. JUNCTION-JUNCTION (ŻLE)\n      JUNCTION-PIPE-JUNCTION (DOBRZE)\n\nWymyślony graf podaj jako czysty json, bez żadnych komentarzy. Ma on zawierać w sobie dwa klucze nodes i edges (oba są tablicami).\n\nKażdy typ nodów ma miec zdefiniowane wszystkie właściwości podane w strukturze. Jeśli o danych właściwościach nie ma wzmianki w tekście dla danego węzła to zostaw daną propercje pustą.\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"Id\": 1,\n\t\t\t\"label\": \"RESERVOIR\",\n\t\t\t\"Head\": 700 \n\t\t},\n\t\t{\n\t\t\t\"Id\": 2,\n\t\t\t\"label\": \"PUMP\",\n\t\t\t\"head\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 3,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 4,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 14,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 5,\n\t\t\t\"label\": \"TANK\",\n\t\t\t\"Elev\": 830,\n\t\t\t\"InitLevel\": 4,\n\t\t\t\"MinLevel\": 0,\n\t\t\t\"MaxLevel\": 20,\n\t\t\t\"Diameter\": 60\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 1,\n\t\t\t\"to\": 2\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 4\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 4,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 5\n\t\t}\n\t]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Zapomniałeś o wielu węzłach i relacjach. Podaje ci tekst na nowo abyś mógł go przejrzeć:\n\nSystem rozpoczyna się od zbiornika (Reservoir) zapewniającego stałe zwierciadło wody na poziomie 700. Woda jest pobierana przez pompę (Pump), która działa zgodnie z krzywą (Curve) dostarczającą wysokość podnoszenia 150 przy przepływie 600. Pompa tłoczy wodę do węzła (Junction) o wysokości 0 i zerowym zapotrzebowaniu. Z tego węzła biegnie przewód (Pipe) o długości 1000, średnicy 14 i chropowatości 100, prowadząc do węzła o zapotrzebowaniu 150. Ten węzeł stanowi rozgałęzienie; jeden przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zerowym zapotrzebowaniu, a drugi przewód (długość 1000, średnica 12, chropowatość 100) prowadzi do węzła o zapotrzebowaniu 150. Z tego drugiego węzła o zapotrzebowaniu 150 woda płynie dalej dwoma przewodami (oba o długości 1000, średnicy 12, chropowatości 100): jeden do węzła z zapotrzebowaniem 200, a drugi do kolejnego węzła z zapotrzebowaniem 150. Węzeł z zapotrzebowaniem 200 jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zapotrzebowaniu 150, tworząc pętlę. Ten węzeł o zapotrzebowaniu 150 jest również połączony przewodem (długość 1000, średnica 12, chropowatość 100) z węzłem o zerowym zapotrzebowaniu. Wreszcie, węzeł o zerowym zapotrzebowaniu jest połączony przewodem (długość 1000, średnica 12, chropowatość 100) ze zbiornikiem (Tank). Zbiornik ten ma podstawę na wysokości 830, średnicę 60, początkowy poziom napełnienia 4, przy minimalnym poziomie 0 i maksymalnym 20. Wszystkie węzły znajdują się na wysokości 0 i korzystają z tego samego wzorca poboru. W sieci nie zdefiniowano żadnych zaworów (Valves)."
+        },
+        {
+            "role": "assistant",
+            "content": "Przepraszam za brak kompletności poprzedniego grafu. Po analizie tekstu zostanie utworzony nowy graf uwzględniający wszystkie węzły i relacje. Proszę poczekaj na chwilę."
+        },
+        {
+            "role": "user",
+            "content": "No generuj json na nowo"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"Id\": 1,\n\t\t\t\"label\": \"RESERVOIR\",\n\t\t\t\"Head\": 700\n\t\t},\n\t\t{\n\t\t\t\"Id\": 2,\n\t\t\t\"label\": \"PUMP\",\n\t\t\t\"speed\": 1.0,\n\t\t\t\"VolCurve\": \"head\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 3,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 0\n\t\t},\n\t\t{\n\t\t\t\"Id\": 4,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 14,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 5,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 6,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 7,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 0\n\t\t},\n\t\t{\n\t\t\t\"Id\": 8,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 9,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 10,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 11,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 200\n\t\t},\n\t\t{\n\t\t\t\"Id\": 12,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 13,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 14,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 15,\n\t\t\t\"label\": \"TANK\",\n\t\t\t\"Elev\": 830,\n\t\t\t\"InitLevel\": 4,\n\t\t\t\"MinLevel\": 0,\n\t\t\t\"MaxLevel\": 20,\n\t\t\t\"Diameter\": 60\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 1,\n\t\t\t\"to\": 2\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 4\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 4,\n\t\t\t\"to\": 5\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 5,\n\t\t\t\"to\": 6\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 6,\n\t\t\t\"to\": 7\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 6,\n\t\t\t\"to\": 9\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 7,\n\t\t\t\"to\": 8\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 9,\n\t\t\t\"to\": 10\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 9,\n\t\t\t\"to\": 13\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 10,\n\t\t\t\"to\": 11\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 10,\n\t\t\t\"to\": 15\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 11,\n\t\t\t\"to\": 13\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 13,\n\t\t\t\"to\": 14\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 14,\n\t\t\t\"to\": 11\n\t\t}\n\t]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Prawie dobrze. Zapomniałem wspomniec że węzeł pipe może łączyć tylko dwa obiekty. Do modelowania rozgałezień używaj junction. Daj na nowo json"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"Id\": 1,\n\t\t\t\"label\": \"RESERVOIR\",\n\t\t\t\"Head\": 700\n\t\t},\n\t\t{\n\t\t\t\"Id\": 2,\n\t\t\t\"label\": \"PUMP\",\n\t\t\t\"speed\": 1.0,\n\t\t\t\"VolCurve\": \"head\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 3,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 0\n\t\t},\n\t\t{\n\t\t\t\"Id\": 4,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 14,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 5,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 6,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 0\n\t\t},\n\t\t{\n\t\t\t\"Id\": 7,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 8,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 9,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 200\n\t\t},\n\t\t{\n\t\t\t\"Id\": 10,\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"Length\": 1000,\n\t\t\t\"Diameter\": 12,\n\t\t\t\"Roughness\": 100\n\t\t},\n\t\t{\n\t\t\t\"Id\": 11,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 150\n\t\t},\n\t\t{\n\t\t\t\"Id\": 12,\n\t\t\t\"label\": \"TANK\",\n\t\t\t\"Elev\": 830,\n\t\t\t\"InitLevel\": 4,\n\t\t\t\"MinLevel\": 0,\n\t\t\t\"MaxLevel\": 20,\n\t\t\t\"Diameter\": 60\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 1,\n\t\t\t\"to\": 2\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 4\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 4,\n\t\t\t\"to\": 5\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 5,\n\t\t\t\"to\": 6\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 6,\n\t\t\t\"to\": 7\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 7,\n\t\t\t\"to\": 8\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 8,\n\t\t\t\"to\": 9\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 8,\n\t\t\t\"to\": 11\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 9,\n\t\t\t\"to\": 10\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 10,\n\t\t\t\"to\": 11\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 11,\n\t\t\t\"to\": 10\n\t\t},\n\t\t{\n\t\t\t\"label\": \"CONNECTS_TO\",\n\t\t\t\"from\": 11,\n\t\t\t\"to\": 12\n\t\t}\n\t]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 700
+        },
+        {
+            "Id": 2,
+            "label": "PUMP",
+            "speed": 1.0,
+            "VolCurve": "head"
+        },
+        {
+            "Id": 3,
+            "label": "JUNCTION",
+            "Demand": 0
+        },
+        {
+            "Id": 4,
+            "label": "PIPE",
+            "Length": 1000,
+            "Diameter": 14,
+            "Roughness": 100
+        },
+        {
+            "Id": 5,
+            "label": "JUNCTION",
+            "Demand": 150
+        },
+        {
+            "Id": 6,
+            "label": "JUNCTION",
+            "Demand": 0
+        },
+        {
+            "Id": 7,
+            "label": "PIPE",
+            "Length": 1000,
+            "Diameter": 12,
+            "Roughness": 100
+        },
+        {
+            "Id": 8,
+            "label": "JUNCTION",
+            "Demand": 150
+        },
+        {
+            "Id": 9,
+            "label": "JUNCTION",
+            "Demand": 200
+        },
+        {
+            "Id": 10,
+            "label": "PIPE",
+            "Length": 1000,
+            "Diameter": 12,
+            "Roughness": 100
+        },
+        {
+            "Id": 11,
+            "label": "JUNCTION",
+            "Demand": 150
+        },
+        {
+            "Id": 12,
+            "label": "TANK",
+            "Elev": 830,
+            "InitLevel": 4,
+            "MinLevel": 0,
+            "MaxLevel": 20,
+            "Diameter": 60
+        }
+    ],
+    "edges": [
+        {
+            "label": "CONNECTS_TO",
+            "from": 1,
+            "to": 2
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 2,
+            "to": 3
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 3,
+            "to": 4
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 4,
+            "to": 5
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 5,
+            "to": 6
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 6,
+            "to": 7
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 7,
+            "to": 8
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 8,
+            "to": 9
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 8,
+            "to": 11
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 9,
+            "to": 10
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 10,
+            "to": 11
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 11,
+            "to": 10
+        },
+        {
+            "label": "CONNECTS_TO",
+            "from": 11,
+            "to": 12
+        }
+    ]
+}
