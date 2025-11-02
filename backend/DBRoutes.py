@@ -9,7 +9,7 @@ import json
 from models.CurrentModel import GetModel
 
 databaseRouter = APIRouter(prefix="/db", tags=["db"])
-
+PATH_TO_SAVE_CYPHER = "./Data/Cypher"
 
 db_user : str | None = None
 db_password : str | None = None
@@ -83,8 +83,8 @@ def to_cypher(data, pending: bool = False):
 
     # Generowanie nodów
     for node in data["nodes"]:
-        label = node.get("label", "")  
-        app_id = node.get("id", "")
+        label = node.get("label", node.get("Label", ""))  
+        app_id = node.get("id", node.get("Id", ""))
         
         props = ", ".join(
             f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
@@ -107,7 +107,7 @@ def to_cypher(data, pending: bool = False):
     for edge in data["edges"]:
         fromm = edge.get("from")
         to = edge.get("to")
-        label = edge.get("label", "")
+        label = edge.get("label", edge.get("Label", ""))  
 
         props = ", ".join(
             f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
@@ -125,7 +125,7 @@ def run_neo4j_save(data):
     global db_user, db_password, db_url
     
     try:
-        queries = to_cypher(data, pending= True)
+        queries = to_cypher(data, pending= True) 
         driver = GraphDatabase.driver(str(db_url), auth=(str(db_user), str(db_password)))
         with driver.session() as session:
             for q in queries:
@@ -139,8 +139,9 @@ async def ApplyToDB():
     
     nodesAndEdges = GetModel().history.GetNodesAndEdges()
 
+    nodesAndEdgesNormalized = {k.lower(): v for k, v in nodesAndEdges.items()}
 
-    run_neo4j_save(nodesAndEdges)
+    run_neo4j_save(nodesAndEdgesNormalized)
 
 
 @databaseRouter.post("/CommitDB")

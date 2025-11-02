@@ -40,7 +40,7 @@ app.add_middleware(
 
 
 history = ChatSession.GetNewestChat()
-model : ModelBase = OllamaModel(history)
+model : ModelBase = OpenAiLLM(history)
 client = SetModel(newModel=model)
 
 
