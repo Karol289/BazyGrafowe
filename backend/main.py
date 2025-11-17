@@ -13,6 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from ChatsRoutes import chatsRouter
 from DBRoutes import databaseRouter
 from Prompts.PromptRoutes import propmtRouter
+from epanet.EpanetRoutes import epanetRouter
+from models.ModelRoutes import modelRouter
 
 from models.CurrentModel import GetModel, SetModel
 from models.OpenAiModel import OpenAiLLM
@@ -29,6 +31,8 @@ app = FastAPI()
 app.include_router(chatsRouter)
 app.include_router(databaseRouter)
 app.include_router(propmtRouter)
+app.include_router(epanetRouter)
+app.include_router(modelRouter)
 
 app.add_middleware(
     CORSMiddleware,

@@ -36,3 +36,16 @@ class OllamaModel(ModelBase):
                 
         self.history.AddMessage("assistant", all_content)
         self.history.SaveAsJson()
+        
+    async def getAvaibleModels():
+        # Użyj 'await' przed wywołaniem metody 'list()' klienta asynchronicznego
+        modelList = await ollama.AsyncClient().list()
+
+        # Metoda .list() zwraca słownik, więc wywołujemy .get() na nim
+        available_names = [
+                # Odwołujemy się do atrybutu .model obiektu
+                model_object.model 
+                for model_object in modelList.get('models', [])
+            ]  
+
+        return available_names

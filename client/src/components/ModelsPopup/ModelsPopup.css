@@ -1,0 +1,106 @@
+/* Importujemy bazowe style z PromptPopup */
+@import url('../PromptPopup/PromptPopup.css');
+
+/* Dodatkowe style dla formularza ustawień modeli */
+.modelSettingsContainer {
+  padding: 25px 35px;
+  position: relative; /* Potrzebne dla przycisku zamknięcia */
+}
+
+/* Przycisk zamknięcia (skopiowany z PromptPopup dla spójności) */
+.modelSettingsContainer .closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.modelSettingsContainer .closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff4d4d;
+}
+
+
+/* Styl formularza */
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Odstęp między grupami formularza */
+  margin-top: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Odstęp między etykietą a polem */
+}
+
+.formGroup label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #c5c5d2; /* Jaśniejszy kolor dla etykiet */
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 10px;
+  background-color: #40414f; /* Ciemniejsze tło pola */
+  border: 1px solid #565869; /* Subtelna ramka */
+  color: white;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box; /* Ważne dla zachowania paddingu */
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #a9a9f1;
+  box-shadow: 0 0 0 2px rgba(169, 169, 241, 0.3);
+}
+
+/* Kontener dla pól w jednym rzędzie */
+.formRow {
+  display: flex;
+  gap: 15px;
+}
+
+.formRow .formGroup {
+  flex: 1; /* Każda grupa zajmuje tyle samo miejsca */
+}
+
+/* Przycisk aktualizacji */
+.updateButton {
+  background-color: #4caf50; /* Zielony z PromptPopup */
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.updateButton:hover {
+  background-color: #45a049;
+}
+
+.updateButton:disabled {
+  background-color: #565869; /* Szary, gdy nieaktywny */
+  color: #9b9b9b;
+  cursor: not-allowed;
+}

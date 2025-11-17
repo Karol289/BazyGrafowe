@@ -1,0 +1,146 @@
+[TITLE]
+
+
+[JUNCTIONS]
+;id elevation demand demandpattern
+3 0 0 
+ 5 0 150 
+ 7 0 0 
+ 9 0 150 
+ 11 0 200 
+ 
+ [RESERVOIRS]
+;id head pattern
+1 700 
+ 
+ [TANKS]
+;id elevation initlevel minlevel maxlevel diameter minvolume volumecurve
+13 0 4 0 20 60 
+ 
+ [PIPES]
+;id startnode endnode length diameter roughness minorloss
+
+ [PUMPS]
+;id startnode endnode keyword value
+
+ [VALVES]
+;id startnode endnode diameter valvetype setting minorloss
+
+ [EMITTERS]
+;id emittercoefficient
+
+
+[OPTIONS]
+UNITS LPS
+HEADLOSS H-W
+QUALITY NONE
+VISCOSITY 1.0
+DIFFUSIVITY 1.0
+SPECIFIC GRAVITY 1.0
+TRIALS 200
+ACCURACY 0.001
+UNBALANCED STOP
+PATTERN 1.0
+DEMAND MULTIPLIER 1.0
+EMITTER EXPONENT 0.5
+TOLERANCE 0.01
+
+ [REPORT]
+PAGESIZE 0
+STATUS NO
+SUMMARY YES
+ENERGY NO
+NODES ALL
+LINKS ALL
+ELEVATION NO
+DEMAND YES
+HEAD YES
+PRESSURE YES
+QUALITY YES
+LENGTH NO
+DIAMETER NO
+FLOW YES
+VELOCITY YES
+HEADLOSS YES
+SETTING NO
+REACTION NO
+F-FACTOR NO
+ELEVATION PRECISION 2
+DEMAND PRECISION 2
+HEAD PRECISION 2
+PRESSURE PRECISION 2
+QUALITY PRECISION 2
+LENGTH PRECISION 2
+DIAMETER PRECISION 2
+FLOW PRECISION 2
+VELOCITY PRECISION 2
+HEADLOSS PRECISION 2
+SETTING PRECISION 2
+REACTION PRECISION 2
+F-FACTOR PRECISION 2
+
+ [TIMES]
+DURATION 0:00
+HYDRAULIC TIMESTEP 1:00
+PATTERN START 0:00
+REPORT TIMESTEP 1:00
+REPORT START 0:00
+START CLOCKTIME 00:00 am
+STATISTIC NONE
+
+ [CONTROLS]
+
+ [CURVES]
+;id xvalue yvalue
+
+ [DEMANDS]
+;id demand pattern category
+
+ [ENERGY]
+
+ [PATTERNS]
+;id multipliers
+
+ [RULES]
+
+ [STATUS]
+;id status/setting
+
+ [MIXING]
+;tankid mixingmodel compartmentvolume
+13 MIXED 
+ 
+ [QUALITY]
+;id initialquality
+
+ [REACTIONS]
+ORDER BULK 1.0
+ORDER WALL 1.0
+ORDER TANK 1.0
+GLOBAL BULK 0.0
+GLOBAL WALL 0.0
+
+ [SOURCES]
+;id sourcetype strength sourcepattern
+
+ [BACKDROP]
+
+ [COORDINATES]
+;nodeid xcoordinate ycoordinate
+3 0.0 0.0
+5 0.0 0.0
+7 0.0 0.0
+9 0.0 0.0
+11 0.0 0.0
+13 0.0 0.0
+1 0.0 0.0
+
+ [LABELS]
+;xcoordinate ycoordinate label anchornode
+
+ [TAGS]
+
+ [VERTICES]
+;linkkid xcoordinate ycoordinate
+
+ 
