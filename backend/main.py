@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from ChatsRoutes import chatsRouter
 from DBRoutes import databaseRouter
 from Prompts.PromptRoutes import propmtRouter
-from epanet.EpanetRoutes import epanetRouter
+from Epanet.EpanetRoutes import epanetRouter
 from models.ModelRoutes import modelRouter
 
 from models.CurrentModel import GetModel, SetModel
@@ -131,7 +131,7 @@ def cut_after_json(text):
         elif c == '}':
             brace_count -= 1
             if brace_count == 0 and start is not None:
-                return text[:i+1]
+                return text[start:i+1]
     return text  # fallback if not matched
 
 def strip_markdown(text):

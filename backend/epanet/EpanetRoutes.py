@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from ChatHistory.ChatHistory import ChatSession
 from models.CurrentModel import GetModel, SetModel
 from models.CurrentModel import GetModel
-from epanet.network import createNetwork
+from Epanet.network import createNetwork
 
 
 

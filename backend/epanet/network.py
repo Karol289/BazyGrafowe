@@ -52,7 +52,7 @@ def createNetwork(title, json):
             addPump(network, link, json["edges"])
         
         
-    add_automatic_layout(network)
+    #add_automatic_layout(network)
     
     return network
 

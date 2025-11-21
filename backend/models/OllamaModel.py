@@ -9,9 +9,8 @@ class OllamaModel(ModelBase):
     
     def __init__(self, chatSession: ChatSession, model: str = "gemma3:12b"):
         
-        super().__init__(chatSession)
+        super().__init__(chatSession, model)
         
-        self.model = model
         self.client = ollama.AsyncClient()
     
     async def GetAiResponse(self, message) -> AsyncGenerator[str, None]:
@@ -20,11 +19,13 @@ class OllamaModel(ModelBase):
         """
         self.history.AddMessage("user", message)
         
+        kwargs = self.GetKwargs()
 
         response = await self.client.chat(
             model=self.model,
             messages=self.history.GetMessages(),
-            stream=True
+            stream=True,
+            **kwargs
         )
 
         all_content = ""
@@ -36,7 +37,8 @@ class OllamaModel(ModelBase):
                 
         self.history.AddMessage("assistant", all_content)
         self.history.SaveAsJson()
-        
+    
+    @staticmethod
     async def getAvaibleModels():
         # Użyj 'await' przed wywołaniem metody 'list()' klienta asynchronicznego
         modelList = await ollama.AsyncClient().list()

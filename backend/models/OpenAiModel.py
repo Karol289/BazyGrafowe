@@ -13,10 +13,9 @@ class OpenAiLLM(ModelBase):
     
     def __init__(self, chatSession: ChatSession, model: str = "gpt-3.5-turbo"):
         
-        super().__init__(chatSession)
+        super().__init__(chatSession, model)
         
         self.client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        self.model = model
         
        
     async def GetAiResponse(self, message) -> AsyncGenerator[str, None]:
@@ -25,10 +24,13 @@ class OpenAiLLM(ModelBase):
         """
         self.history.AddMessage("user", message)
         
+        kwargs = self.GetKwargs()
+        
         response = await self.client.chat.completions.create(
             model=self.model,
             messages=self.history.GetMessages(),
-            stream=True
+            stream=True,
+            **kwargs
         )
 
         all_content = ""
@@ -41,7 +43,8 @@ class OpenAiLLM(ModelBase):
         self.history.AddMessage("assistant", all_content)
         self.history.SaveAsJson()
   
-    def getAvaibleModels():
-        return ["gpt-3.5-turbo"]              
+    @staticmethod
+    async def getAvaibleModels():
+        return ["gpt-3.5-turbo", "gpt-4.1-nano-2025-04-14"]              
         
         

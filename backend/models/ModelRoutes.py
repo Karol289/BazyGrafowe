@@ -49,7 +49,7 @@ def getCurrent():
 async def getAvaibleModels(params: ModelParams):
     
     if str.lower(params.type) == "openai":
-        return OpenAiLLM.getAvaibleModels()
+        return await OpenAiLLM.getAvaibleModels()
     elif str.lower(params.type) == "ollama":
         return await OllamaModel.getAvaibleModels()
     

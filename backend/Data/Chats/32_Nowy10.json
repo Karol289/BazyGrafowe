@@ -1,0 +1,106 @@
+{
+    "id": 32,
+    "title": "Nowy10",
+    "creationDate": "20.11.2025,20:17:00",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\tJUNCTION - points in the network where links (PIPE, PUMP, VALVE) join together and where water enters or leaves the network \n\tRESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external source or sink of water.\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nSieć rozpoczyna się od zbiornika. Ma on Head na poziomie 700.\nOd podanego zbiornika woda idzie rura do węzła1, a następnie rurą do wezła2.\nOd wezła2 woda wychodzi dwoma rurami. \nPierwsza ścieżka idzie bezpośrednio do wezła5.\nA druga idzie najpierw do wezła3, potem do wezła4 i do węzła5.\nOd węzła 5 woda idzie rura do węzła6 potem do wezła7 i następnie do węzła8 gdzie kończy się sieć.\nZ podanych węzłów jedynie węzeł8 (100) oraz węzeł4 (300) mają zapotrzebowanie.\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"Id\": 1,\n\t\t\t\"label\": \"RESERVOIR\",\n\t\t\t\"Head\": 700\n\t\t},\n\t\t{\n\t\t\t\"Id\": 2,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 3,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 4,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 300\n\t\t},\n\t\t{\n\t\t\t\"Id\": 5,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 6,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 7,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 8,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 100\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 1,\n\t\t\t\"to\": 2\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 4\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 5\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 5,\n\t\t\t\"to\": 6\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 6,\n\t\t\t\"to\": 7\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 7,\n\t\t\t\"to\": 8\n\t\t}\n\t]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Prawie dobrze. ZAPOMNIAŁEŚ o połączeniu między wezłem 4 i 5"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"Id\": 1,\n\t\t\t\"label\": \"RESERVOIR\",\n\t\t\t\"Head\": 700\n\t\t},\n\t\t{\n\t\t\t\"Id\": 2,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 3,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 4,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 300\n\t\t},\n\t\t{\n\t\t\t\"Id\": 5,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 6,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 7,\n\t\t\t\"label\": \"JUNCTION\"\n\t\t},\n\t\t{\n\t\t\t\"Id\": 8,\n\t\t\t\"label\": \"JUNCTION\",\n\t\t\t\"Demand\": 100\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 1,\n\t\t\t\"to\": 2\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 3\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 3,\n\t\t\t\"to\": 4\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 4,\n\t\t\t\"to\": 5\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 2,\n\t\t\t\"to\": 5\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 5,\n\t\t\t\"to\": 6\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 6,\n\t\t\t\"to\": 7\n\t\t},\n\t\t{\n\t\t\t\"label\": \"PIPE\",\n\t\t\t\"from\": 7,\n\t\t\t\"to\": 8\n\t\t}\n\t]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 700
+        },
+        {
+            "Id": 2,
+            "label": "JUNCTION"
+        },
+        {
+            "Id": 3,
+            "label": "JUNCTION"
+        },
+        {
+            "Id": 4,
+            "label": "JUNCTION",
+            "Demand": 300
+        },
+        {
+            "Id": 5,
+            "label": "JUNCTION"
+        },
+        {
+            "Id": 6,
+            "label": "JUNCTION"
+        },
+        {
+            "Id": 7,
+            "label": "JUNCTION"
+        },
+        {
+            "Id": 8,
+            "label": "JUNCTION",
+            "Demand": 100
+        }
+    ],
+    "edges": [
+        {
+            "label": "PIPE",
+            "from": 1,
+            "to": 2
+        },
+        {
+            "label": "PIPE",
+            "from": 2,
+            "to": 3
+        },
+        {
+            "label": "PIPE",
+            "from": 3,
+            "to": 4
+        },
+        {
+            "label": "PIPE",
+            "from": 4,
+            "to": 5
+        },
+        {
+            "label": "PIPE",
+            "from": 2,
+            "to": 5
+        },
+        {
+            "label": "PIPE",
+            "from": 5,
+            "to": 6
+        },
+        {
+            "label": "PIPE",
+            "from": 6,
+            "to": 7
+        },
+        {
+            "label": "PIPE",
+            "from": 7,
+            "to": 8
+        }
+    ]
+}

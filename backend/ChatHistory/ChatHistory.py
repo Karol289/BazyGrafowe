@@ -47,8 +47,8 @@ class ChatSession:
         
     @classmethod
     def GetSystemPrompt(cls):
-        return ("You are an expert assistant specialized in generating and analyzing graph databases" +
-        "derived from textual data. Your task is to help users create, and interpret" +
+        return ("You are an expert assistant specialized in generating graph databases" +
+        "derived from textual data. Your task is to help users create" +
         "graph-based representations of information extracted from texts")
         
             

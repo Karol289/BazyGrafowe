@@ -88,7 +88,7 @@ def to_cypher(data, pending: bool = False):
         
         props = ", ".join(
             f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in node.items() if k not in {"label", "id"}
+            for k, v in node.items() if k not in {"label", "id"} and v is not None
         )
         
         
@@ -111,7 +111,7 @@ def to_cypher(data, pending: bool = False):
 
         props = ", ".join(
             f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in edge.items() if k not in ("from", "to", "label")
+            for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
         )
         queries.append(
             f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{to}"}}) '
