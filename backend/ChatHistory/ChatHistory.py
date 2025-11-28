@@ -84,8 +84,14 @@ class ChatSession:
         
         return cls.GetExisitingChat(id)
 
-                       
-                    
+    @classmethod
+    def DeleteChat(cls, id):
+        for file in os.listdir(chatsPath):
+            if file.split("_")[0] == str(id):
+                os.remove(f"{chatsPath}/{file}")
+                return
+    
+              
     def SaveAsJson(self):
         dict = {
             "id":  self.id,

@@ -1,33 +1,40 @@
 [TITLE]
+siecTest
 
 
 [JUNCTIONS]
 ;id elevation demand demandpattern
-2 None None 
- 3 None None 
- 4 None 300 
- 5 None None 
- 6 None None 
- 7 None None 
- 8 None 100 
+2 0 150 
+ 3 0 150 
+ 4 0 100 
+ 5 0 150 
+ 6 0 200 
+ 7 0 150 
+ 8 0 100 
+ 9 0 100 
  
  [RESERVOIRS]
 ;id head pattern
-1 700 
+1 800 
  
  [TANKS]
 ;id elevation initlevel minlevel maxlevel diameter minvolume volumecurve
-
+10 0 120 100 150 50 0.0 
+ 
  [PIPES]
 ;id startnode endnode length diameter roughness minorloss
-12 1 2 None None None None 
- 23 2 3 None None None None 
- 25 2 5 None None None None 
- 34 3 4 None None None None 
- 45 4 5 None None None None 
- 56 5 6 None None None None 
- 67 6 7 None None None None 
- 78 7 8 None None None None 
+12 1 2   100 0 
+ 23 2 3   100 0 
+ 34 3 4   100 0 
+ 45 4 5   100 0 
+ 56 5 6   100 0 
+ 67 6 7   100 0 
+ 78 7 8   100 0 
+ 89 8 9   100 0 
+ 27 2 7   100 0 
+ 36 3 6   100 0 
+ 69 6 9   100 0 
+ 103 10 3   100 0 
  
  [PUMPS]
 ;id startnode endnode keyword value
@@ -117,7 +124,8 @@ STATISTIC NONE
 
  [MIXING]
 ;tankid mixingmodel compartmentvolume
-
+10 MIXED 
+ 
  [QUALITY]
 ;id initialquality
 
@@ -135,14 +143,16 @@ GLOBAL WALL 0.0
 
  [COORDINATES]
 ;nodeid xcoordinate ycoordinate
-2 0.0 0.0
-3 0.0 0.0
-4 0.0 0.0
-5 0.0 0.0
-6 0.0 0.0
-7 0.0 0.0
-8 0.0 0.0
-1 0.0 0.0
+2 3716.4896352322075 2191.4580597966506
+3 2864.862686232193 3342.930408574353
+4 1864.035373061481 4343.655619190199
+5 817.187517988768 3501.2257835142686
+6 1718.1324480156068 2438.5412068987666
+7 2635.2029823214853 1343.8270768746852
+8 1783.6760338416072 295.94803840378717
+9 869.133694386133 1314.8115708734792
+10 3731.2796289205185 4419.044609349085
+1 5000.0 1808.5576265247266
 
  [LABELS]
 ;xcoordinate ycoordinate label anchornode

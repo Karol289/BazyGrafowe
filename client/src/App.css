@@ -14,6 +14,8 @@ html, body{
 
 .extrasMenu{
   width: 400px;
+  height: 100dvh;
+  overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE i Edge */
 }
@@ -116,4 +118,38 @@ html, body{
   word-break: break-word;  /* łamie długie słowa zamiast wychodzić poza ekran */
 }
 
+/* --- LOADING SPINNER --- */
+
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #e0e0e0;
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+    height: 20px;
+    width: 20px;
+    color: #0da37f; /* Kolor pasujący do motywu LLM */
+}
+
+.loading-spinner .opacity-25 {
+    opacity: 0.25;
+}
+
+.loading-spinner .opacity-75 {
+    opacity: 0.75;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 

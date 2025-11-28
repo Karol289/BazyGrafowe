@@ -140,3 +140,27 @@ h2 {
 .rollbackButton:hover {
   background-color: #ff7875;
 }
+
+/* --- Dodaj to do ExtrasDB.css --- */
+
+.checkboxCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 4px 0;
+}
+
+.checkboxCell label {
+  font-size: 13px;
+  color: #e0e0e0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxCell input[type="checkbox"] {
+  accent-color: #0da37f; /* Kolor zaznaczenia pasujący do motywu */
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}

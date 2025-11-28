@@ -75,5 +75,10 @@ async def selectChat(selectChatCommand: SelectChat):
     GetModel().history = ChatSession.GetExisitingChat(id=selectChatCommand.id)
     
     
+@chatsRouter.put("/deleteChat")
+async def deleteChat(selectChatCommand: SelectChat):
+    
+    ChatSession.DeleteChat(id=selectChatCommand.id)
+    
     
     

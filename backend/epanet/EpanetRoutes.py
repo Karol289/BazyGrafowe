@@ -21,6 +21,7 @@ chatsPath = "backend/Data/Networks"
 
 class CreateNetwork(BaseModel):
     title: str
+    graphAlgoritm: str # kamada_kawai, spring, circle
 
 @epanetRouter.post("/create")
 async def create(networkCreate: CreateNetwork):
@@ -28,7 +29,7 @@ async def create(networkCreate: CreateNetwork):
 
     networkJson = GetModel().history.GetNodesAndEdges()
 
-    network = createNetwork(networkCreate.title, networkJson)
+    network = createNetwork(networkCreate.title, networkJson, networkCreate.graphAlgoritm)
 
     network.write(chatsPath + "/" + str(networkCreate.title) + ".inp")
 

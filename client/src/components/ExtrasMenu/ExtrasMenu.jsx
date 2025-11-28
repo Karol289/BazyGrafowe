@@ -6,12 +6,13 @@ import { useState } from "react"
 import './ExtrasMenu.css'
 import ExtrasDB from "./ExtrasDataBase/ExtrasDB";
 import ExtrasCypher from "./ExtrasCypher/ExtrasCypher";
+import ExtrasEpanet from "./ExtrasEpanet/ExtrasEpanet";
 
 const ExtrasMenu = ({jsonData}) => {
 
     const [isVisibleDB, setIsVisibleDB] = useState(false)
     const [isVisibleCypher, setIsVisibleCypher] = useState(false)
-
+    const [isVisibleEpanet, setIsVisibleEpanet] = useState(false)
 
     return(
         <>
@@ -36,6 +37,19 @@ const ExtrasMenu = ({jsonData}) => {
           <div className={`extrasContent ${isVisibleCypher ? 'open' : ''}`}>
             {isVisibleCypher && <ExtrasCypher jsonData={jsonData} />}
           </div>
+
+          <div 
+            onClick={() => setIsVisibleEpanet(prev => !prev)} 
+            className="extrasOption"
+          >
+            Epanet Export
+          </div>
+            
+          <div className={`extrasContent ${isVisibleEpanet ? 'open' : ''}`}>
+            {isVisibleEpanet && <ExtrasEpanet />}
+          </div>
+
+
         </>
      
     )

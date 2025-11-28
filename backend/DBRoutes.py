@@ -120,12 +120,77 @@ def to_cypher(data, pending: bool = False):
 
     return queries
 
-def run_neo4j_save(data):
+
+
+def to_cypher_transport_nodes(data, pending: bool = False):
+    queries = []
+    
+    # Generowanie nodów
+    for node in data["nodes"]:
+        label = node.get("label", node.get("Label", ""))  
+        app_id = node.get("id", node.get("Id", ""))
+        
+        props = ", ".join(
+            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
+            for k, v in node.items() if k not in {"label", "id"} and v is not None
+        )
+        
+        
+        # Czy "" na dole sa potrzebne?
+        if props:
+            props += f', app_id: "{app_id}"'
+        else:
+            props = f'app_id: "{app_id}"'
+        
+        if pending:
+            props += ", pending: true"
+        
+        queries.append(f'CREATE (:{label} {{ {props} }})')
+        
+        
+    # Generowanie krawędzi
+    for edge in data["edges"]:
+        fromm = edge.get("from")
+        to = edge.get("to")
+        label = edge.get("label", edge.get("Label", ""))  
+
+        props = ", ".join(
+            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
+            for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
+        )
+        
+        if props:
+            props += f', app_id: "{fromm}_{to}"'
+        else:
+            props = f'app_id: "{fromm}_{to}"'
+        
+        queries.append(
+            f'CREATE (:{label} {{ {props} }})'
+        )
+        queries.append(
+            f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{fromm}_{to}"}}) '
+            f'CREATE (a)-[:Connects_To {{ }}]->(b)'
+        )
+        queries.append( 
+            f'MATCH (a {{app_id: "{fromm}_{to}"}}), (b {{app_id: "{to}"}}) '
+            f'CREATE (a)-[:Connects_To {{ }}]->(b)'
+        )
+        
+    
+    return queries
+    
+    
+
+def run_neo4j_save(data, linksAsTransportNodes: bool):
     
     global db_user, db_password, db_url
     
     try:
-        queries = to_cypher(data, pending= True) 
+        queries = []
+        if linksAsTransportNodes:
+            queries = to_cypher_transport_nodes(data, pending=True)
+        else:
+            queries = to_cypher(data, pending= True) 
         driver = GraphDatabase.driver(str(db_url), auth=(str(db_user), str(db_password)))
         with driver.session() as session:
             for q in queries:
@@ -134,14 +199,17 @@ def run_neo4j_save(data):
     except Exception as e:
         return False, f"Nie udało się zapisać do Neo4j: {e}"
 
+class ApplyToDb(BaseModel):
+    linksAsTransportNodes: bool = False
+
 @databaseRouter.post("/ApplyToDB")
-async def ApplyToDB():
+async def ApplyToDB(options : ApplyToDb):
     
     nodesAndEdges = GetModel().history.GetNodesAndEdges()
 
     nodesAndEdgesNormalized = {k.lower(): v for k, v in nodesAndEdges.items()}
 
-    run_neo4j_save(nodesAndEdgesNormalized)
+    run_neo4j_save(nodesAndEdgesNormalized, options.linksAsTransportNodes)
 
 
 @databaseRouter.post("/CommitDB")

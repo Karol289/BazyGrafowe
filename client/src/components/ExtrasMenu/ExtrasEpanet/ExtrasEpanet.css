@@ -1,0 +1,86 @@
+.extrasEpanetWrapper {
+  background-color: #202123;
+  padding: 16px;
+  border-radius: 8px;
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.extrasEpanetWrapper h2 {
+  color: #0da37f;
+  margin-bottom: 12px;
+  font-size: 1.2em;
+}
+
+.formCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formCell label {
+  font-weight: bold;
+  color: #a0a0a0;
+  font-size: 13px;
+}
+
+/* Stylowanie input i select tak samo */
+.formCell input,
+.formCell select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #444654;
+  background-color: #282c34;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.formCell input:focus,
+.formCell select:focus {
+  border-color: #0da37f;
+  box-shadow: 0 0 4px #0da37f;
+}
+
+.submitButton {
+  padding: 10px 16px;
+  background-color: #0da37f;
+  color: #202123;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.submitButton:hover {
+  background-color: #0ffc92;
+}
+
+/* Proste komunikaty statusu */
+.statusMessage {
+  font-size: 13px;
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.statusMessage.success {
+  color: #0da37f;
+  border: 1px solid #0da37f;
+}
+
+.statusMessage.error {
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+}
+
+.statusMessage.loading {
+  color: #e0e0e0;
+  font-style: italic;
+}

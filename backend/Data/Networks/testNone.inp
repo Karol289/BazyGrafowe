@@ -1,15 +1,16 @@
 [TITLE]
+testNone
 
 
 [JUNCTIONS]
 ;id elevation demand demandpattern
-2 None None 
- 3 None None 
- 4 None 300 
- 5 None None 
- 6 None None 
- 7 None None 
- 8 None 100 
+2 0 0 
+ 3 0 0 
+ 4 0 300 
+ 5 0 0 
+ 6 0 0 
+ 7 0 0 
+ 8 0 100 
  
  [RESERVOIRS]
 ;id head pattern
@@ -20,14 +21,14 @@
 
  [PIPES]
 ;id startnode endnode length diameter roughness minorloss
-12 1 2 None None None None 
- 23 2 3 None None None None 
- 25 2 5 None None None None 
- 34 3 4 None None None None 
- 45 4 5 None None None None 
- 56 5 6 None None None None 
- 67 6 7 None None None None 
- 78 7 8 None None None None 
+12 1 2   100 0 
+ 23 2 3   100 0 
+ 25 2 5   100 0 
+ 34 3 4   100 0 
+ 45 4 5   100 0 
+ 56 5 6   100 0 
+ 67 6 7   100 0 
+ 78 7 8   100 0 
  
  [PUMPS]
 ;id startnode endnode keyword value
@@ -135,14 +136,14 @@ GLOBAL WALL 0.0
 
  [COORDINATES]
 ;nodeid xcoordinate ycoordinate
-2 0.0 0.0
-3 0.0 0.0
-4 0.0 0.0
-5 0.0 0.0
-6 0.0 0.0
-7 0.0 0.0
-8 0.0 0.0
-1 0.0 0.0
+2 2599.6729076607635 3626.903620924815
+3 1899.3586976011004 3819.2614294804775
+4 1770.7426617486772 3156.6681447947117
+5 2395.1472895125185 2689.673349130101
+6 2582.906459448894 1668.542468246975
+7 2754.3695285570407 753.314660677121
+8 2898.963384406976 0.0
+1 3098.83907106403 4285.6363267458
 
  [LABELS]
 ;xcoordinate ycoordinate label anchornode
