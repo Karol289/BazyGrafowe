@@ -5,7 +5,7 @@ import { useState } from "react"
 
 import './ExtrasMenu.css'
 import ExtrasDB from "./ExtrasDataBase/ExtrasDB";
-import ExtrasCypher from "./ExtrasCypher/ExtrasCypher";
+import ExtrasModel from "./ExtrasModel/ExtrasModel";
 import ExtrasEpanet from "./ExtrasEpanet/ExtrasEpanet";
 
 const ExtrasMenu = ({jsonData}) => {
@@ -31,11 +31,11 @@ const ExtrasMenu = ({jsonData}) => {
             onClick={() => setIsVisibleCypher(prev => !prev)} 
             className="extrasOption"
           >
-            Nodes and Edges
+            Model
           </div>
             
           <div className={`extrasContent ${isVisibleCypher ? 'open' : ''}`}>
-            {isVisibleCypher && <ExtrasCypher jsonData={jsonData} />}
+            {isVisibleCypher && <ExtrasModel jsonData={jsonData} />}
           </div>
 
           <div 
