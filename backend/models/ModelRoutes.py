@@ -6,7 +6,7 @@ import os
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from ChatHistory.ChatHistory import ChatSession
+from ChatHistory.ChatSession import ChatSession
 from models.CurrentModel import GetModel, SetModel
 from models.OpenAiModel import OpenAiLLM
 from models.OllamaModel import OllamaModel

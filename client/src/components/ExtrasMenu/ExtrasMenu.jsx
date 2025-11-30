@@ -7,12 +7,15 @@ import './ExtrasMenu.css'
 import ExtrasDB from "./ExtrasDataBase/ExtrasDB";
 import ExtrasCypher from "./ExtrasCypher/ExtrasCypher";
 import ExtrasEpanet from "./ExtrasEpanet/ExtrasEpanet";
+import ExtrasMapping from "./ExtrasMapping/ExtrasMapping";
+
 
 const ExtrasMenu = ({jsonData}) => {
 
     const [isVisibleDB, setIsVisibleDB] = useState(false)
     const [isVisibleCypher, setIsVisibleCypher] = useState(false)
     const [isVisibleEpanet, setIsVisibleEpanet] = useState(false)
+    const [isVisibleMapping, setIsVisibleMapping] = useState(false);
 
     return(
         <>
@@ -37,6 +40,18 @@ const ExtrasMenu = ({jsonData}) => {
           <div className={`extrasContent ${isVisibleCypher ? 'open' : ''}`}>
             {isVisibleCypher && <ExtrasCypher jsonData={jsonData} />}
           </div>
+
+          <div 
+                onClick={() => setIsVisibleMapping(prev => !prev)} 
+                className="extrasOption"
+            >
+                Graph Mapping
+            </div>
+                
+            <div className={`extrasContent ${isVisibleMapping ? 'open' : ''}`}>
+                {isVisibleMapping && <ExtrasMapping jsonData={jsonData} />}
+            </div>
+
 
           <div 
             onClick={() => setIsVisibleEpanet(prev => !prev)} 

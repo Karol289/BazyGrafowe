@@ -1,0 +1,237 @@
+.extrasMappingWrapper {
+    padding: 0 10px 10px 10px !important; 
+    height: auto;
+    max-height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #444654 #202123;
+    display: flex;
+    flex-direction: column;
+}
+
+.extrasMappingWrapper::-webkit-scrollbar { width: 6px; }
+.extrasMappingWrapper::-webkit-scrollbar-track { background: #202123; }
+.extrasMappingWrapper::-webkit-scrollbar-thumb { background-color: #444654; border-radius: 10px; }
+
+/* HEADER */
+.mappingHeaderSection {
+    position: sticky;
+    top: 0;
+    background-color: #282c34;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444654;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.formGroup label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #a0a0a0;
+}
+
+.mappingSelect, .mappingInput {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #444654;
+    background-color: #202123;
+    color: #ffffff;
+    font-size: 13px;
+    outline: none;
+}
+.mappingInput:focus, .mappingSelect:focus { border-color: #0da37f; }
+
+/* SCHEMA TAGS */
+.schemaContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px;
+    background-color: #202123;
+    border-radius: 6px;
+    border: 1px solid #444654;
+}
+
+.schemaTag {
+    background-color: #343541;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #0da37f;
+    border: 1px solid #444654;
+}
+
+/* OUTPUT DEFINITION */
+.outputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subSectionHeader {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #a0a0a0;
+    font-weight: bold;
+    margin-bottom: 4px;
+    border-left: 3px solid #0da37f;
+    padding-left: 6px;
+}
+
+.definitionCard {
+    background-color: #202123;
+    border: 1px solid #444654;
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #e0e0e0;
+    border-bottom: 1px solid #343541;
+    padding-bottom: 4px;
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.6;
+}
+.deleteBtn:hover { opacity: 1; }
+
+.cardRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mappingInput.small {
+    padding: 6px;
+    font-size: 12px;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #e0e0e0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* PROPERTIES LIST */
+.propertiesList {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #2a2b32;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.propertyRow {
+    display: grid;
+    grid-template-columns: 70px 1fr 1fr 20px;
+    gap: 4px;
+    align-items: center;
+}
+
+/* Opcjonalny styl dla zablokowanych wierszy */
+.propertyRow.locked .propInput:disabled {
+    background-color: #222;
+    color: #888;
+    border-color: #333;
+    cursor: not-allowed;
+}
+
+.propSelect, .propInput {
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #444654;
+    background-color: #202123;
+    color: #eee;
+    font-size: 11px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.removePropBtn {
+    background: transparent;
+    border: none;
+    color: #ff4d4f;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+}
+
+.lockedIcon {
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.addPropBtn {
+    background-color: #343541;
+    border: 1px dashed #444654;
+    color: #a0a0a0;
+    font-size: 11px;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+.addPropBtn:hover { background-color: #3e3f4b; color: #fff; }
+
+/* ACTION BUTTONS */
+.actionButtons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.actionBtn {
+    background-color: #343541;
+    color: #0da37f;
+    border: 1px solid #444654;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    flex: 1;
+}
+.actionBtn:hover { background-color: #2c2e33; color: #0ffa9a; }
+
+.mainSave {
+    margin-top: 16px;
+}

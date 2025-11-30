@@ -1,7 +1,7 @@
 
 from abc import ABC, abstractmethod
 from typing import AsyncGenerator
-from ChatHistory.ChatHistory import ChatSession
+from ChatHistory.ChatSession import ChatSession
 
 class ModelBase(ABC):
     

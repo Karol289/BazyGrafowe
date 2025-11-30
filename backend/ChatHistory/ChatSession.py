@@ -4,11 +4,13 @@ import json
 import datetime
 import os
 
+from ChatHistory.Mapping import Mapping
+
 chatsPath = "backend/Data/Chats"
 
 class ChatSession:
     
-    def __init__(self, id, title, creationDateTime = "placeholder", history = [], nodes = [], edges = []):
+    def __init__(self, id, title, creationDateTime = "placeholder", history = [], nodes = [], edges = [], mappers=None):
         self.id = id
         if creationDateTime == "placeholder":
             self.creationDateTime = datetime.datetime.now().strftime("%d.%m.%Y,%H:%M:%S")
@@ -20,6 +22,8 @@ class ChatSession:
         
         self.nodes = nodes
         self.edges = edges
+        
+        self.mappers = mappers if mappers is not None else []
     
     @classmethod
     def CreateNewChat(cls, title) -> "ChatSession":
@@ -66,8 +70,9 @@ class ChatSession:
                     messages = data["messages"]
                     nodes = data['nodes']
                     edges = data['edges']
+                    mappers = data.get('mappers', [])
                     
-                    return ChatSession(id, title, date, messages, nodes, edges)
+                    return ChatSession(id, title, date, messages, nodes, edges, mappers)
         
         raise FileNotFoundError 
          
@@ -99,7 +104,8 @@ class ChatSession:
             "creationDate": self.creationDateTime,
             "messages": self.history,
             "nodes": self.nodes,
-            "edges": self.edges
+            "edges": self.edges,
+            "mappers": self.mappers
         }
         
         with open(f"{chatsPath}/{self.id}_{self.title}.json", "w", encoding="utf-8") as f:
@@ -132,6 +138,14 @@ class ChatSession:
             "nodes": self.nodes,
             "edges": self.edges
         }
+        
+    def AddMapper(self, mapper: Mapping):
+        
+        self.mappers.append(mapper.GetJson())
+    
+    def GetMappers(self):
+        
+        return self.mappers
         
         
 

@@ -4,7 +4,7 @@ from openai import AsyncOpenAI
 from typing import AsyncGenerator, NoReturn
 from models.ModelBase import ModelBase
 
-from ChatHistory.ChatHistory import ChatSession
+from ChatHistory.ChatSession import ChatSession
 import os
 
 

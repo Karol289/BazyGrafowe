@@ -206,5 +206,42 @@
             "MinorLoss": null,
             "Status": null
         }
+    ],
+    "mappers": [
+        {
+            "name": "Map_Junction",
+            "sourceNode": "JUNCTION",
+            "outputNodes": [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "properties": [
+                        {
+                            "type": "copy",
+                            "targetProperty": "dasda",
+                            "sourceProperty": "Id"
+                        }
+                    ]
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "properties": [
+                        {
+                            "type": "const",
+                            "targetProperty": "da",
+                            "value": "21"
+                        }
+                    ]
+                }
+            ],
+            "outputEdges": [
+                {
+                    "tempfrom": "1",
+                    "tempto": "2",
+                    "properties": []
+                }
+            ]
+        }
     ]
 }

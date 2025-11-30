@@ -21,7 +21,7 @@ from models.OpenAiModel import OpenAiLLM
 from models.OllamaModel import OllamaModel
 from models.ModelBase import ModelBase
 
-from ChatHistory.ChatHistory import ChatSession
+from ChatHistory.ChatSession import ChatSession
 
 os.environ.pop("SSL_CERT_FILE", None)
 load_dotenv()
@@ -267,6 +267,8 @@ async def handleLoadChatLog(websocket: WebSocket):
 async def SendNodesAndEdges(websocket: WebSocket):
     connected =  GetModel().history.GetNodesAndEdges()
     await websocket.send_json({"IsExtra": True, "Cypher": connected})
+    
+    
 
 
 if __name__ == "__main__":

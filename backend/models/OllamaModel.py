@@ -1,7 +1,7 @@
 
 from models.ModelBase import ModelBase
 from typing import AsyncGenerator
-from ChatHistory.ChatHistory import ChatSession
+from ChatHistory.ChatSession import ChatSession
 
 import ollama
 
