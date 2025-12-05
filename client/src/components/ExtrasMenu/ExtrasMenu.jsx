@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react"
 
 import './ExtrasMenu.css'
@@ -8,6 +5,7 @@ import ExtrasDB from "./ExtrasDataBase/ExtrasDB";
 import ExtrasModel from "./ExtrasModel/ExtrasModel";
 import ExtrasEpanet from "./ExtrasEpanet/ExtrasEpanet";
 import ExtrasMapping from "./ExtrasMapping/ExtrasMapping";
+import ExtrasMappedModel from "./ExtrasMappedModel/ExtrasMappedModel";
 
 
 const ExtrasMenu = ({jsonData}) => {
@@ -16,20 +14,23 @@ const ExtrasMenu = ({jsonData}) => {
     const [isVisibleCypher, setIsVisibleCypher] = useState(false)
     const [isVisibleEpanet, setIsVisibleEpanet] = useState(false)
     const [isVisibleMapping, setIsVisibleMapping] = useState(false);
+    const [isVisibleMappedModel, setIsVisibleMappedModel] = useState(false);
 
     return(
         <>
+          {/* --- BAZA DANYCH --- */}
           <div 
             onClick={() => setIsVisibleDB(prev => !prev)} 
             className="extrasOption"
           >
-            Baza danych
+            Database
           </div>
             
           <div className={`extrasContent ${isVisibleDB ? 'open' : ''}`}>
             {isVisibleDB && <ExtrasDB jsonData={jsonData} />}
           </div>
             
+          {/* --- MODEL (Original) --- */}
           <div 
             onClick={() => setIsVisibleCypher(prev => !prev)} 
             className="extrasOption"
@@ -41,6 +42,19 @@ const ExtrasMenu = ({jsonData}) => {
             {isVisibleCypher && <ExtrasModel jsonData={jsonData} />}
           </div>
 
+          {/* --- MAPPED MODEL --- */}
+          <div 
+            onClick={() => setIsVisibleMappedModel(prev => !prev)} 
+            className="extrasOption"
+          >
+            Mapped Model
+          </div>
+            
+          <div className={`extrasContent ${isVisibleMappedModel ? 'open' : ''}`}>
+            {isVisibleMappedModel && <ExtrasMappedModel />}
+          </div>
+
+          {/* --- GRAPH MAPPING --- */}
           <div 
                 onClick={() => setIsVisibleMapping(prev => !prev)} 
                 className="extrasOption"
@@ -53,6 +67,7 @@ const ExtrasMenu = ({jsonData}) => {
             </div>
 
 
+          {/* --- EPANET EXPORT --- */}
           <div 
             onClick={() => setIsVisibleEpanet(prev => !prev)} 
             className="extrasOption"

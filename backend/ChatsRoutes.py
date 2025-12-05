@@ -155,5 +155,14 @@ async def addMapping(mappingData: AddMapping):
     
     return {"status": "success", "message": f"Mapping for '{mappingData.From}' saved successfully."}
         
-        
-        
+@chatsRouter.get("/getTransform")   
+def GetTransformedModel():
+    return GetModel().history.GetMappedModel()  
+     
+     
+@chatsRouter.put("/transform")
+def TransformModel():
+    GetModel().history.GenerateMappedModel()
+    GetModel().history.SaveAsJson()
+
+       

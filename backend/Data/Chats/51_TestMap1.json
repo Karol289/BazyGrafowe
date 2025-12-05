@@ -1,0 +1,217 @@
+{
+    "id": 51,
+    "title": "TestMap1",
+    "creationDate": "01.12.2025,19:18:07",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nNie upraszczaj grafu. Docelowa ilość węzłów ma być taka jak w tekście. \n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\t-JUNCTION - points in the network where links (PIPE, PUMP, VALVE) join together and where water enters or leaves the network.\n\t-RESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external source or sink of water.\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t-TANK:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nThe network is supplied by a single source, designated as Reservoir 4, which feeds directly into Junction 1. From this point, the main pipeline runs in a sequential series connecting Junction 2, 3 and finally Junction 4. \n\nObject Parameters:\n\nReservoir 4:\n\nTotal Head: 800\n\nJunction Base Demands:\n\nJunctions 1, 2, 4: 150\n\nJunctions 3: 100\n\nAll Junctions have elevation 100 except Junction 3. Junction 3 has elevantion 400.\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"Id\": 1,\n            \"label\": \"RESERVOIR\",\n            \"Head\": 800\n        },\n        {\n            \"Id\": 2,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        },\n        {\n            \"Id\": 3,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 400,\n            \"Demand\": 100\n        },\n        {\n            \"Id\": 4,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        }\n    ],\n    \"edges\": [\n        {\n            \"label\": \"PIPE\",\n            \"from\": 1,\n            \"to\": 2\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 2,\n            \"to\": 3\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 3,\n            \"to\": 4\n        }\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Daj mi ten sam json jeszcze raz"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"Id\": 1,\n            \"label\": \"RESERVOIR\",\n            \"Head\": 800\n        },\n        {\n            \"Id\": 2,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        },\n        {\n            \"Id\": 3,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 400,\n            \"Demand\": 100\n        },\n        {\n            \"Id\": 4,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        }\n    ],\n    \"edges\": [\n        {\n            \"label\": \"PIPE\",\n            \"from\": 1,\n            \"to\": 2\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 2,\n            \"to\": 3\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 3,\n            \"to\": 4\n        }\n    ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Jeszcze raz ten sam json"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n    \"nodes\": [\n        {\n            \"Id\": 1,\n            \"label\": \"RESERVOIR\",\n            \"Head\": 800\n        },\n        {\n            \"Id\": 2,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        },\n        {\n            \"Id\": 3,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 400,\n            \"Demand\": 100\n        },\n        {\n            \"Id\": 4,\n            \"label\": \"JUNCTION\",\n            \"Elev\": 100,\n            \"Demand\": 150\n        }\n    ],\n    \"edges\": [\n        {\n            \"label\": \"PIPE\",\n            \"from\": 1,\n            \"to\": 2\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 2,\n            \"to\": 3\n        },\n        {\n            \"label\": \"PIPE\",\n            \"from\": 3,\n            \"to\": 4\n        }\n    ]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 800
+        },
+        {
+            "Id": 2,
+            "label": "JUNCTION",
+            "Elev": 100,
+            "Demand": 150
+        },
+        {
+            "Id": 3,
+            "label": "JUNCTION",
+            "Elev": 400,
+            "Demand": 100
+        },
+        {
+            "Id": 4,
+            "label": "JUNCTION",
+            "Elev": 100,
+            "Demand": 150
+        }
+    ],
+    "edges": [
+        {
+            "label": "PIPE",
+            "from": 1,
+            "to": 2
+        },
+        {
+            "label": "PIPE",
+            "from": 2,
+            "to": 3
+        },
+        {
+            "label": "PIPE",
+            "from": 3,
+            "to": 4
+        }
+    ],
+    "mappers": [
+        {
+            "name": "Map_JUNCTION",
+            "sourceNode": "JUNCTION",
+            "outputNodes": [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "label",
+                            "sourceProperty": "label"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Elev",
+                            "sourceProperty": "Elev"
+                        }
+                    ]
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "properties": [
+                        {
+                            "type": "copy",
+                            "targetProperty": "Id",
+                            "sourceProperty": "Id"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "label",
+                            "sourceProperty": "label"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Demand",
+                            "sourceProperty": "Demand"
+                        }
+                    ]
+                }
+            ],
+            "outputEdges": [
+                {
+                    "tempfrom": "1",
+                    "tempto": "2",
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "PIPE"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "mappedModel": {
+        "nodes": [
+            {
+                "Id": 1,
+                "label": "RESERVOIR",
+                "Head": 800
+            },
+            {
+                "Id": 46007,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 2,
+                "label": "JUNCTION",
+                "Demand": 150
+            },
+            {
+                "Id": 19598,
+                "label": "JUNCTION",
+                "Elev": 400
+            },
+            {
+                "Id": 3,
+                "label": "JUNCTION",
+                "Demand": 100
+            },
+            {
+                "Id": 36630,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 4,
+                "label": "JUNCTION",
+                "Demand": 150
+            }
+        ],
+        "edges": [
+            {
+                "label": "PIPE",
+                "from": 1,
+                "to": 46007
+            },
+            {
+                "label": "PIPE",
+                "from": 46007,
+                "to": 19598
+            },
+            {
+                "label": "PIPE",
+                "from": 19598,
+                "to": 36630
+            },
+            {
+                "from": 46007,
+                "to": 2,
+                "Id": 57009,
+                "label": "PIPE"
+            },
+            {
+                "from": 19598,
+                "to": 3,
+                "Id": 94338,
+                "label": "PIPE"
+            },
+            {
+                "from": 36630,
+                "to": 4,
+                "Id": 25222,
+                "label": "PIPE"
+            }
+        ]
+    }
+}

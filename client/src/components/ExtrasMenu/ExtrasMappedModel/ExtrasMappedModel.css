@@ -1,0 +1,31 @@
+/* ExtrasModel.css - dodaj na końcu */
+
+.refreshButton {
+  width: 100%;
+  padding: 8px;
+  background-color: #343541; /* Ciemny kolor tła */
+  color: #ececf1;
+  border: 1px solid #565869;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.refreshButton:hover {
+  background-color: #40414f;
+}
+
+.refreshButton:active {
+  background-color: #2b2c34;
+}
+
+.refreshButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

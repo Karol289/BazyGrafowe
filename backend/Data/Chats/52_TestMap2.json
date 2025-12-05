@@ -1,0 +1,505 @@
+{
+    "id": 52,
+    "title": "TestMap2",
+    "creationDate": "01.12.2025,20:09:04",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nNie upraszczaj grafu. Docelowa ilość węzłów ma być taka jak w tekście. \n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\t-JUNCTION - points in the network where links (PIPE) join together.\n        -METER - represent water meter in the network.\n\t-RESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external source or sink of water.\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\n    \n\t-METER:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\tDiameter - diameter of the pipe of meter\n\t\tLenght - lenght of the pipe of meter\n\t\n\n\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t-TANK:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nThe network is supplied by a single source, designated as Reservoir 4, which feeds directly into Junction 1.\nFrom this point, the main pipeline runs in a sequential series connecting Meter 2, 3, 4 and finaly to JUNCTION 5. From Junction 5 goes pipeline to Meter 6, 7 and JUNCTION 8. Finaly from Junction 8 goes pipeline to Meter 9 and returns to JUNCTION 1. \n\nObject Parameters:\n\nReservoir 4:\nTotal Head: 800\n\nMeters: Demand, Diameter, Lenght:\nMeters 2, 3, 4: 150, 98, 14\nMeters 6,7: 100, 100, 12\nMeters 9: 50, 102, 10\n\nAll Junctions and Meters have elevation 100.\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    { \"Id\": 1, \"label\": \"RESERVOIR\", \"Head\": 800 },\n    { \"Id\": 2, \"label\": \"JUNCTION\", \"Elev\": 100 },\n    { \"Id\": 3, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 150, \"Diameter\": 98, \"Lenght\": 14 },\n    { \"Id\": 4, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 150, \"Diameter\": 98, \"Lenght\": 14 },\n    { \"Id\": 5, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 150, \"Diameter\": 98, \"Lenght\": 14 },\n    { \"Id\": 6, \"label\": \"JUNCTION\", \"Elev\": 100 },\n    { \"Id\": 7, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 100, \"Diameter\": 100, \"Lenght\": 12 },\n    { \"Id\": 8, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 100, \"Diameter\": 100, \"Lenght\": 12 },\n    { \"Id\": 9, \"label\": \"JUNCTION\", \"Elev\": 100 },\n    { \"Id\": 10, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 50, \"Diameter\": 102, \"Lenght\": 10 }\n  ],\n  \"edges\": [\n    { \"from\": 1, \"to\": 2, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 2, \"to\": 3, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 3, \"to\": 4, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 4, \"to\": 5, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 5, \"to\": 6, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 6, \"to\": 7, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 7, \"to\": 8, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 8, \"to\": 9, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 9, \"to\": 10, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null },\n    { \"from\": 10, \"to\": 2, \"label\": \"PIPE\", \"Length\": null, \"Diameter\": null, \"Roughness\": null, \"MinorLoss\": null, \"Status\": null }\n  ]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 800
+        },
+        {
+            "Id": 2,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 3,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 150,
+            "Diameter": 98,
+            "Lenght": 14
+        },
+        {
+            "Id": 4,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 150,
+            "Diameter": 98,
+            "Lenght": 14
+        },
+        {
+            "Id": 5,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 150,
+            "Diameter": 98,
+            "Lenght": 14
+        },
+        {
+            "Id": 6,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 7,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 100,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 8,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 100,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 9,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 10,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 50,
+            "Diameter": 102,
+            "Lenght": 10
+        }
+    ],
+    "edges": [
+        {
+            "from": 1,
+            "to": 2,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 2,
+            "to": 3,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 3,
+            "to": 4,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 4,
+            "to": 5,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 5,
+            "to": 6,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 6,
+            "to": 7,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 7,
+            "to": 8,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 8,
+            "to": 9,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 9,
+            "to": 10,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "from": 10,
+            "to": 2,
+            "label": "PIPE",
+            "Length": null,
+            "Diameter": null,
+            "Roughness": null,
+            "MinorLoss": null,
+            "Status": null
+        }
+    ],
+    "mappers": [
+        {
+            "name": "Map_METER",
+            "sourceNode": "METER",
+            "outputNodes": [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "JUNCTION"
+                        }
+                    ]
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "properties": [
+                        {
+                            "type": "copy",
+                            "targetProperty": "Id",
+                            "sourceProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "JUNCTION"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Elev",
+                            "sourceProperty": "Elev"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Demand",
+                            "sourceProperty": "Demand"
+                        }
+                    ]
+                }
+            ],
+            "outputEdges": [
+                {
+                    "tempfrom": "1",
+                    "tempto": "2",
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "PIPE"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Diameter",
+                            "sourceProperty": "Diameter"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Lenght",
+                            "sourceProperty": "Lenght"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "mappedModel": {
+        "nodes": [
+            {
+                "Id": 1,
+                "label": "RESERVOIR",
+                "Head": 800
+            },
+            {
+                "Id": 2,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 74395,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 3,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 150
+            },
+            {
+                "Id": 37518,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 4,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 150
+            },
+            {
+                "Id": 71383,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 5,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 150
+            },
+            {
+                "Id": 6,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 67459,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 7,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 100
+            },
+            {
+                "Id": 48221,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 8,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 100
+            },
+            {
+                "Id": 9,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 60997,
+                "label": "JUNCTION"
+            },
+            {
+                "Id": 10,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 50
+            }
+        ],
+        "edges": [
+            {
+                "from": 1,
+                "to": 2,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 2,
+                "to": 74395,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 74395,
+                "to": 37518,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 37518,
+                "to": 71383,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 71383,
+                "to": 6,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 6,
+                "to": 67459,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 67459,
+                "to": 48221,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 48221,
+                "to": 9,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 9,
+                "to": 60997,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 60997,
+                "to": 2,
+                "label": "PIPE",
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "from": 74395,
+                "to": 3,
+                "Id": 68215,
+                "label": "PIPE",
+                "Diameter": 98,
+                "Lenght": 14
+            },
+            {
+                "from": 37518,
+                "to": 4,
+                "Id": 88288,
+                "label": "PIPE",
+                "Diameter": 98,
+                "Lenght": 14
+            },
+            {
+                "from": 71383,
+                "to": 5,
+                "Id": 72270,
+                "label": "PIPE",
+                "Diameter": 98,
+                "Lenght": 14
+            },
+            {
+                "from": 67459,
+                "to": 7,
+                "Id": 35009,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 12
+            },
+            {
+                "from": 48221,
+                "to": 8,
+                "Id": 70645,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 12
+            },
+            {
+                "from": 60997,
+                "to": 10,
+                "Id": 83423,
+                "label": "PIPE",
+                "Diameter": 102,
+                "Lenght": 10
+            }
+        ]
+    }
+}

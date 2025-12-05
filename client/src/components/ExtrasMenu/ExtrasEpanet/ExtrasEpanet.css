@@ -27,8 +27,7 @@
   font-size: 13px;
 }
 
-/* Stylowanie input i select tak samo */
-.formCell input,
+.formCell input:not([type="checkbox"]),
 .formCell select {
   padding: 8px;
   border-radius: 6px;
@@ -40,10 +39,47 @@
   transition: all 0.2s;
 }
 
-.formCell input:focus,
+.formCell input:not([type="checkbox"]):focus,
 .formCell select:focus {
   border-color: #0da37f;
   box-shadow: 0 0 4px #0da37f;
+}
+
+.checkboxRow {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.checkboxRow input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #0da37f;
+}
+
+.settingsButton {
+  padding: 8px;
+  background-color: #343541;
+  color: #c5c5d2;
+  border: 1px solid #565869;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.settingsButton:hover {
+  background-color: #40414f;
+  border-color: #c5c5d2;
+  color: white;
 }
 
 .submitButton {
@@ -62,7 +98,6 @@
   background-color: #0ffc92;
 }
 
-/* Proste komunikaty statusu */
 .statusMessage {
   font-size: 13px;
   margin-top: 4px;
@@ -83,4 +118,163 @@
 .statusMessage.loading {
   color: #e0e0e0;
   font-style: italic;
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modalContent {
+  background-color: #202123;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 10px;
+  border: 1px solid #444654;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  padding: 16px;
+  background-color: #282c34;
+  border-bottom: 1px solid #444654;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 16px;
+}
+
+.closeX {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closeX:hover {
+  color: #fff;
+}
+
+.tabs {
+  display: flex;
+  background-color: #282c34;
+}
+
+.tabs button {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px;
+  color: #a0a0a0;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.tabs button.active {
+  color: #0da37f;
+  border-bottom-color: #0da37f;
+  font-weight: bold;
+  background-color: #202123;
+}
+
+.tabs button:hover:not(.active) {
+  background-color: #343541;
+  color: #e0e0e0;
+}
+
+.settingsBody {
+  padding: 16px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.settingsGrid label {
+  color: #c5c5d2;
+  font-size: 13px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.settingsGrid input,
+.settingsGrid select {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #565869;
+  background-color: #343541;
+  color: #fff;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settingsGrid input:focus,
+.settingsGrid select:focus {
+  border-color: #0da37f;
+  outline: none;
+}
+
+.modalActions {
+  padding: 16px;
+  border-top: 1px solid #444654;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: #282c34;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid #565869;
+  color: #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.cancelBtn:hover {
+  background-color: #343541;
+}
+
+.saveBtn {
+  background-color: #0da37f;
+  border: none;
+  color: #202123;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.saveBtn:hover {
+  background-color: #0ffc92;
 }

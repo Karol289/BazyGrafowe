@@ -201,12 +201,16 @@ def run_neo4j_save(data, linksAsTransportNodes: bool):
 
 class ApplyToDb(BaseModel):
     linksAsTransportNodes: bool = False
+    useMappedModel: bool =  False
 
 @databaseRouter.post("/ApplyToDB")
 async def ApplyToDB(options : ApplyToDb):
     
-    nodesAndEdges = GetModel().history.GetNodesAndEdges()
-
+    if options.useMappedModel:
+        nodesAndEdges = GetModel().history.GetMappedModel()
+    else:
+        nodesAndEdges = GetModel().history.GetNodesAndEdges()
+        
     nodesAndEdgesNormalized = {k.lower(): v for k, v in nodesAndEdges.items()}
 
     run_neo4j_save(nodesAndEdgesNormalized, options.linksAsTransportNodes)

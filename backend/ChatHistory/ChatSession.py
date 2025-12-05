@@ -3,6 +3,7 @@
 import json
 import datetime
 import os
+import random
 
 from ChatHistory.Mapping import Mapping
 
@@ -10,7 +11,7 @@ chatsPath = "backend/Data/Chats"
 
 class ChatSession:
     
-    def __init__(self, id, title, creationDateTime = "placeholder", history = [], nodes = [], edges = [], mappers=None):
+    def __init__(self, id, title, creationDateTime = "placeholder", history = [], nodes = [], edges = [], mappers=None, mappedModel = None):
         self.id = id
         if creationDateTime == "placeholder":
             self.creationDateTime = datetime.datetime.now().strftime("%d.%m.%Y,%H:%M:%S")
@@ -24,6 +25,7 @@ class ChatSession:
         self.edges = edges
         
         self.mappers = mappers if mappers is not None else []
+        self.mappedModel = mappedModel if mappedModel is not None else {"nodes": [], "edges": []}
     
     @classmethod
     def CreateNewChat(cls, title) -> "ChatSession":
@@ -71,8 +73,9 @@ class ChatSession:
                     nodes = data['nodes']
                     edges = data['edges']
                     mappers = data.get('mappers', [])
+                    mappedModel = data.get("mappedModel", {})
                     
-                    return ChatSession(id, title, date, messages, nodes, edges, mappers)
+                    return ChatSession(id, title, date, messages, nodes, edges, mappers, mappedModel)
         
         raise FileNotFoundError 
          
@@ -105,7 +108,8 @@ class ChatSession:
             "messages": self.history,
             "nodes": self.nodes,
             "edges": self.edges,
-            "mappers": self.mappers
+            "mappers": self.mappers,
+            "mappedModel": self.mappedModel
         }
         
         with open(f"{chatsPath}/{self.id}_{self.title}.json", "w", encoding="utf-8") as f:
@@ -146,30 +150,109 @@ class ChatSession:
     def GetMappers(self):
         
         return self.mappers
+    
+    
+    def GetMappedModel(self):
+        return self.mappedModel
+    
+    def GenerateMappedModel(self):
         
+        nodes = []
+        edges = [
+            e.copy() for e in self.edges
+        ]
         
-
+        for node in self.nodes:
         
+            map = next((m for m in self.GetMappers() if m["sourceNode"] == node["label"]), None)
         
-   
-   
+            if map is not None:
+                nodesEdges = self.transformNode(node, map, edges)
+                nodes += nodesEdges["oNodes"]
+                edges += nodesEdges["oEdges"]
+            else:
+                nodes.append(node)
+                    
+        self.mappedModel = {"nodes": nodes, "edges" : edges}
+            
+    def transformNode(self, node, map, edges):
+        outputNodes = []
+        outputEdges = []
+        
+        for oNode in map["outputNodes"]:
+        
+            n = {}
+            n["tempid"] = oNode["tempid"]
+            n["primarynode"] = oNode["primarynode"]
+            
+            for property in oNode["properties"]:
+                
+                value = 0
+                
+                if(property["type"] == "copy"):
+                    value = node[property["sourceProperty"]]
+                elif(property["type"] == "const"):
+                    value = property["value"]
+                elif(property["type"] == "random"):
+                    value = random.randint(10000, 100000)
 
-#Tests
-   
-# a = ChatSession.CreateNewChat("title")
-# a.AddMessage("me", "aaaaa")
-# a.AddMessage("me", "aaaasda423aa")
-# a.AddMessage("me", "31231aaaaa")
-# a.SaveAsJson()
-# a.AddMessage("me", "messa")
-# a.AddMessage("me", "wici")   
-# a.SaveAsJson()    
+                n[property["targetProperty"]] = value
+                
+            outputNodes.append(n)
 
-# b = ChatSession.GetExisitingChat(1)
-# b.AddMessage("newMe", "ulala")  
-# b.SaveAsJson() 
+        for oEdge in map["outputEdges"]:
+            
+            e = {}
+            
+            e["from"] = next((x for x in outputNodes if x["tempid"] == oEdge["tempfrom"]))["Id"]
+            e["to"] = next((x for x in outputNodes if x["tempid"] == oEdge["tempto"]))["Id"]
+            
+            for property in oEdge["properties"]:
+                
+                value = 0
+                
+                if(property["type"] == "copy"):
+                    value = node[property["sourceProperty"]]
+                elif(property["type"] == "const"):
+                    value = property["value"]
+                elif(property["type"] == "random"):
+                    value = random.randint(10000, 100000)
 
-
+                e[property["targetProperty"]] = value
+                
+            outputEdges.append(e)
+        
+        #UpdateEdges
+        primaryNode = next(x for x in outputNodes if x["primarynode"] == True)
+        
+        for ed in edges:
+            if ed["label"] == "PIPE":
+                if ed["from"] == node["Id"]:
+                    ed["from"] = primaryNode["Id"]
+                elif ed["to"] == node["Id"]:
+                    ed["to"] = primaryNode["Id"]
+        
+        for n in outputNodes:
+            del n['tempid']
+            del n['primarynode']
+        
+        return {"oNodes" : outputNodes, "oEdges": outputEdges}
+            
+            
+            
+            
+            
+            
+        
+                     
+            
             
         
         
+
+        
+
+                    
+                    
+                    
+                

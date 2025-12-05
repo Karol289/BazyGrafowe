@@ -209,28 +209,37 @@
     ],
     "mappers": [
         {
-            "name": "Map_Junction",
+            "name": "Map_Junction22",
             "sourceNode": "JUNCTION",
             "outputNodes": [
                 {
                     "tempid": "1",
-                    "primarynode": true,
+                    "primarynode": false,
                     "properties": [
                         {
                             "type": "copy",
-                            "targetProperty": "dasda",
+                            "targetProperty": "Id",
                             "sourceProperty": "Id"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "label",
+                            "sourceProperty": "label"
                         }
                     ]
                 },
                 {
                     "tempid": "2",
-                    "primarynode": false,
+                    "primarynode": true,
                     "properties": [
                         {
-                            "type": "const",
-                            "targetProperty": "da",
-                            "value": "21"
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "label",
+                            "sourceProperty": "label"
                         }
                     ]
                 }
@@ -239,9 +248,336 @@
                 {
                     "tempfrom": "1",
                     "tempto": "2",
-                    "properties": []
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "PIPE"
+                        }
+                    ]
                 }
             ]
         }
-    ]
+    ],
+    "mappedModel": {
+        "nodes": [
+            {
+                "Id": 1,
+                "label": "RESERVOIR",
+                "Head": 800
+            },
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 2,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 51136,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 3,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 78588,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 4,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 51572,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 5,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 77988,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 6,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 10055,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 7,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 41283,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 8,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 92127,
+                    "label": "JUNCTION"
+                }
+            ],
+            [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "Id": 9,
+                    "label": "JUNCTION"
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "Id": 48265,
+                    "label": "JUNCTION"
+                }
+            ],
+            {
+                "Id": 10,
+                "label": "TANK",
+                "Elev": 900,
+                "InitLevel": 120,
+                "MinLevel": 100,
+                "MaxLevel": 150,
+                "Diameter": 50
+            }
+        ],
+        "edges": [
+            {
+                "Id": 1,
+                "label": "PIPE",
+                "from": 1,
+                "to": 2,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 2,
+                "label": "PIPE",
+                "from": 2,
+                "to": 3,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 3,
+                "label": "PIPE",
+                "from": 3,
+                "to": 4,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 4,
+                "label": "PIPE",
+                "from": 4,
+                "to": 5,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 5,
+                "label": "PIPE",
+                "from": 5,
+                "to": 6,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 6,
+                "label": "PIPE",
+                "from": 6,
+                "to": 7,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 7,
+                "label": "PIPE",
+                "from": 7,
+                "to": 8,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 8,
+                "label": "PIPE",
+                "from": 2,
+                "to": 7,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 9,
+                "label": "PIPE",
+                "from": 3,
+                "to": 6,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 10,
+                "label": "PIPE",
+                "from": 6,
+                "to": 9,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "Id": 11,
+                "label": "PIPE",
+                "from": 10,
+                "to": 3,
+                "Length": null,
+                "Diameter": null,
+                "Roughness": null,
+                "MinorLoss": null,
+                "Status": null
+            },
+            [
+                {
+                    "from": 2,
+                    "to": 51136,
+                    "Id": 12251,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 3,
+                    "to": 78588,
+                    "Id": 56472,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 4,
+                    "to": 51572,
+                    "Id": 64760,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 5,
+                    "to": 77988,
+                    "Id": 48365,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 6,
+                    "to": 10055,
+                    "Id": 11471,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 7,
+                    "to": 41283,
+                    "Id": 89683,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 8,
+                    "to": 92127,
+                    "Id": 48635,
+                    "label": "PIPE"
+                }
+            ],
+            [
+                {
+                    "from": 9,
+                    "to": 48265,
+                    "Id": 59142,
+                    "label": "PIPE"
+                }
+            ]
+        ]
+    }
 }

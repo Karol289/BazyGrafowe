@@ -1,0 +1,690 @@
+{
+    "id": 55,
+    "title": "TestPrezka",
+    "creationDate": "03.12.2025,19:10:50",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nNie upraszczaj grafu. Docelowa ilość węzłów ma być taka jak w tekście. \n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\t-JUNCTION - points in the network where links (PIPE) join together.\n        -METER - represent water meter in the network.\n\t-RESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external \tsource or sink of water.\n\t-PATTERN - used to model time patterns. \n\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\tHAS_PATTERN - used to connect PATTERN to nodes\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\n    \n\t-METER:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\tDiameter - diameter of the pipe of meter\n\t\tLenght - lenght of the pipe of meter\n\t\n\n\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t-TANK:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\t\n\t-PATTERN:\n\t\tMultipliers - list of multipliers e.g. [0.2, 0.22222, 0.67]. Number of multipliers needs to be the same for every patern in the network.\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nThe network is supplied by a single source, designated as Reservoir 0, which feeds directly into Junction 1. From this point, the main pipeline runs in a sequential series connecting Meter 2, 3, 4 and finaly to JUNCTION 5. From Junction 5 goes pipeline to Meter 6, 7 and JUNCTION 8. Finaly from Junction 8 goes pipeline to Meter 9 and returns to JUNCTION 1. Additionaly a Tank is connected to Jucntion 5 throught a PIPE.\n\nObject Parameters:\n\nReservoir 0: Total Head: 135\n\nMeters: Demand, Diameter, Lenght: (Specific pipes connecting to meters) Meters 2, 3, 4: 3.0, 100, 14 Meters 6,7: 2.5, 100, 12 Meters 9: 1.5, 100, 10\n\nAll Junctions and Meters have elevation 100.\n\nPatterns:\n-Pattern P1: 0.5, 0.5, 0.7, 1.3, 1.2, 1.0, 1.0, 0.8, 1.2, 1.6, 1.1, 0.6 \n-Pattern P2: 0.4, 0.4, 0.6, 1.0, 1.2, 1.2, 1.2, 1.2, 1.0, 0.8, 0.6, 0.4\n\nAll meters use patterns: meters: 2,3,4 and 9 -> use pattern P1 meters: 6,7 -> use pattern P2\n\nAll PIPES in the network have:  Lenght- 100 Diameter - 110 Roughness - 130\n\nTank: Elev - 100 InitLevel - 5 MinLevel - 1 MaxLevel - 20 Diameter - 20\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"Id\":1, \"label\":\"RESERVOIR\", \"Head\":135},\n    {\"Id\":2, \"label\":\"JUNCTION\", \"Elev\":100},\n    {\"Id\":3, \"label\":\"METER\", \"Elev\":100, \"Demand\":3.0, \"Diameter\":100, \"Lenght\":14},\n    {\"Id\":4, \"label\":\"METER\", \"Elev\":100, \"Demand\":3.0, \"Diameter\":100, \"Lenght\":14},\n    {\"Id\":5, \"label\":\"METER\", \"Elev\":100, \"Demand\":3.0, \"Diameter\":100, \"Lenght\":14},\n    {\"Id\":6, \"label\":\"JUNCTION\", \"Elev\":100},\n    {\"Id\":7, \"label\":\"METER\", \"Elev\":100, \"Demand\":2.5, \"Diameter\":100, \"Lenght\":12},\n    {\"Id\":8, \"label\":\"METER\", \"Elev\":100, \"Demand\":2.5, \"Diameter\":100, \"Lenght\":12},\n    {\"Id\":9, \"label\":\"JUNCTION\", \"Elev\":100},\n    {\"Id\":10, \"label\":\"METER\", \"Elev\":100, \"Demand\":1.5, \"Diameter\":100, \"Lenght\":10},\n    {\"Id\":11, \"label\":\"TANK\", \"Elev\":100, \"InitLevel\":5, \"MinLevel\":1, \"MaxLevel\":20, \"Diameter\":20},\n    {\"Id\":12, \"label\":\"PATTERN\", \"Multipliers\":[0.5,0.5,0.7,1.3,1.2,1.0,1.0,0.8,1.2,1.6,1.1,0.6]},\n    {\"Id\":13, \"label\":\"PATTERN\", \"Multipliers\":[0.4,0.4,0.6,1.0,1.2,1.2,1.2,1.2,1.0,0.8,0.6,0.4]}\n  ],\n  \"edges\": [\n    {\"label\":\"PIPE\",\"from\":1,\"to\":2,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":2,\"to\":3,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":3,\"to\":4,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":4,\"to\":5,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":5,\"to\":6,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":6,\"to\":7,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":7,\"to\":8,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":8,\"to\":9,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":9,\"to\":10,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":10,\"to\":2,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"PIPE\",\"from\":6,\"to\":11,\"Length\":100,\"Diameter\":110,\"Roughness\":130,\"MinorLoss\":null,\"Status\":null},\n    {\"label\":\"HAS_PATTERN\",\"from\":3,\"to\":12},\n    {\"label\":\"HAS_PATTERN\",\"from\":4,\"to\":12},\n    {\"label\":\"HAS_PATTERN\",\"from\":5,\"to\":12},\n    {\"label\":\"HAS_PATTERN\",\"from\":10,\"to\":12},\n    {\"label\":\"HAS_PATTERN\",\"from\":7,\"to\":13},\n    {\"label\":\"HAS_PATTERN\",\"from\":8,\"to\":13}\n  ]\n}"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 135
+        },
+        {
+            "Id": 2,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 3,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 3.0,
+            "Diameter": 100,
+            "Lenght": 14
+        },
+        {
+            "Id": 4,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 3.0,
+            "Diameter": 100,
+            "Lenght": 14
+        },
+        {
+            "Id": 5,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 3.0,
+            "Diameter": 100,
+            "Lenght": 14
+        },
+        {
+            "Id": 6,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 7,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 2.5,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 8,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 2.5,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 9,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 10,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 1.5,
+            "Diameter": 100,
+            "Lenght": 10
+        },
+        {
+            "Id": 11,
+            "label": "TANK",
+            "Elev": 100,
+            "InitLevel": 5,
+            "MinLevel": 1,
+            "MaxLevel": 20,
+            "Diameter": 20
+        },
+        {
+            "Id": 12,
+            "label": "PATTERN",
+            "Multipliers": [
+                0.5,
+                0.5,
+                0.7,
+                1.3,
+                1.2,
+                1.0,
+                1.0,
+                0.8,
+                1.2,
+                1.6,
+                1.1,
+                0.6
+            ]
+        },
+        {
+            "Id": 13,
+            "label": "PATTERN",
+            "Multipliers": [
+                0.4,
+                0.4,
+                0.6,
+                1.0,
+                1.2,
+                1.2,
+                1.2,
+                1.2,
+                1.0,
+                0.8,
+                0.6,
+                0.4
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "label": "PIPE",
+            "from": 1,
+            "to": 2,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 2,
+            "to": 3,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 3,
+            "to": 4,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 4,
+            "to": 5,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 5,
+            "to": 6,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 6,
+            "to": 7,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 7,
+            "to": 8,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 8,
+            "to": 9,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 9,
+            "to": 10,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 10,
+            "to": 2,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 6,
+            "to": 11,
+            "Length": 100,
+            "Diameter": 110,
+            "Roughness": 130,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 3,
+            "to": 12
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 4,
+            "to": 12
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 5,
+            "to": 12
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 10,
+            "to": 12
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 7,
+            "to": 13
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 8,
+            "to": 13
+        }
+    ],
+    "mappers": [
+        {
+            "name": "Map_METER",
+            "sourceNode": "METER",
+            "outputNodes": [
+                {
+                    "tempid": "1",
+                    "primarynode": true,
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "JUNCTION"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Elev",
+                            "sourceProperty": "Elev"
+                        }
+                    ]
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": false,
+                    "properties": [
+                        {
+                            "type": "copy",
+                            "targetProperty": "Id",
+                            "sourceProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "JUNCTION"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Elev",
+                            "sourceProperty": "Elev"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Demand",
+                            "sourceProperty": "Demand"
+                        }
+                    ]
+                }
+            ],
+            "outputEdges": [
+                {
+                    "tempfrom": "1",
+                    "tempto": "2",
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "PIPE"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Diameter",
+                            "sourceProperty": "Diameter"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Lenght",
+                            "sourceProperty": "Lenght"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "mappedModel": {
+        "nodes": [
+            {
+                "Id": 1,
+                "label": "RESERVOIR",
+                "Head": 135
+            },
+            {
+                "Id": 2,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 74093,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 3,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 3.0
+            },
+            {
+                "Id": 81147,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 4,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 3.0
+            },
+            {
+                "Id": 47576,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 5,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 3.0
+            },
+            {
+                "Id": 6,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 35946,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 7,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 2.5
+            },
+            {
+                "Id": 27010,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 8,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 2.5
+            },
+            {
+                "Id": 9,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 67311,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 10,
+                "label": "JUNCTION",
+                "Elev": 100,
+                "Demand": 1.5
+            },
+            {
+                "Id": 11,
+                "label": "TANK",
+                "Elev": 100,
+                "InitLevel": 5,
+                "MinLevel": 1,
+                "MaxLevel": 20,
+                "Diameter": 20
+            },
+            {
+                "Id": 12,
+                "label": "PATTERN",
+                "Multipliers": [
+                    0.5,
+                    0.5,
+                    0.7,
+                    1.3,
+                    1.2,
+                    1.0,
+                    1.0,
+                    0.8,
+                    1.2,
+                    1.6,
+                    1.1,
+                    0.6
+                ]
+            },
+            {
+                "Id": 13,
+                "label": "PATTERN",
+                "Multipliers": [
+                    0.4,
+                    0.4,
+                    0.6,
+                    1.0,
+                    1.2,
+                    1.2,
+                    1.2,
+                    1.2,
+                    1.0,
+                    0.8,
+                    0.6,
+                    0.4
+                ]
+            }
+        ],
+        "edges": [
+            {
+                "label": "PIPE",
+                "from": 1,
+                "to": 2,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 2,
+                "to": 74093,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 74093,
+                "to": 81147,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 81147,
+                "to": 47576,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 47576,
+                "to": 6,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 6,
+                "to": 35946,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 35946,
+                "to": 27010,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 27010,
+                "to": 9,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 9,
+                "to": 67311,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 67311,
+                "to": 2,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 6,
+                "to": 11,
+                "Length": 100,
+                "Diameter": 110,
+                "Roughness": 130,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 3,
+                "to": 12
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 4,
+                "to": 12
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 5,
+                "to": 12
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 10,
+                "to": 12
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 7,
+                "to": 13
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 8,
+                "to": 13
+            },
+            {
+                "from": 74093,
+                "to": 3,
+                "Id": 23259,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 14
+            },
+            {
+                "from": 81147,
+                "to": 4,
+                "Id": 96345,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 14
+            },
+            {
+                "from": 47576,
+                "to": 5,
+                "Id": 58103,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 14
+            },
+            {
+                "from": 35946,
+                "to": 7,
+                "Id": 12083,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 12
+            },
+            {
+                "from": 27010,
+                "to": 8,
+                "Id": 19107,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 12
+            },
+            {
+                "from": 67311,
+                "to": 10,
+                "Id": 21876,
+                "label": "PIPE",
+                "Diameter": 100,
+                "Lenght": 10
+            }
+        ]
+    }
+}

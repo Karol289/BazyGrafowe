@@ -5,8 +5,9 @@ const ExtrasDB = ({ jsonData }) => {
 
   const [stage, setStage] = useState("apply"); // "apply" | "confirm"
   
-  // Nowy stan dla parametru checkboxa
+  // Stan dla parametrów
   const [linksAsTransportNodes, setLinksAsTransportNodes] = useState(false);
+  const [useMappedModel, setUseMappedModel] = useState(false); // <-- NOWY STAN
 
   const [formData, setFormData] = useState({
     user: "",
@@ -76,19 +77,19 @@ const ExtrasDB = ({ jsonData }) => {
 
   async function applyToDB() {
     try {
-      // ZAKTUALIZOWANE: Przekazywanie parametru linksAsTransportNodes
+
       const response = await fetch("http://127.0.0.1:8000/db/ApplyToDB", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            linksAsTransportNodes: linksAsTransportNodes
+            linksAsTransportNodes: linksAsTransportNodes,
+            useMappedModel: useMappedModel 
           })
       });
   
-      // Opcjonalnie: sprawdź response.ok
       console.log(await response.json());
   
-      setStage("confirm"); // pokaż Commit i Rollback
+      setStage("confirm"); 
     } catch (e) {
       console.error("Błąd ApplyToDB", e);
     }
@@ -101,7 +102,7 @@ const ExtrasDB = ({ jsonData }) => {
       }
     ).catch(err => console.log(err));
 
-    setStage("apply"); // wróć do apply
+    setStage("apply"); 
   }
 
   async function handleCommit() {
@@ -111,7 +112,7 @@ const ExtrasDB = ({ jsonData }) => {
       }
     ).catch(err => console.log(err));
 
-    setStage("apply"); // wróć do apply
+    setStage("apply"); 
   }
 
 
@@ -161,7 +162,6 @@ const ExtrasDB = ({ jsonData }) => {
       <div className="extrasDBWrapper">
         {stage === "apply" && (
           <>
-            {/* NOWE POLE CHECKBOX */}
             <div className="checkboxCell">
               <input 
                 type="checkbox" 
@@ -170,6 +170,16 @@ const ExtrasDB = ({ jsonData }) => {
                 onChange={(e) => setLinksAsTransportNodes(e.target.checked)}
               />
               <label htmlFor="transportNodesCheck">Generate with transport nodes</label>
+            </div>
+
+            <div className="checkboxCell">
+              <input 
+                type="checkbox" 
+                id="useMappedModelCheck"
+                checked={useMappedModel}
+                onChange={(e) => setUseMappedModel(e.target.checked)}
+              />
+              <label htmlFor="useMappedModelCheck">Use Mapped Model</label>
             </div>
 
             <div className="applyButton" onClick={applyToDB}>

@@ -1,45 +1,78 @@
 
 import oopnet as on
 import networkx as nx
+from datetime import timedelta
 
 
+from Epanet.settingsManager import get_current_settings
 
-def createNetwork(title, json, algoritm):
+def createNetwork(title, json_data, algoritm):
+    # 1. Inicjalizacja
     network = on.Network()
     network.title = title
     
-    positions = generatePositions(json['nodes'], json['edges'], algoritm)
+    settings = get_current_settings()
     
-    networkElements = json["nodes"] + json["edges"]
+    network.options.units = settings.options.units.value
+    network.options.headloss = settings.options.headloss.value
+    network.options.viscosity = settings.options.viscosity
+    network.options.specificgravity = settings.options.specific_gravity
+    network.options.trials = settings.options.trials
+    network.options.accuracy = settings.options.accuracy
+    network.times.duration = timedelta(seconds=settings.times.duration)
+    network.times.hydraulictimestep = timedelta(seconds=settings.times.hydraulic_timestep)
+
+    if settings.times.quality_timestep:
+        network.times.qualitytimestep = timedelta(seconds=settings.times.quality_timestep)
+    network.times.reporttimestep = timedelta(seconds=settings.times.report_timestep)
+    network.times.patterntimestep = timedelta(seconds=settings.times.pattern_timestep)
+    network.times.startclocktime = timedelta(seconds=settings.times.start_clocktime)
+
+    network.times.statistic = 'NONE' 
+
+    positions = generatePositions(json_data['nodes'], json_data['edges'], algoritm)
+    networkElements = json_data["nodes"] + json_data["edges"]
+    
+    patterns_map = {} 
+    
+
+    created_patterns = []
+
+
+    for p_data in json_data["nodes"]:
+        if p_data["label"] == "PATTERN":
+            new_pattern = on.Pattern(
+                id=p_data["Id"], 
+                multipliers=p_data["Multipliers"]
+            )
+            on.add_pattern(network, new_pattern)
+            created_patterns.append(new_pattern)
+
+
+    es = [e for e in json_data["edges"] if e["label"] == "HAS_PATTERN"]
+
+    for pattern_obj in created_patterns:
+        for e in es:
+            if e["from"] == pattern_obj.id:
+                target_node_id = e["to"]
+                patterns_map[target_node_id] = pattern_obj
     
     for element in networkElements:
-        
         element = normalizeDict(element)
         element = remove_null_keys(element)
         
         label = str.lower(element["label"])
         
-        
-        #Nodes
-        if label  ==  "junction":
-            addJunction(network, element, positions)
+        if label == "junction":
+            addJunction(network, element, positions, patterns_map)
         elif label == "tank":
             addTank(network, element, positions)
         elif label == "reservoir":
             addReservoir(network, element, positions)
-            
         
-        #ids = findFromAndTo(networkElements, element['id'])
-            
-        #Links
-        if label  ==  "pipe":
+        if label == "pipe":
             addPipe(network, element)
-        # elif label == "valve":
-        #     addValve(network, element, json["edges"])
-        # elif label == "pump":
-        #     addPump(network, element, json["edges"])
-       
-    
+        
     return network
      
      
@@ -81,20 +114,20 @@ def remove_null_keys(data_dict):
     """Usuwa klucze ze słownika, których wartość jest None."""
     return {k: v for k, v in data_dict.items() if v is not None}
 
-def addJunction(network, node : dict, positions):
+def addJunction(network, node : dict, positions, patterns):
     """
     Dodaje węzeł (Junction) do modelu sieci wodociągowej.
     """
       
     # Użycie .get() dla wszystkich kluczy
     id = node['id']
-    elev = node.get('elev', 0)
-    demand = node.get('demand', 0)
-    # pattern = node.get('pattern')
+    elev = float(node.get('elev', 0))
+    demand = float(node.get('demand', 0))
+    pattern = patterns.get(id, None)
     
     
     
-    junction = on.Junction(id=id, elevation = elev, demand = demand, xcoordinate=positions[id][0], ycoordinate=positions[id][1])
+    junction = on.Junction(id=id, elevation = elev, demand = demand, xcoordinate=positions[id][0], ycoordinate=positions[id][1], demandpattern=pattern)
     
     on.add_junction(network, junction)
 
@@ -170,22 +203,27 @@ def addPipe(network, node: dict):
     
     # Użycie .get() dla wszystkich kluczy
     #temp ID
-    id = str(node['from']) + str(node['to'])
-    length = node.get('length', "")
-    diameter = node.get('diameter', "")
-    roughness = node.get('roughness', 100)
-    minor_loss = node.get('minorloss', 0)
-    status = node.get('status', "Open")
+    kwargs = {
+        "id": str(node['from']) + str(node['to']),
+        "length": node.get('length', "")
+    }
 
+
+    optional_map = {
+        'diameter': 'diameter',
+        'roughness': 'roughness',
+        'minorloss': 'minorloss',
+        'status': 'status'
+    }
+    
+    for node_key, arg_name in optional_map.items():
+        value = node.get(node_key)
+        if value is not None:
+            kwargs[arg_name] = value
     
     on.add_pipe(network=network,
         pipe=on.Pipe(
-            id=id, 
-            length=length, 
-            diameter=diameter, 
-            roughness=roughness, 
-            minorloss=minor_loss, 
-            status=status,
+            **kwargs,
             startnode=on.get_node(network, node['from']),
             endnode=on.get_node(network, node['to'])
         )  

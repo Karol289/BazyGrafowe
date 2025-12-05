@@ -1,0 +1,619 @@
+{
+    "id": 54,
+    "title": "TestPattern2",
+    "creationDate": "02.12.2025,21:18:14",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "system",
+            "content": "You are an expert assistant specialized in generating graph databasesderived from textual data. Your task is to help users creategraph-based representations of information extracted from texts"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nNie upraszczaj grafu. Docelowa ilość węzłów ma być taka jak w tekście. \n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\t-JUNCTION - points in the network where links (PIPE) join together.\n        -METER - represent water meter in the network.\n\t-RESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external \tsource or sink of water.\n\t-PATTERN - used to model time patterns. \n\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\tHAS_PATTERN - used to connect PATTERN to nodes\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\n    \n\t-METER:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\tDiameter - diameter of the pipe of meter\n\t\tLenght - lenght of the pipe of meter\n\t\n\n\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t-TANK:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\t\n\t-PATTERN:\n\t\tMultipliers - list of multipliers e.g. [0.2, 0.22222, 0.67]. Number of multipliers needs to be the same for every patern in the network.\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nThe network is supplied by a single source, designated as Reservoir 0, which feeds directly into Junction 1.\nFrom this point, the main pipeline runs in a sequential series connecting Meter 2, 3, 4 and finaly to JUNCTION 5. From Junction 5 goes pipeline to Meter 6, 7 and JUNCTION 8. Finaly from Junction 8 goes pipeline to Meter 9 and returns to JUNCTION 1.  Additionaly a Tank is connected to Jucntion 5 throught a PIPE.\n\nObject Parameters:\n\nReservoir 4:\nTotal Head: 125\n\nMeters: Demand, Diameter, Lenght:\nMeters 2, 3, 4: 3.0, 98, 14\nMeters 6,7: 2.5, 100, 12\nMeters 9: 1.5, 102, 10\n\nAll Junctions and Meters have elevation 100.\n\nThere are 2 patterns in the network:\n-Pattern P1 [0, 0.2, 0.4, 0.6, 0.8, 1] \n-Pattern P2 [1, 0.8, 0.6, 0.4, 0.2, 0]\n\nAll meters use patterns:\nmeters: 2,3,4 and 9 -> pattern P1\nmeters: 6,7 -> pattern P2\n\nAll PIPES in the network have:\nLenght- 100\nDiameter - 98\nRoughness - 0.4\n\nTank:\nElev - 100\nInitLevel - 5\nMinLevel - 0\nMaxLevel - 20\nDiameter - 20\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"Id\": 1, \"label\": \"RESERVOIR\", \"Head\": null, \"Elev\": null},\n    {\"Id\": 2, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 3, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 3.0, \"Diameter\": 98, \"Lenght\": 14},\n    {\"Id\": 4, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 3.0, \"Diameter\": 98, \"Lenght\": 14},\n    {\"Id\": 5, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 3.0, \"Diameter\": 98, \"Lenght\": 14},\n    {\"Id\": 6, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 7, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 2.5, \"Diameter\": 100, \"Lenght\": 12},\n    {\"Id\": 8, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 2.5, \"Diameter\": 100, \"Lenght\": 12},\n    {\"Id\": 9, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 10, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 1.5, \"Diameter\": 102, \"Lenght\": 10},\n    {\"Id\": 11, \"label\": \"TANK\", \"Elev\": 100, \"InitLevel\": 5, \"MinLevel\": 0, \"MaxLevel\": 20, \"Diameter\": 20},\n    {\"Id\": 12, \"label\": \"RESERVOIR\", \"Head\": 125},\n    {\"Id\": 13, \"label\": \"PATTERN\", \"Multipliers\": [0, 0.2, 0.4, 0.6, 0.8, 1]},\n    {\"Id\": 14, \"label\": \"PATTERN\", \"Multipliers\": [1, 0.8, 0.6, 0.4, 0.2, 0]}\n  ],\n  \"edges\": [\n    {\"label\": \"PIPE\", \"from\": 1, \"to\": 2, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 2, \"to\": 3, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 3, \"to\": 4, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 4, \"to\": 5, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 5, \"to\": 6, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 6, \"to\": 7, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 7, \"to\": 8, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 8, \"to\": 9, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 9, \"to\": 10, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 10, \"to\": 2, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 11, \"to\": 6, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"HAS_PATTERN\", \"from\": 13, \"to\": 3},\n    {\"label\": \"HAS_PATTERN\", \"from\": 13, \"to\": 4},\n    {\"label\": \"HAS_PATTERN\", \"from\": 13, \"to\": 5},\n    {\"label\": \"HAS_PATTERN\", \"from\": 13, \"to\": 10},\n    {\"label\": \"HAS_PATTERN\", \"from\": 14, \"to\": 7},\n    {\"label\": \"HAS_PATTERN\", \"from\": 14, \"to\": 8}\n  ]\n}"
+        },
+        {
+            "role": "user",
+            "content": "Na podstawie podanego tekstu wygeneruj jego grafową reprezentacje.\n\nGenerując graf musisz wzorować się na podanej strukturze grafu.\nZawiera ona opis typów węzłów, relacji oraz ich właściwości.\nNie możesz tworzyć żadnych węzłów, relacji lub właściwości które nie są podane w strukturze grafu.\nJeśli w tekście nie będzie informacji o danej właściwości węzła lub relacji zostaw pole puste.\n\nNie upraszczaj grafu. Docelowa ilość węzłów ma być taka jak w tekście. \n\nDodatkowo dodaj poza podstawowymi właściwościami które sa podane w strukturze dodatkowe właściwości:\n-Dla nodes i edges:\n\"label\" -> w niej ma być jaki to typ węzła lub relacji. (JUNCTION, TANK, PIPE ...)\n-Dla nodes:\n\"Id\" -> unikalne id (identity), czyli zaczynająca sie od 1 inkrementująca wartość.\nDla edges:\n\"from\" oraz \"to\" -> id węzłów uczesticzących w relacji.\n\nWygenerowaną reprezentacje grafową przedstaw jako plik json.\nMa on mieć dwa pola: nodes oraz edges.\nPola te są tablicami i masz tam zapisywać wygenerowane węzły lub relacje.\n\nGeneruj jedynie czysty plik json, bez żadnych komentarzy albo markdown.\n\n***Struktura grafu***\n\n1. Nodes:\n\n\t\n\t-JUNCTION - points in the network where links (PIPE) join together.\n        -METER - represent water meter in the network.\n\t-RESERVOIR - used to model such things as lakes, rivers, groundwater aquifers. Represent an infinite external \tsource or sink of water.\n\t-PATTERN - used to model time patterns. \n\n\n2. Edges:\n\t\n\tPIPE - convey water from one point in the network to another.\n\tHAS_PATTERN - used to connect PATTERN to nodes\n\n3. Properties\n\t\n\t-JUNCTION:\n\t\tElev - Elevation, ft (m)\n\n    \n\t-METER:\n\t\tElev - Elevation, ft (m)\n\t\tDemand - Base demand flow (flow units) (optional)\n\t\tDiameter - diameter of the pipe of meter\n\t\tLenght - lenght of the pipe of meter\n\t\n\n\n\t-RESERVOIR:\n\t\tHead - Head, ft (m)\n\t\t\n\t-TANK:\n\t\tElev - Bottom elevation, ft (m) \n\t\tInitLevel - Initial water level, ft (m)\n\t\tMinLevel - Minimum water level, ft (m)\n\t\tMaxLevel - Maximum water level, ft (m)\n\t\tDiameter Nominal diameter, ft (m)\n\t\t\n\t-PATTERN:\n\t\tMultipliers - list of multipliers e.g. [0.2, 0.22222, 0.67]. Number of multipliers needs to be the same for every patern in the network.\n\t\t\n\t\t\t\n\t-PIPE:\n\t\tLength - Length, ft (m)\n\t\tDiameter - Diameter, inches (mm)\n\t\tRoughness - Roughness coefficient\n\t\tMinorLoss - Minor loss coefficient\n\t\tStatus - Status (OPEN, CLOSED, or CV)\n\t\t\n\n***Koniec struktury grafu***\n\n\n***Tekst***\n\nThe network is supplied by a single source, designated as Reservoir 0, which feeds directly into Junction 1.\nFrom this point, the main pipeline runs in a sequential series connecting Meter 2, 3, 4 and finaly to JUNCTION 5. From Junction 5 goes pipeline to Meter 6, 7 and JUNCTION 8. Finaly from Junction 8 goes pipeline to Meter 9 and returns to JUNCTION 1.  Additionaly a Tank is connected to Jucntion 5 throught a PIPE.\n\nObject Parameters:\n\nReservoir 0:\nTotal Head: 125\n\nMeters: Demand, Diameter, Lenght:\nMeters 2, 3, 4: 3.0, 98, 14\nMeters 6,7: 2.5, 100, 12\nMeters 9: 1.5, 102, 10\n\nAll Junctions and Meters have elevation 100.\n\nThere are 2 patterns in the network:\n-Pattern P1 [0, 0.2, 0.4, 0.6, 0.8, 1] \n-Pattern P2 [1, 0.8, 0.6, 0.4, 0.2, 0]\n\nAll meters use patterns:\nmeters: 2,3,4 and 9 -> pattern P1\nmeters: 6,7 -> pattern P2\n\nAll PIPES in the network have:\nLenght- 100\nDiameter - 98\nRoughness - 0.4\n\nTank:\nElev - 100\nInitLevel - 5\nMinLevel - 0\nMaxLevel - 20\nDiameter - 20\n\n***Koniec Tekst***"
+        },
+        {
+            "role": "assistant",
+            "content": "{\n  \"nodes\": [\n    {\"Id\": 1, \"label\": \"RESERVOIR\", \"Head\": 125, \"Elev\": null},\n    {\"Id\": 2, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 3, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 3.0, \"Diameter\": 98, \"Lenght\": 14},\n    {\"Id\": 4, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 3.0, \"Diameter\": 98, \"Lenght\": 14},\n    {\"Id\": 5, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 6, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 2.5, \"Diameter\": 100, \"Lenght\": 12},\n    {\"Id\": 7, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 2.5, \"Diameter\": 100, \"Lenght\": 12},\n    {\"Id\": 8, \"label\": \"JUNCTION\", \"Elev\": 100},\n    {\"Id\": 9, \"label\": \"METER\", \"Elev\": 100, \"Demand\": 1.5, \"Diameter\": 102, \"Lenght\": 10},\n    {\"Id\": 10, \"label\": \"TANK\", \"Elev\": 100, \"InitLevel\": 5, \"MinLevel\": 0, \"MaxLevel\": 20, \"Diameter\": 20},\n    {\"Id\": 11, \"label\": \"PATTERN\", \"Multipliers\": [0, 0.2, 0.4, 0.6, 0.8, 1]},\n    {\"Id\": 12, \"label\": \"PATTERN\", \"Multipliers\": [1, 0.8, 0.6, 0.4, 0.2, 0]}\n  ],\n  \"edges\": [\n    {\"label\": \"PIPE\", \"from\": 1, \"to\": 2, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 2, \"to\": 3, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 3, \"to\": 4, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 4, \"to\": 5, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 5, \"to\": 6, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 6, \"to\": 7, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 7, \"to\": 8, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 8, \"to\": 9, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 9, \"to\": 2, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"PIPE\", \"from\": 10, \"to\": 5, \"Length\": 100, \"Diameter\": 98, \"Roughness\": 0.4, \"MinorLoss\": null, \"Status\": null},\n    {\"label\": \"HAS_PATTERN\", \"from\": 11, \"to\": 3},\n    {\"label\": \"HAS_PATTERN\", \"from\": 11, \"to\": 4},\n    {\"label\": \"HAS_PATTERN\", \"from\": 11, \"to\": 9},\n    {\"label\": \"HAS_PATTERN\", \"from\": 12, \"to\": 6},\n    {\"label\": \"HAS_PATTERN\", \"from\": 12, \"to\": 7}\n  ]\n}"
+        },
+        {
+            "role": "assistant",
+            "content": "Here is a ready-to-use graph representation that captures the network, including nodes, edges (pipes) and the meter patterns. I also point out ambiguities and provide explicit assumptions so you can adjust if needed.\n\n1) Graph model (summary)\n- Node types\n  - Reservoir: Reservoir_0, with property totalHead (135)\n  - Junction: Junction_1, Junction_5, Junction_8 (all with elevation 100)\n  - Meter: Meter_2, Meter_3, Meter_4, Meter_6, Meter_7, Meter_9\n    - Meter properties include: demand, conn_length, conn_diameter, elevation (100), pattern_id (P1 or P2)\n  - Tank: Tank_1, with properties elevation, initLevel, minLevel, maxLevel, diameter\n  - Pattern: P1 and P2 containing the 12-value time pattern arrays (optional, see below)\n\n- Edge types (directed)\n  - PIPE edges represent physical pipes and carry properties:\n    - length, diameter, roughness\n  - Meter-Pattern edges (USES_PATTERN) connect meters to their pattern\n- Pattern data\n  - Pattern P1 values: [0.5, 0.5, 0.7, 1.3, 1.2, 1.0, 1.0, 0.8, 1.2, 1.6, 1.1, 0.6]\n  - Pattern P2 values: [0.4, 0.4, 0.6, 1.0, 1.2, 1.2, 1.2, 1.2, 1.0, 0.8, 0.6, 0.4]\n\n- Important interpretation notes\n  - The textual description defines a sequential main pipeline plus branches:\n    - Reservoir 0 -> Junction 1\n    - Junction 1 -> Meter 2 -> Meter 3 -> Meter 4 -> Junction 5\n    - From Junction 5: branches to Meter 6, Meter 7, and Junction 8\n    - Junction 8 -> Meter 9 -> back to Junction 1\n    - A Tank is connected to Junction 5 via a pipe\n  - All meters and junctions have elevation 100 (as stated)\n  - The “Pattern P1” applies to meters 2, 3, 4, 9; “Pattern P2” applies to meters 6, 7\n  - Pipe properties: there is a general statement that all pipes have length 100, diameter 110, roughness 130. To preserve the per-meter connections, meter-to-node edges use the specific lengths given for those connections (14 for 2/3/4, 12 for 6/7, 10 for 9). Other main-path pipes use length 100, diameter 110, roughness 130.\n\n2) Concrete data (nodes and edges) you can import\n\nNodes\n- Reservoir: Reservoir_0\n  - totalHead: 135\n\n- Junctions:\n  - Junction_1, elevation: 100\n  - Junction_5, elevation: 100\n  - Junction_8, elevation: 100\n\n- Meters:\n  - Meter_2, demand: 3.0, conn_length: 14, conn_diameter: 100, elevation: 100, pattern_id: P1\n  - Meter_3, demand: 3.0, conn_length: 14, conn_diameter: 100, elevation: 100, pattern_id: P1\n  - Meter_4, demand: 3.0, conn_length: 14, conn_diameter: 100, elevation: 100, pattern_id: P1\n  - Meter_6, demand: 2.5, conn_length: 12, conn_diameter: 100, elevation: 100, pattern_id: P2\n  - Meter_7, demand: 2.5, conn_length: 12, conn_diameter: 100, elevation: 100, pattern_id: P2\n  - Meter_9, demand: 1.5, conn_length: 10, conn_diameter: 100, elevation: 100, pattern_id: P1\n\n- Tank:\n  - Tank_1, elevation: 100, initLevel: 5, minLevel: 1, maxLevel: 20, diameter: 20\n\n- Pattern nodes (optional for explicit storage of arrays):\n  - Pattern_P1: id 'P1', values [0.5, 0.5, 0.7, 1.3, 1.2, 1.0, 1.0, 0.8, 1.2, 1.6, 1.1, 0.6]\n  - Pattern_P2: id 'P2', values [0.4, 0.4, 0.6, 1.0, 1.2, 1.2, 1.2, 1.2, 1.0, 0.8, 0.6, 0.4]\n\nEdges (pipes)\n- Reservoir_0 -> Junction_1\n  - length: 100, diameter: 110, roughness: 130\n\n- Junction_1 -> Meter_2\n  - length: 14, diameter: 100, roughness: 130\n\n- Meter_2 -> Meter_3\n  - length: 100, diameter: 110, roughness: 130\n\n- Meter_3 -> Meter_4\n  - length: 100, diameter: 110, roughness: 130\n\n- Meter_4 -> Junction_5\n  - length: 14, diameter: 100, roughness: 130\n\n- Junction_5 -> Meter_6\n  - length: 12, diameter: 100, roughness: 130\n\n- Junction_5 -> Meter_7\n  - length: 12, diameter: 100, roughness: 130\n\n- Junction_5 -> Junction_8\n  - length: 100, diameter: 110, roughness: 130\n\n- Junction_8 -> Meter_9\n  - length: 10, diameter: 100, roughness: 130\n\n- Meter_9 -> Junction_1\n  - length: 100, diameter: 110, roughness: 130\n\n- Junction_5 -> Tank_1\n  - length: 100, diameter: 110, roughness: 130\n\nMeter-pattern connections\n- Meter_2 -uses-> Pattern_P1\n- Meter_3 -uses-> Pattern_P1\n- Meter_4 -uses-> Pattern_P1\n- Meter_9 -uses-> Pattern_P1\n- Meter_6 -uses-> Pattern_P2\n- Meter_7 -uses-> Pattern_P2\n\n3) Example Cypher (Neo4j) to create this graph\nNote: This is a compact, import-ready version. You can paste it into a Cypher shell or a Neo4j Browser session.\n\n- Create pattern nodes\nMERGE (p1:Pattern {id:'P1', values:[0.5,0.5,0.7,1.3,1.2,1.0,1.0,0.8,1.2,1.6,1.1,0.6]})\nMERGE (p2:Pattern {id:'P2', values:[0.4,0.4,0.6,1.0,1.2,1.2,1.2,1.2,1.0,0.8,0.6,0.4]})\n\n- Create core nodes\nMERGE (r:Reservoir {id:'Reservoir_0', totalHead:135})\nMERGE (j1:Junction {id:'Junction_1', elevation:100})\nMERGE (j5:Junction {id:'Junction_5', elevation:100})\nMERGE (j8:Junction {id:'Junction_8', elevation:100})\nMERGE (m2:Meter {id:'Meter_2', demand:3.0, conn_length:14, conn_diameter:100, elevation:100, pattern_id:'P1'})\nMERGE (m3:Meter {id:'Meter_3', demand:3.0, conn_length:14, conn_diameter:100, elevation:100, pattern_id:'P1'})\nMERGE (m4:Meter {id:'Meter_4', demand:3.0, conn_length:14, conn_diameter:100, elevation:100, pattern_id:'P1'})\nMERGE (m6:Meter {id:'Meter_6', demand:2.5, conn_length:12, conn_diameter:100, elevation:100, pattern_id:'P2'})\nMERGE (m7:Meter {id:'Meter_7', demand:2.5, conn_length:12, conn_diameter:100, elevation:100, pattern_id:'P2'})\nMERGE (m9:Meter {id:'Meter_9', demand:1.5, conn_length:10, conn_diameter:100, elevation:100, pattern_id:'P1'})\nMERGE (t:Tank {id:'Tank_1', elevation:100, initLevel:5, minLevel:1, maxLevel:20, diameter:20})\n\n- Connect core network (pipes)\nMERGE (r)-[:PIPE {length:100, diameter:110, roughness:130}]->(j1)\nMERGE (j1)-[:PIPE {length:14, diameter:100, roughness:130}]->(m2)\nMERGE (m2)-[:PIPE {length:100, diameter:110, roughness:130}]->(m3)\nMERGE (m3)-[:PIPE {length:100, diameter:110, roughness:130}]->(m4)\nMERGE (m4)-[:PIPE {length:14, diameter:100, roughness:130}]->(j5)\nMERGE (j5)-[:PIPE {length:12, diameter:100, roughness:130}]->(m6)\nMERGE (j5)-[:PIPE {length:12, diameter:100, roughness:130}]->(m7)\nMERGE (j5)-[:PIPE {length:100, diameter:110, roughness:130}]->(j8)\nMERGE (j8)-[:PIPE {length:10, diameter:100, roughness:130}]->(m9)\nMERGE (m9)-[:PIPE {length:100, diameter:110, roughness:130}]->(j1)\nMERGE (j5)-[:PIPE {length:100, diameter:110, roughness:130}]->(t)\n\n- Meter-pattern links\nMERGE (m2)-[:USES_PATTERN]->(p1)\nMERGE (m3)-[:USES_PATTERN]->(p1)\nMERGE (m4)-[:USES_PATTERN]->(p1)\nMERGE (m9)-[:USES_PATTERN]->(p1)\nMERGE (m6)-[:USES_PATTERN]->(p2)\nMERGE (m7)-[:USES_PATTERN]->(p2)\n\nNotes:\n- The network path described in the text has been implemented as a directed graph with a main sequential path and branches from Junction 5. Specifically:\n  - Reservoir 0 -> Junction 1\n  - Junction 1 -> Meter 2 -> Meter 3 -> Meter 4 -> Junction 5\n  - Junction 5 -> Meter 6, Junction 5 -> Meter 7, Junction 5 -> Junction 8\n  - Junction 8 -> Meter 9 -> back to Junction 1\n  - Tank_1 connected to Junction_5\n- Elevations: All Meter and Junction nodes have elevation 100 as stated. Reservoir head is captured as totalHead: 135. Tank has its own elevation (100) plus level bounds and diameter per the input.\n- Patterns: P1 is assigned to M2, M3, M4, M9; P2 to M6 and M7. Pattern data is stored in Pattern nodes (P1 and P2) with the 12-value arrays, and meters link to their pattern via USES_PATTERN.\n- If you prefer a purely property-graph style (no separate Pattern nodes), you can inline the pattern values as pattern_values arrays on each Meter, or link to a Pattern table in your target graph DB.\n\n3) Optional JSON representation (compact)\nA simple JSON structure you can adapt for an import or for downstream processing:\n\n{\n  \"nodes\": [\n    {\"id\": \"Reservoir_0\", \"type\": \"Reservoir\", \"totalHead\": 135},\n    {\"id\": \"Junction_1\", \"type\": \"Junction\", \"elevation\": 100},\n    {\"id\": \"Junction_5\", \"type\": \"Junction\", \"elevation\": 100},\n    {\"id\": \"Junction_8\", \"type\": \"Junction\", \"elevation\": 100},\n    {\"id\": \"Meter_2\", \"type\": \"Meter\", \"demand\": 3.0, \"conn_length\": 14, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P1\"},\n    {\"id\": \"Meter_3\", \"type\": \"Meter\", \"demand\": 3.0, \"conn_length\": 14, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P1\"},\n    {\"id\": \"Meter_4\", \"type\": \"Meter\", \"demand\": 3.0, \"conn_length\": 14, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P1\"},\n    {\"id\": \"Meter_6\", \"type\": \"Meter\", \"demand\": 2.5, \"conn_length\": 12, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P2\"},\n    {\"id\": \"Meter_7\", \"type\": \"Meter\", \"demand\": 2.5, \"conn_length\": 12, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P2\"},\n    {\"id\": \"Meter_9\", \"type\": \"Meter\", \"demand\": 1.5, \"conn_length\": 10, \"conn_diameter\": 100, \"elevation\": 100, \"pattern_id\": \"P1\"},\n    {\"id\": \"Tank_1\", \"type\": \"Tank\", \"elevation\": 100, \"initLevel\": 5, \"minLevel\": 1, \"maxLevel\": 20, \"diameter\": 20},\n    {\"id\": \"Pattern_P1\", \"type\": \"Pattern\", \"values\": [0.5,0.5,0.7,1.3,1.2,1.0,1.0,0.8,1.2,1.6,1.1,0.6]},\n    {\"id\": \"Pattern_P2\", \"type\": \"Pattern\", \"values\": [0.4,0.4,0.6,1.0,1.2,1.2,1.2,1.2,1.0,0.8,0.6,0.4]}\n  ],\n  \"edges\": [\n    {\"from\": \"Reservoir_0\", \"to\": \"Junction_1\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130},\n    {\"from\": \"Junction_1\", \"to\": \"Meter_2\", \"type\": \"PIPE\", \"length\": 14, \"diameter\": 100, \"roughness\": 130},\n    {\"from\": \"Meter_2\", \"to\": \"Meter_3\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130},\n    {\"from\": \"Meter_3\", \"to\": \"Meter_4\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130},\n    {\"from\": \"Meter_4\", \"to\": \"Junction_5\", \"type\": \"PIPE\", \"length\": 14, \"diameter\": 100, \"roughness\": 130},\n    {\"from\": \"Junction_5\", \"to\": \"Meter_6\", \"type\": \"PIPE\", \"length\": 12, \"diameter\": 100, \"roughness\": 130},\n    {\"from\": \"Junction_5\", \"to\": \"Meter_7\", \"type\": \"PIPE\", \"length\": 12, \"diameter\": 100, \"roughness\": 130},\n    {\"from\": \"Junction_5\", \"to\": \"Junction_8\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130},\n    {\"from\": \"Junction_8\", \"to\": \"Meter_9\", \"type\": \"PIPE\", \"length\": 10, \"diameter\": 100, \"roughness\": 130},\n    {\"from\": \"Meter_9\", \"to\": \"Junction_1\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130},\n    {\"from\": \"Junction_5\", \"to\": \"Tank_1\", \"type\": \"PIPE\", \"length\": 100, \"diameter\": 110, \"roughness\": 130}\n  ],\n  \"patterns\": [\n    {\"id\": \"P1\", \"values\": [0.5,0.5,0.7,1.3,1.2,1.0,1.0,0.8,1.2,1.6,1.1,0.6]},\n    {\"id\": \"P2\", \"values\": [0.4,0.4,0.6,1.0,1.2,1.2,1.2,1.2,1.0,0.8,0.6,0.4]}\n  ]\n}\n\n4) Quick notes and how to adapt\n- If you have a preferred graph DB or query language (Neo4j Cypher, GraphQL, RDF/TTL, etc.), I can translate this into the exact import format you need.\n- If you want the pipe lengths to strictly follow the global rule “Length = 100 for all pipes,” we can revert meter-to-node connections to length 100 and store the per-meter “conn_length” only as a meter attribute. Let me know your preference.\n- If you want the Tank-to-Junction5 pipe to be bidirectional in your model, you can either store two directed pipes (Tank_1 -> Junction_5 and Junction_5 -> Tank_1) or add a bidirectional flag on the single edge.\n\nWould you like me to tailor the Cypher script for a specific version of Neo4j (e.g., with constraints, indexes, or using parameterized queries), or export this as GraphML/JSON-LD for another tool?"
+        }
+    ],
+    "nodes": [
+        {
+            "Id": 1,
+            "label": "RESERVOIR",
+            "Head": 125,
+            "Elev": null
+        },
+        {
+            "Id": 2,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 3,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 3.0,
+            "Diameter": 98,
+            "Lenght": 14
+        },
+        {
+            "Id": 4,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 3.0,
+            "Diameter": 98,
+            "Lenght": 14
+        },
+        {
+            "Id": 5,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 6,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 2.5,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 7,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 2.5,
+            "Diameter": 100,
+            "Lenght": 12
+        },
+        {
+            "Id": 8,
+            "label": "JUNCTION",
+            "Elev": 100
+        },
+        {
+            "Id": 9,
+            "label": "METER",
+            "Elev": 100,
+            "Demand": 1.5,
+            "Diameter": 102,
+            "Lenght": 10
+        },
+        {
+            "Id": 10,
+            "label": "TANK",
+            "Elev": 100,
+            "InitLevel": 5,
+            "MinLevel": 0,
+            "MaxLevel": 20,
+            "Diameter": 20
+        },
+        {
+            "Id": 11,
+            "label": "PATTERN",
+            "Multipliers": [
+                0,
+                0.2,
+                0.4,
+                0.6,
+                0.8,
+                1
+            ]
+        },
+        {
+            "Id": 12,
+            "label": "PATTERN",
+            "Multipliers": [
+                1,
+                0.8,
+                0.6,
+                0.4,
+                0.2,
+                0
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "label": "PIPE",
+            "from": 1,
+            "to": 2,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 2,
+            "to": 3,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 3,
+            "to": 4,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 4,
+            "to": 5,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 5,
+            "to": 6,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 6,
+            "to": 7,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 7,
+            "to": 8,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 8,
+            "to": 9,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 9,
+            "to": 2,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "PIPE",
+            "from": 10,
+            "to": 5,
+            "Length": 100,
+            "Diameter": 98,
+            "Roughness": 0.4,
+            "MinorLoss": null,
+            "Status": null
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 11,
+            "to": 3
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 11,
+            "to": 4
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 11,
+            "to": 9
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 12,
+            "to": 6
+        },
+        {
+            "label": "HAS_PATTERN",
+            "from": 12,
+            "to": 7
+        }
+    ],
+    "mappers": [
+        {
+            "name": "Map_METER",
+            "sourceNode": "METER",
+            "outputNodes": [
+                {
+                    "tempid": "1",
+                    "primarynode": false,
+                    "properties": [
+                        {
+                            "type": "copy",
+                            "targetProperty": "Id",
+                            "sourceProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "METER"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Demand",
+                            "sourceProperty": "Demand"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Elev",
+                            "sourceProperty": "Elev"
+                        }
+                    ]
+                },
+                {
+                    "tempid": "2",
+                    "primarynode": true,
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "JUNCTION"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "Demand",
+                            "value": "0"
+                        }
+                    ]
+                }
+            ],
+            "outputEdges": [
+                {
+                    "tempfrom": "1",
+                    "tempto": "2",
+                    "properties": [
+                        {
+                            "type": "random",
+                            "targetProperty": "Id"
+                        },
+                        {
+                            "type": "const",
+                            "targetProperty": "label",
+                            "value": "PIPE"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Diameter",
+                            "sourceProperty": "Demand"
+                        },
+                        {
+                            "type": "copy",
+                            "targetProperty": "Lenght",
+                            "sourceProperty": "Lenght"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "mappedModel": {
+        "nodes": [
+            {
+                "Id": 1,
+                "label": "RESERVOIR",
+                "Head": 125,
+                "Elev": null
+            },
+            {
+                "Id": 2,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 3,
+                "label": "METER",
+                "Demand": 3.0,
+                "Elev": 100
+            },
+            {
+                "Id": 19231,
+                "label": "JUNCTION",
+                "Demand": "0"
+            },
+            {
+                "Id": 4,
+                "label": "METER",
+                "Demand": 3.0,
+                "Elev": 100
+            },
+            {
+                "Id": 44848,
+                "label": "JUNCTION",
+                "Demand": "0"
+            },
+            {
+                "Id": 5,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 6,
+                "label": "METER",
+                "Demand": 2.5,
+                "Elev": 100
+            },
+            {
+                "Id": 19920,
+                "label": "JUNCTION",
+                "Demand": "0"
+            },
+            {
+                "Id": 7,
+                "label": "METER",
+                "Demand": 2.5,
+                "Elev": 100
+            },
+            {
+                "Id": 90811,
+                "label": "JUNCTION",
+                "Demand": "0"
+            },
+            {
+                "Id": 8,
+                "label": "JUNCTION",
+                "Elev": 100
+            },
+            {
+                "Id": 9,
+                "label": "METER",
+                "Demand": 1.5,
+                "Elev": 100
+            },
+            {
+                "Id": 97416,
+                "label": "JUNCTION",
+                "Demand": "0"
+            },
+            {
+                "Id": 10,
+                "label": "TANK",
+                "Elev": 100,
+                "InitLevel": 5,
+                "MinLevel": 0,
+                "MaxLevel": 20,
+                "Diameter": 20
+            },
+            {
+                "Id": 11,
+                "label": "PATTERN",
+                "Multipliers": [
+                    0,
+                    0.2,
+                    0.4,
+                    0.6,
+                    0.8,
+                    1
+                ]
+            },
+            {
+                "Id": 12,
+                "label": "PATTERN",
+                "Multipliers": [
+                    1,
+                    0.8,
+                    0.6,
+                    0.4,
+                    0.2,
+                    0
+                ]
+            }
+        ],
+        "edges": [
+            {
+                "label": "PIPE",
+                "from": 1,
+                "to": 2,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 2,
+                "to": 19231,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 19231,
+                "to": 44848,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 44848,
+                "to": 5,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 5,
+                "to": 19920,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 19920,
+                "to": 90811,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 90811,
+                "to": 8,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 8,
+                "to": 97416,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 97416,
+                "to": 2,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "PIPE",
+                "from": 10,
+                "to": 5,
+                "Length": 100,
+                "Diameter": 98,
+                "Roughness": 0.4,
+                "MinorLoss": null,
+                "Status": null
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 11,
+                "to": 3
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 11,
+                "to": 4
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 11,
+                "to": 9
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 12,
+                "to": 6
+            },
+            {
+                "label": "HAS_PATTERN",
+                "from": 12,
+                "to": 7
+            },
+            {
+                "from": 3,
+                "to": 19231,
+                "Id": 87488,
+                "label": "PIPE",
+                "Diameter": 3.0,
+                "Lenght": 14
+            },
+            {
+                "from": 4,
+                "to": 44848,
+                "Id": 50506,
+                "label": "PIPE",
+                "Diameter": 3.0,
+                "Lenght": 14
+            },
+            {
+                "from": 6,
+                "to": 19920,
+                "Id": 54523,
+                "label": "PIPE",
+                "Diameter": 2.5,
+                "Lenght": 12
+            },
+            {
+                "from": 7,
+                "to": 90811,
+                "Id": 59872,
+                "label": "PIPE",
+                "Diameter": 2.5,
+                "Lenght": 12
+            },
+            {
+                "from": 9,
+                "to": 97416,
+                "Id": 91608,
+                "label": "PIPE",
+                "Diameter": 1.5,
+                "Lenght": 10
+            }
+        ]
+    }
+}

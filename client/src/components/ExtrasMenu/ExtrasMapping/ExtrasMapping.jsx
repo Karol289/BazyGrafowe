@@ -9,6 +9,7 @@ const ExtrasMapping = ({ jsonData }) => {
   const [mappingName, setMappingName] = useState("");
   
   const [sourceProperties, setSourceProperties] = useState([]);
+  const [saveStatus, setSaveStatus] = useState({ type: "", message: "" });
 
   // Formularz wyjściowy
   const [outputNodes, setOutputNodes] = useState([]);
@@ -36,10 +37,7 @@ const ExtrasMapping = ({ jsonData }) => {
     nodes.forEach(node => {
         if (node.label) {
             uniqueLabels.add(node.label);
-            
-            // Poprawka z poprzedniego kroku (brak duplikatów id)
             if (!schemaMap[node.label]) schemaMap[node.label] = new Set(); 
-            
             Object.keys(node).forEach(key => schemaMap[node.label].add(key));
         }
     });
@@ -50,12 +48,20 @@ const ExtrasMapping = ({ jsonData }) => {
     };
   }, [jsonData]);
 
-  // --- 2. POBIERANIE MAPPERÓW ---
+  // --- FIX: WYDZIELENIE FUNKCJI POBIERANIA DANYCH ---
+  const fetchMappers = async () => {
+    try {
+        const res = await fetch('http://127.0.0.1:8000/chats/getMappers');
+        const data = await res.json();
+        setExistingMappers(data || []);
+    } catch (err) {
+        console.error("Error fetching mappers:", err);
+    }
+  };
+
+  // --- 2. POBIERANIE MAPPERÓW NA STARCIE ---
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/chats/getMappers')
-        .then(res => res.json())
-        .then(data => setExistingMappers(data || []))
-        .catch(err => console.error("Error fetching mappers:", err));
+    fetchMappers();
   }, []);
 
   // --- 3. AKTUALIZACJA FORMULARZA ---
@@ -109,7 +115,6 @@ const ExtrasMapping = ({ jsonData }) => {
     })));
   };
 
-  // Definicja obowiązkowych pól
   const getMandatoryProperties = () => [
       { type: "copy", targetProperty: "Id", sourceProperty: "id", value: "" },
       { type: "const", targetProperty: "label", value: "" }
@@ -119,7 +124,6 @@ const ExtrasMapping = ({ jsonData }) => {
     setOutputNodes(prev => [...prev, {
         tempId: `node_${prev.length + 1}`,
         primaryNode: prev.length === 0,
-        // Dodajemy obowiązkowe pola przy tworzeniu
         properties: getMandatoryProperties()
     }]);
   };
@@ -128,7 +132,6 @@ const ExtrasMapping = ({ jsonData }) => {
     setOutputEdges(prev => [...prev, {
         tempFrom: "",
         tempTo: "",
-        // Dodajemy obowiązkowe pola przy tworzeniu
         properties: getMandatoryProperties()
     }]);
   };
@@ -183,6 +186,8 @@ const ExtrasMapping = ({ jsonData }) => {
 
   // --- SAVE ---
   const handleSave = async () => {
+    setSaveStatus({ type: "loading", message: "Saving..." });
+
     const payload = {
         Name: mappingName,
         From: selectedLabel,
@@ -196,20 +201,36 @@ const ExtrasMapping = ({ jsonData }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
+        
+        if (!res.ok) throw new Error("Network response was not ok");
+        
         const data = await res.json();
-        console.log(data);
-        alert("Mapping saved!");
+        
+        if (data.status === "success") {
+            setSaveStatus({ type: "success", message: data.message || "Mapping saved successfully!" });
+            
+            // --- FIX: POBIERZ AKTUALNE DANE Z BACKENDU PO ZAPISIE ---
+            await fetchMappers();
+
+            setTimeout(() => {
+                setSaveStatus({ type: "", message: "" });
+            }, 3000);
+        } else {
+            setSaveStatus({ type: "error", message: data.message || "Failed to save mapping." });
+        }
+
     } catch (e) {
         console.error(e);
-        alert("Error saving mapping");
+        setSaveStatus({ type: "error", message: "Connection error. Check console." });
     }
   };
 
 
   return (
     <div className="extrasMappingWrapper">
+        {/* ... (JSX BEZ ZMIAN) ... */}
         
-        {/* --- HEADER --- */}
+        {/* HEADER */}
         <div className="mappingHeaderSection">
             <div className="formGroup">
                 <label>Source Node Label:</label>
@@ -237,7 +258,7 @@ const ExtrasMapping = ({ jsonData }) => {
 
         {selectedLabel && (
             <>
-                {/* --- SECTION 1: SOURCE SCHEMA --- */}
+                {/* SOURCE SCHEMA */}
                 <div className="sectionWrapper">
                     <div className="collapsibleHeader" onClick={() => setIsSourceExpanded(!isSourceExpanded)}>
                          <span className={`arrow ${isSourceExpanded ? 'open' : ''}`}>▶</span>
@@ -252,7 +273,7 @@ const ExtrasMapping = ({ jsonData }) => {
                     )}
                 </div>
 
-                {/* --- SECTION 2: OUTPUT DEFINITION --- */}
+                {/* OUTPUT DEFINITION */}
                 <div className="sectionWrapper">
                     <div className="collapsibleHeader" onClick={() => setIsOutputExpanded(!isOutputExpanded)}>
                          <span className={`arrow ${isOutputExpanded ? 'open' : ''}`}>▶</span>
@@ -350,6 +371,13 @@ const ExtrasMapping = ({ jsonData }) => {
                     )}
                 </div>
 
+                {saveStatus.message && (
+                    <div className={`saveStatusMessage ${saveStatus.type}`}>
+                        {saveStatus.type === "loading" && <span className="spinner">⟳</span>}
+                        {saveStatus.message}
+                    </div>
+                )}
+
                 <button className="submitButton mainSave" onClick={handleSave}>Save Mapping</button>
             </>
         )}
@@ -357,10 +385,7 @@ const ExtrasMapping = ({ jsonData }) => {
   );
 };
 
-// --- SUB-COMPONENT: PROPERTY ROW ---
 const PropertyRow = ({ prop, onChange, onDelete, sourceOptions }) => {
-    
-    // Sprawdzamy, czy to pole jest obowiązkowe (zablokowane)
     const isLocked = prop.targetProperty === "Id" || prop.targetProperty === "label";
 
     return (
@@ -380,11 +405,10 @@ const PropertyRow = ({ prop, onChange, onDelete, sourceOptions }) => {
                 value={prop.targetProperty} 
                 onChange={(e) => onChange("targetProperty", e.target.value)}
                 className="propInput"
-                disabled={isLocked} // Zablokowana nazwa klucza
+                disabled={isLocked}
                 title={isLocked ? "This property is mandatory" : ""}
             />
 
-            {/* Conditional Input based on Type */}
             {prop.type === "copy" && (
                 <select 
                     value={prop.sourceProperty || ""} 
@@ -405,7 +429,6 @@ const PropertyRow = ({ prop, onChange, onDelete, sourceOptions }) => {
                 />
             )}
 
-            {/* Renderujemy przycisk usuwania tylko jeśli NIE jest zablokowane */}
             {!isLocked ? (
                 <button className="removePropBtn" onClick={onDelete}>×</button>
             ) : (
