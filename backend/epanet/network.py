@@ -33,11 +33,9 @@ def createNetwork(title, json_data, algoritm):
     positions = generatePositions(json_data['nodes'], json_data['edges'], algoritm)
     networkElements = json_data["nodes"] + json_data["edges"]
     
+    #2. Create patterns
     patterns_map = {} 
-    
-
     created_patterns = []
-
 
     for p_data in json_data["nodes"]:
         if p_data["label"] == "PATTERN":
@@ -57,6 +55,8 @@ def createNetwork(title, json_data, algoritm):
                 target_node_id = e["to"]
                 patterns_map[target_node_id] = pattern_obj
     
+    
+    #3. Network
     for element in networkElements:
         element = normalizeDict(element)
         element = remove_null_keys(element)
@@ -124,8 +124,12 @@ def addJunction(network, node : dict, positions, patterns):
     elev = float(node.get('elev', 0))
     demand = float(node.get('demand', 0))
     pattern = patterns.get(id, None)
-    
-    
+
+    if pattern is None:
+        multipliers = node.get("pattern", None)
+        if multipliers is not None:
+            pattern = on.Pattern(id= "P" + str(id), multipliers=multipliers)
+            on.add_pattern(network, pattern)
     
     junction = on.Junction(id=id, elevation = elev, demand = demand, xcoordinate=positions[id][0], ycoordinate=positions[id][1], demandpattern=pattern)
     

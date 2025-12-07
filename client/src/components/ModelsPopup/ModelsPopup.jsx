@@ -102,7 +102,7 @@ const ModelsPopup = ({ isActive, setIsActive }) => {
     }));
   };
 
-  // 5. Wysłanie aktualizacji (Ten fetch był poprawny)
+  // 5. Wysłanie aktualizacji
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);

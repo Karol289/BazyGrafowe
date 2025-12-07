@@ -78,105 +78,109 @@ def escape_str(s):
     """Escape cudzysłowy w stringach dla Neo4j."""
     return s.replace('"', '\\"')
 
+
+def getNodeCypher(node, pending):
+    
+    label = node.get("label", node.get("Label", ""))  
+    app_id = node.get("id", node.get("Id", ""))
+    
+    props = ", ".join(
+        f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
+        for k, v in node.items() if k not in {"label", "id"} and v is not None
+    )
+    
+    
+    # Czy "" na dole sa potrzebne?
+    if props:
+        props += f', app_id: "{app_id}"'
+    else:
+        props = f'app_id: "{app_id}"'
+    
+    if pending:
+        props += ", pending: true"
+    
+    return f'CREATE (:{label} {{ {props} }})'
+
+def getEdgeCypher(edge, pending):
+    fromm = edge.get("from")
+    to = edge.get("to")
+    label = edge.get("label", edge.get("Label", ""))  
+
+    props = ", ".join(
+        f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
+        for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
+    )
+    query = (
+        f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{to}"}}) '
+        f'CREATE (a)-[:{label} {{ {props} }}]->(b)'
+    )
+    
+    return query
+
+
+def getEdgeAsNodeCypher(edge, pending):
+    fromm = edge.get("from")
+    to = edge.get("to")
+    label = edge.get("label", edge.get("Label", ""))  
+    props = ", ".join(
+        f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
+        for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
+    )
+    
+    if props:
+        props += f', app_id: "{fromm}_{to}"'
+    else:
+        props = f'app_id: "{fromm}_{to}"'
+        
+    if pending:
+        props += ", pending: true"
+    
+    queries = []
+    
+    queries.append(
+        f'CREATE (:{label} {{ {props} }})'
+    )
+    queries.append(
+        f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{fromm}_{to}"}}) '
+        f'CREATE (a)-[:Connects_To {{ }}]->(b)'
+    )
+    queries.append( 
+        f'MATCH (a {{app_id: "{fromm}_{to}"}}), (b {{app_id: "{to}"}}) '
+        f'CREATE (a)-[:Connects_To {{ }}]->(b)'
+    )
+    
+    return queries
+
+
 def to_cypher(data, pending: bool = False):
     queries = []
 
     # Generowanie nodów
     for node in data["nodes"]:
-        label = node.get("label", node.get("Label", ""))  
-        app_id = node.get("id", node.get("Id", ""))
-        
-        props = ", ".join(
-            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in node.items() if k not in {"label", "id"} and v is not None
-        )
-        
-        
-        # Czy "" na dole sa potrzebne?
-        if props:
-            props += f', app_id: "{app_id}"'
-        else:
-            props = f'app_id: "{app_id}"'
-        
-        if pending:
-            props += ", pending: true"
-        
-        queries.append(f'CREATE (:{label} {{ {props} }})')
+        queries.append(getNodeCypher(node, pending))
 
     # Generowanie krawędzi
     for edge in data["edges"]:
-        fromm = edge.get("from")
-        to = edge.get("to")
-        label = edge.get("label", edge.get("Label", ""))  
-
-        props = ", ".join(
-            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
-        )
-        queries.append(
-            f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{to}"}}) '
-            f'CREATE (a)-[:{label} {{ {props} }}]->(b)'
-        )
+        queries.append(getEdgeCypher(edge, pending))
 
     return queries
-
-
 
 def to_cypher_transport_nodes(data, pending: bool = False):
     queries = []
     
     # Generowanie nodów
     for node in data["nodes"]:
-        label = node.get("label", node.get("Label", ""))  
-        app_id = node.get("id", node.get("Id", ""))
-        
-        props = ", ".join(
-            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in node.items() if k not in {"label", "id"} and v is not None
-        )
-        
-        
-        # Czy "" na dole sa potrzebne?
-        if props:
-            props += f', app_id: "{app_id}"'
-        else:
-            props = f'app_id: "{app_id}"'
-        
-        if pending:
-            props += ", pending: true"
-        
-        queries.append(f'CREATE (:{label} {{ {props} }})')
-        
+        queries.append(getNodeCypher(node, pending))
         
     # Generowanie krawędzi
     for edge in data["edges"]:
-        fromm = edge.get("from")
-        to = edge.get("to")
-        label = edge.get("label", edge.get("Label", ""))  
-
-        props = ", ".join(
-            f'{k}: "{escape_str(v)}"' if isinstance(v, str) else f'{k}: {v}'
-            for k, v in edge.items() if k not in ("from", "to", "label") and v is not None
-        )
+        label = str.lower(edge.get("label", edge.get("Label", "")))
         
-        if props:
-            props += f', app_id: "{fromm}_{to}"'
+        if label in ("pipe", "pump", "valve"):
+            queries += getEdgeAsNodeCypher(edge, pending)
         else:
-            props = f'app_id: "{fromm}_{to}"'
-        
-        queries.append(
-            f'CREATE (:{label} {{ {props} }})'
-        )
-        queries.append(
-            f'MATCH (a {{app_id: "{fromm}"}}), (b {{app_id: "{fromm}_{to}"}}) '
-            f'CREATE (a)-[:Connects_To {{ }}]->(b)'
-        )
-        queries.append( 
-            f'MATCH (a {{app_id: "{fromm}_{to}"}}), (b {{app_id: "{to}"}}) '
-            f'CREATE (a)-[:Connects_To {{ }}]->(b)'
-        )
-        
-    
+            queries.append(getEdgeCypher(edge, pending))
+
     return queries
     
     
