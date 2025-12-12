@@ -45,6 +45,6 @@ class OpenAiLLM(ModelBase):
   
     @staticmethod
     async def getAvaibleModels():
-        return ["gpt-3.5-turbo", "gpt-4.1-nano-2025-04-14", "gpt-5-nano-2025-08-07"]              
+        return ["gpt-3.5-turbo", "gpt-4.1-nano-2025-04-14", "gpt-5-nano-2025-08-07", "gpt-5-mini-2025-08-07"]              
         
         

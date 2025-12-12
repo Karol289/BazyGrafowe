@@ -7,24 +7,21 @@
   flex-direction: column;
   gap: 12px;
   max-width: 400px;
+  position: relative; 
 }
 
-h2 {
-  color: #0da37f;
-  margin-bottom: 12px;
+h2 { color: #0da37f; margin-bottom: 4px; margin-top: 0; }
+h3 { color: #fff; font-size: 14px; margin: 8px 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #444654;
+    margin: 8px 0;
 }
 
-.formCell {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.formCell label {
-  font-weight: bold;
-  color: #a0a0a0;
-  font-size: 13px;
-}
+.formCell { display: flex; flex-direction: column; gap: 4px; }
+.formCell label { font-weight: bold; color: #a0a0a0; font-size: 13px; }
 
 .formCell input {
   padding: 8px;
@@ -36,11 +33,7 @@ h2 {
   outline: none;
   transition: all 0.2s;
 }
-
-.formCell input:focus {
-  border-color: #0da37f;
-  box-shadow: 0 0 4px #0da37f;
-}
+.formCell input:focus { border-color: #0da37f; box-shadow: 0 0 4px #0da37f; }
 
 .submitButton {
   padding: 10px 16px;
@@ -51,11 +44,9 @@ h2 {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
+  margin-top: 4px;
 }
-
-.submitButton:hover {
-  background-color: #0ffc92;
-}
+.submitButton:hover { background-color: #0ffc92; }
 
 .applyButton {
   padding: 10px 16px;
@@ -65,102 +56,101 @@ h2 {
   border-radius: 6px;
   text-align: center;
   cursor: pointer;
+  border: 1px solid #0da37f;
   transition: all 0.2s;
 }
+.applyButton:hover { background-color: #0da37f; color: #202123; }
 
-.applyButton:hover {
-  background-color: #2c2e33;
-  color: #0ffc92;
-}
+.messages { margin-top: 4px; }
+.loginStatus { display: flex; align-items: center; gap: 8px; }
+.statusDot { width: 10px; height: 10px; border-radius: 50%; background-color: #555; }
+.statusDot.green { background-color: #0da37f; }
+.statusDot.red { background-color: #ff4d4f; }
+.statusMessage { color: #e0e0e0; font-size: 12px; }
+.statusMessage.small { font-size: 11px; color: #a0a0a0; margin-top: 4px; text-align: center;}
 
-.messages span {
-  display: block;
-  font-size: 12px;
-  color: #e0e0e0;
-}
+.checkboxCell { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; cursor: pointer;}
+.checkboxCell label { font-size: 13px; color: #e0e0e0; cursor: pointer; user-select: none; }
+.checkboxCell input[type="checkbox"] { accent-color: #0da37f; width: 16px; height: 16px; cursor: pointer; }
 
-
-.loginStatus {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.statusDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: transparent; /* domyślnie brak koloru */
-  transition: background-color 0.2s;
-}
-
-.statusDot.green {
-  background-color: #0da37f;
-}
-
-.statusDot.red {
-  background-color: #ff4d4f;
-}
-
-.statusMessage {
-  color: #e0e0e0;
-  font-size: 13px;
-}
-
-
-.confirmButtons {
-  display: flex;
-  gap: 12px;
-}
-
+.confirmButtons { display: flex; gap: 12px; }
 .commitButton, .rollbackButton {
-  padding: 10px 16px;
-  font-weight: bold;
-  border-radius: 6px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
+  flex: 1; padding: 10px; font-weight: bold; border-radius: 6px; text-align: center; cursor: pointer; font-size: 13px;
+}
+.commitButton { background-color: #0da37f; color: #202123; }
+.commitButton:hover { background-color: #0ffc92; }
+.rollbackButton { background-color: #ff4d4f; color: #202123; }
+.rollbackButton:hover { background-color: #ff7875; }
+
+.modalOverlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    z-index: 100;
+    padding: 16px;
+    backdrop-filter: blur(2px);
 }
 
-.commitButton {
-  background-color: #0da37f;
-  color: #202123;
+.modalContent {
+    background-color: #2b2d31;
+    border: 1px solid #444654;
+    padding: 16px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-.commitButton:hover {
-  background-color: #0ffc92;
+.modalContent h4 { margin: 0 0 8px 0; color: #0da37f; }
+.modalContent p { font-size: 12px; color: #aaa; margin-bottom: 12px; }
+
+.mappingList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-.rollbackButton {
-  background-color: #ff4d4f;
-  color: #202123;
+.mappingRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    background: #202123;
+    padding: 6px;
+    border-radius: 4px;
 }
 
-.rollbackButton:hover {
-  background-color: #ff7875;
+.labelName { color: #e0e0e0; font-weight: bold; }
+.arrow { color: #666; font-size: 10px; }
+
+.mappingRow select {
+    background-color: #343541;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 2px 4px;
+    outline: none;
+    cursor: pointer;
 }
 
-/* --- Dodaj to do ExtrasDB.css --- */
-
-.checkboxCell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding: 4px 0;
+.modalActions { display: flex; gap: 8px; justify-content: flex-end; }
+.modalActions button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.checkboxCell label {
-  font-size: 13px;
-  color: #e0e0e0;
-  cursor: pointer;
-  user-select: none;
-}
+.cancelBtn { background-color: transparent; color: #aaa; border: 1px solid #555; }
+.cancelBtn:hover { color: #fff; border-color: #fff; }
 
-.checkboxCell input[type="checkbox"] {
-  accent-color: #0da37f; /* Kolor zaznaczenia pasujący do motywu */
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-}
+.confirmBtn { background-color: #0da37f; color: #202123; }
+.confirmBtn:hover { background-color: #0ffc92; }

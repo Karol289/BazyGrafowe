@@ -22,7 +22,7 @@ class TimesSettings(BaseModel):
     hydraulic_timestep: int = Field(default=3600, description="Krok hydrauliczny (s)")
     quality_timestep: Optional[int] = Field(default=300, description="Krok jakości (s)")
     report_timestep: int = Field(default=3600, description="Krok raportowania (s)")
-    pattern_timestep: int = Field(default=7200, description="Krok wzorców (s)")
+    pattern_timestep: int = Field(default=14400, description="Krok wzorców (s)")
     start_clocktime: int = Field(default=0, description="Start symulacji (s od 00:00)")
 
 class OptionsSettings(BaseModel):

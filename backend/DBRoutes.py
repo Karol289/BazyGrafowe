@@ -8,6 +8,15 @@ import json
 
 from models.CurrentModel import GetModel
 
+from typing import List, Dict, Optional
+from Epanet.NeoService import Neo4jEpanetService
+
+
+import os
+import oopnet as on
+from Epanet.network import createNetwork 
+from Epanet.NeoService import Neo4jEpanetService
+
 databaseRouter = APIRouter(prefix="/db", tags=["db"])
 PATH_TO_SAVE_CYPHER = "./Data/Cypher"
 
@@ -239,3 +248,101 @@ async def RollbackDB():
             session.run("MATCH ()-[r {pending: true}]->() DELETE r")
     except:
         pass    
+
+
+
+
+
+class MapNetworkRequest(BaseModel):
+    mapping: Dict[str, str]
+
+@databaseRouter.get("/labels")
+async def get_neo4j_labels():
+    """
+    Zwraca listę dostępnych labeli w bazie, aby React wiedział o co pytać.
+    """
+    global db_user, db_password, db_url
+
+    if not db_url or not db_user:
+        return {"error": "Not logged in", "labels": []}
+
+    try:
+        service = Neo4jEpanetService(db_url, db_user, db_password)
+        labels = service.get_distinct_labels()
+        service.close()
+        return {"labels": labels}
+    except Exception as e:
+        return {"error": str(e), "labels": []}
+
+
+@databaseRouter.post("/getMappedNetwork")
+async def get_mapped_network(request: MapNetworkRequest):
+    """
+    Pobiera dane z Neo4j na podstawie mapowania i zwraca JSON 
+    gotowy do wysłania do endpointu /epanet/create.
+    """
+    global db_user, db_password, db_url
+    
+    if not db_url or not db_user:
+        return {"error": "Not logged in", "nodes": [], "edges": []}
+
+    try:
+        service = Neo4jEpanetService(db_url, db_user, db_password)
+        data = service.get_network_data(request.mapping)
+        service.close()
+        
+        # Zwracamy strukturę { "nodes": [...], "edges": [...] }
+        return data
+        
+    except Exception as e:
+        # Możesz tu rzucić HTTPException, jeśli wolisz
+        return {"error": str(e), "nodes": [], "edges": []}
+    
+    
+    
+    
+    
+    
+chatsPath = "backend/Data/Networks" 
+
+class CreateEpanetFromDBRequest(BaseModel):
+    title: str
+    graphAlgoritm: str 
+    mapping: dict
+
+@databaseRouter.post("/createEpanet")
+async def createEpanetFromDB(request: CreateEpanetFromDBRequest):
+    global db_user, db_password, db_url
+    
+    if not db_url or not db_user:
+        return {"status": "error", "message": "Not logged in to Neo4j"}
+
+    networkJson = {}
+    
+    try:
+        service = Neo4jEpanetService(db_url, db_user, db_password)
+        networkJson = service.get_network_data(request.mapping)
+        service.close()
+        
+        if not networkJson["nodes"]:
+             return {"status": "error", "message": "Neo4j returned 0 nodes. Check mapping."}
+
+        network = createNetwork(request.title, networkJson, request.graphAlgoritm)
+
+        os.makedirs(chatsPath, exist_ok=True)
+        output_path = os.path.join(chatsPath, f"{request.title}.inp")
+        
+        #on.write(network, output_path)
+        network.write(output_path)
+        
+        return {
+            "status": "success", 
+            "path": output_path,
+            "stats": {
+                "nodes": len(networkJson.get("nodes", [])),
+                "edges": len(networkJson.get("edges", []))
+            }
+        }
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
